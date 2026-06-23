@@ -27,100 +27,89 @@ Rules:
 - Use real, popular stocks (AAPL, NVDA, TSLA, AMZN, META, GOOG, MSFT, JPM, NFLX, SPOT, UBER, ABNB, PLTR, AMD, BRK.B, DIS, NKE, SBUX, V, MA, etc.)
 - Match the stock's actual market personality to the person's personality`;
 
+async function callGemini(prompt: string, imageBase64?: string) {
+  const apiKey = process.env.GEMINI_API_KEY!;
+  const model = "gemini-1.5-flash-latest";
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+  const parts: object[] = [];
+
+  if (imageBase64) {
+    parts.push({ inlineData: { mimeType: "image/jpeg", data: imageBase64 } });
+    parts.push({ text: "Look at this person's face, style, energy, and overall vibe. What stock are they? Analyze their facial features, expression, and energy to determine their investor personality and match them to a stock. Be specific about what you see." });
+  } else {
+    parts.push({ text: prompt });
+  }
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+      contents: [{ role: "user", parts }],
+      generationConfig: { maxOutputTokens: 1024, temperature: 0.9 },
+    }),
+  });
+
+  const data = await res.json();
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
+  const clean = text.replace(/```json|```/g, "").trim() || "{}";
+  const parsed = JSON.parse(clean);
+
+  return {
+    ticker: parsed.ticker || "SPY",
+    name: parsed.name || "S&P 500 ETF",
+    score: typeof parsed.score === "number" ? Math.min(99, Math.max(1, parsed.score)) : 72,
+    reason: parsed.reason || "A solid match based on your profile.",
+    risk: ["LOW", "MID", "HIGH"].includes(parsed.risk) ? parsed.risk : "MID",
+    emoji: parsed.emoji || "📊",
+    extras: Array.isArray(parsed.extras)
+      ? parsed.extras
+          .filter(Boolean)
+          .map((e: { ticker?: string; name?: string; emoji?: string }) => ({
+            ticker: e.ticker || "ETF",
+            name: e.name || "Index Fund",
+            emoji: e.emoji || "📈",
+          }))
+      : [],
+  };
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { mode, image, answers, vibe } = body;
 
-    let userMessage = "";
+    let result;
 
     if (mode === "face" && image) {
-      // Image analysis
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": process.env.ANTHROPIC_API_KEY!,
-          "anthropic-version": "2023-06-01",
-        },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-6",
-          max_tokens: 1024,
-          system: SYSTEM_PROMPT,
-          messages: [
-            {
-              role: "user",
-              content: [
-                {
-                  type: "image",
-                  source: {
-                    type: "base64",
-                    media_type: "image/jpeg",
-                    data: image,
-                  },
-                },
-                {
-                  type: "text",
-                  text: "Look at this person's face, style, energy, and overall vibe. What stock are they? Analyze their facial features, expression, and energy to determine their investor personality and match them to a stock. Be specific about what you see.",
-                },
-              ],
-            },
-          ],
-        }),
-      });
-
-      const data = await response.json();
-      const text = data.content?.[0]?.text || "{}";
-      const clean = text.replace(/```json|```/g, "").trim();
-      return NextResponse.json(JSON.parse(clean));
-    }
-
-    if (mode === "mbti" && answers) {
-      userMessage = `Based on this investor personality quiz:
+      result = await callGemini("", image);
+    } else if (mode === "mbti" && answers) {
+      const prompt = `Based on this investor personality quiz:
 Q1 (invest $1k): ${answers[0]}
 Q2 (stock drops 30%): ${answers[1]}
 Q3 (weekend vibe): ${answers[2]}
 Q4 (new IPO): ${answers[3]}
 Q5 (investment goal): ${answers[4]}
 What stock are they?`;
-    }
-
-    if (mode === "vibe" && vibe) {
-      userMessage = `Today's mood: ${vibe}. Based purely on this energy and vibe, what stock matches this person right now? Think about the stock's recent market energy and personality.`;
-    }
-
-    if (mode === "salary" && answers) {
-      userMessage = `Financial profile:
+      result = await callGemini(prompt);
+    } else if (mode === "vibe" && vibe) {
+      result = await callGemini(`Today's mood: ${vibe}. Based purely on this energy and vibe, what stock matches this person right now?`);
+    } else if (mode === "salary" && answers) {
+      const prompt = `Financial profile:
 - Annual income: ${answers.salary}
 - Savings rate: ${answers.savings}
 - Biggest expense: ${answers.spend}
 - Investment horizon: ${answers.horizon}
-What stock portfolio archetype are they? Pick the one stock that best fits their financial personality and goals.`;
+What stock portfolio archetype are they?`;
+      result = await callGemini(prompt);
+    } else {
+      throw new Error("Invalid mode or missing data");
     }
 
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": process.env.ANTHROPIC_API_KEY!,
-        "anthropic-version": "2023-06-01",
-      },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-6",
-        max_tokens: 1024,
-        system: SYSTEM_PROMPT,
-        messages: [{ role: "user", content: userMessage }],
-      }),
-    });
-
-    const data = await response.json();
-    const text = data.content?.[0]?.text || "{}";
-    const clean = text.replace(/```json|```/g, "").trim();
-    return NextResponse.json(JSON.parse(clean));
-
+    return NextResponse.json(result);
   } catch (error) {
     console.error("API error:", error);
-    // Fallback result
     return NextResponse.json({
       ticker: "SPY",
       name: "S&P 500 ETF",

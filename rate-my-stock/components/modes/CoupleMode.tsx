@@ -69,10 +69,19 @@ const FALLBACK: CoupleResult = {
 
 type Phase = "p1" | "handoff" | "p2" | "calculating";
 
+// Unified skeleton
+function OptionSkeleton() {
+  return (
+    <div className="space-y-3">
+      {[1, 0.85, 0.65, 0.45].map((op, i) => (
+        <div key={i} className="touch-target rounded-2xl shimmer" style={{ opacity: op }} />
+      ))}
+    </div>
+  );
+}
+
 export default function CoupleMode({
-  onCoupleResult,
-  onBack,
-  setLoading,
+  onCoupleResult, onBack, setLoading,
 }: {
   onCoupleResult: (r: CoupleResult) => void;
   onBack: () => void;
@@ -128,8 +137,8 @@ export default function CoupleMode({
   // Handoff screen
   if (phase === "handoff") {
     return (
-      <section className="px-6 pb-20 max-w-md mx-auto fade-up">
-        <div className="rounded-3xl bg-white border border-[#E5E5E0] p-8 shadow-sm text-center">
+      <section className="px-4 sm:px-6 pb-safe max-w-xl mx-auto fade-up">
+        <div className="rounded-3xl bg-white p-6 shadow-md text-center">
           <div className="text-6xl mb-4">🤝</div>
           <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-5"
             style={{ background: `${ACCENT}18`, color: ACCENT }}>
@@ -145,12 +154,12 @@ export default function CoupleMode({
           <div className="flex flex-col gap-3">
             <button
               onClick={() => { setP2Answers([]); setPhase("p2"); setStep(0); }}
-              className="w-full rounded-2xl py-4 text-sm font-bold text-white shadow-lg transition-all active:scale-95"
-              style={{ background: `linear-gradient(135deg, ${ACCENT}, #0284C7)` }}>
+              className="w-full rounded-2xl touch-target text-sm font-bold text-white flex items-center justify-center"
+              style={{ background: ACCENT }}>
               I&apos;m ready — start my quiz 🚀
             </button>
             <button onClick={onBack}
-              className="w-full rounded-2xl border border-[#E5E5E0] bg-white py-3 text-sm font-medium text-[#6B7280]">
+              className="w-full rounded-2xl border border-[#E5E5E0] bg-white touch-target text-sm font-medium text-[#6B7280] flex items-center justify-center">
               Cancel
             </button>
           </div>
@@ -162,8 +171,8 @@ export default function CoupleMode({
   // Calculating screen
   if (phase === "calculating") {
     return (
-      <section className="px-6 pb-20 max-w-md mx-auto fade-up">
-        <div className="rounded-3xl bg-white border border-[#E5E5E0] p-8 shadow-sm text-center">
+      <section className="px-4 sm:px-6 pb-safe max-w-xl mx-auto fade-up">
+        <div className="rounded-3xl bg-white p-8 shadow-md text-center">
           <div className="text-5xl mb-4">🔬</div>
           <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: ACCENT }}>
             Calculating Chemistry
@@ -172,8 +181,8 @@ export default function CoupleMode({
             Analyzing your investment compatibility...
           </h2>
           <p className="text-sm text-[#6B7280] mb-8">This might get spicy 🌶️</p>
-          <div className="space-y-2.5">
-            {[1, 0.85, 0.65, 0.4].map((op, i) => (
+          <div className="space-y-3">
+            {[1, 0.75, 0.5, 0.3].map((op, i) => (
               <div key={i} className="h-3 rounded-full shimmer" style={{ opacity: op }} />
             ))}
           </div>
@@ -182,20 +191,19 @@ export default function CoupleMode({
     );
   }
 
-  // Quiz screen (p1 or p2)
   const isP1 = phase === "p1";
 
   return (
-    <section className="px-6 pb-20 max-w-md mx-auto fade-up">
+    <section className="px-4 sm:px-6 pb-safe max-w-xl mx-auto fade-up">
       {isP1 ? (
-        <button onClick={onBack} className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 hover:text-[#0D0D0D] transition-colors">
+        <button onClick={onBack} className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 touch-target">
           ← Back
         </button>
       ) : (
         <div className="mb-6 h-6" />
       )}
 
-      <div className="rounded-3xl bg-white border border-[#E5E5E0] p-6 shadow-sm">
+      <div className="rounded-3xl bg-white p-5 shadow-md">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
@@ -216,7 +224,7 @@ export default function CoupleMode({
         {/* Progress bar */}
         <div className="h-1.5 rounded-full bg-[#F3F4F6] mb-4 overflow-hidden">
           <div className="h-full rounded-full transition-all duration-500"
-            style={{ width: `${progress}%`, background: `linear-gradient(90deg, ${ACCENT}, #0284C7)` }} />
+            style={{ width: `${progress}%`, background: ACCENT }} />
         </div>
 
         {/* Step dots */}
@@ -234,7 +242,7 @@ export default function CoupleMode({
         <div className="space-y-3">
           {questions[step].options.map((opt, i) => (
             <button key={opt} onClick={() => pick(opt)}
-              className="w-full text-left rounded-2xl border border-[#E5E5E0] bg-[#FAFAF8] px-4 py-3.5 text-sm font-medium text-[#374151] hover:border-[#06B6D4] hover:bg-[#ECFEFF] transition-all card-hover flex items-center gap-3">
+              className="w-full text-left rounded-2xl border border-[#E5E5E0] bg-[#F5F5F0] px-4 touch-target text-sm font-medium text-[#374151] hover:border-[#06B6D4] hover:bg-[#ECFEFF] transition-all card-hover flex items-center gap-3">
               <span className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
                 style={{ background: `${ACCENT}18`, color: ACCENT }}>
                 {OPTION_LETTERS[i]}

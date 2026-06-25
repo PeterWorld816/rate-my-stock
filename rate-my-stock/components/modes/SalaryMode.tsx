@@ -60,20 +60,20 @@ export default function SalaryMode({ onResult, onBack, loading, setLoading }: {
   const progress = (step / steps.length) * 100;
 
   return (
-    <section className="px-6 pb-20 max-w-md mx-auto fade-up">
-      <button onClick={onBack} className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 hover:text-[#0D0D0D] transition-colors">
+    <section className="px-4 sm:px-6 pb-safe max-w-xl mx-auto fade-up">
+      <button onClick={onBack} className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 touch-target">
         ← Back
       </button>
 
-      <div className="rounded-3xl bg-white border border-[#E5E5E0] p-6 shadow-sm">
+      <div className="rounded-3xl bg-white p-5 shadow-md">
         <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-4"
           style={{ background: "#FF6B3518", color: "#FF6B35" }}>
-          💰 Money Profile
+          💰 Personality Quiz
         </div>
 
         <div className="h-1.5 rounded-full bg-[#F3F4F6] mb-6 overflow-hidden">
           <div className="h-full rounded-full transition-all duration-500"
-            style={{ width: `${progress}%`, background: "linear-gradient(90deg, #FF6B35, #FBBF24)" }} />
+            style={{ width: `${progress}%`, background: "#FF6B35" }} />
         </div>
 
         <p className="text-xs text-[#9CA3AF] mb-2">Step {step + 1} of {steps.length}</p>
@@ -83,13 +83,15 @@ export default function SalaryMode({ onResult, onBack, loading, setLoading }: {
 
         {loading ? (
           <div className="space-y-3">
-            {[0,1,2,3,4].map(i => <div key={i} className="h-12 rounded-2xl shimmer" />)}
+            {[0, 1, 2, 3, 4].map(i => (
+              <div key={i} className="touch-target rounded-2xl shimmer" style={{ opacity: 1 - i * 0.12 }} />
+            ))}
           </div>
         ) : (
           <div className="space-y-3">
             {steps[step].options.map((opt) => (
               <button key={opt} onClick={() => pick(opt)}
-                className="w-full text-left rounded-2xl border border-[#E5E5E0] bg-[#FAFAF8] px-4 py-3 text-sm font-medium text-[#374151] hover:border-[#FF6B35] hover:bg-[#FFF7F0] transition-all card-hover">
+                className="w-full text-left rounded-2xl border border-[#E5E5E0] bg-[#F5F5F0] px-4 touch-target text-sm font-medium text-[#374151] hover:border-[#FF6B35] hover:bg-[#FFF7F0] transition-all card-hover flex items-center">
                 {opt}
               </button>
             ))}

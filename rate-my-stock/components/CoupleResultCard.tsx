@@ -23,7 +23,7 @@ function PersonCard({
 }) {
   const risk = riskColors[(person.risk ?? "MID").toUpperCase()] ?? riskColors["MID"];
   return (
-    <div className="flex-1 rounded-2xl bg-white/10 border border-white/15 p-4 flex flex-col items-center text-center">
+    <div className="flex-1 rounded-2xl bg-white/10 p-4 flex flex-col items-center text-center">
       <p className="text-[9px] font-semibold uppercase tracking-widest text-gray-400 mb-2">{label}</p>
       <div className="text-3xl mb-2">{person.emoji}</div>
       <p className="font-display font-bold text-xl" style={{ color: "#00D084" }}>
@@ -58,18 +58,16 @@ export default function CoupleResultCard({
   };
 
   return (
-    <section className="px-6 pb-24 max-w-md mx-auto fade-up">
+    <section className="px-4 sm:px-5 pb-safe max-w-[480px] mx-auto fade-up">
 
       {/* Main dark card */}
       <div className="rounded-3xl bg-[#0D0D0D] text-white p-6 mb-4 relative overflow-hidden shadow-2xl">
-        {/* BG glow */}
         <div className="absolute inset-0 opacity-20 pointer-events-none"
           style={{ background: "radial-gradient(circle at 20% 50%, #06B6D4, transparent 55%), radial-gradient(circle at 80% 30%, #7C3AED, transparent 55%)" }} />
 
         <div className="relative z-10">
           <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-4">🤝 Friend Match Result</p>
 
-          {/* Two stock cards side by side */}
           <div className="flex gap-3 mb-5">
             <PersonCard person={result.person1} label="Player 1" />
             <div className="flex flex-col items-center justify-center px-1">
@@ -79,8 +77,7 @@ export default function CoupleResultCard({
             <PersonCard person={result.person2} label="Player 2" />
           </div>
 
-          {/* Compatibility score */}
-          <div className="bg-white/5 rounded-2xl p-4 mb-4 border border-white/10">
+          <div className="bg-white/5 rounded-2xl p-4 mb-4">
             <div className="flex items-center justify-between mb-2">
               <p className="text-xs text-gray-400">포트폴리오 궁합</p>
               <span className="font-display font-bold text-2xl" style={{ color: barColor }}>
@@ -99,12 +96,10 @@ export default function CoupleResultCard({
             </p>
           </div>
 
-          {/* Dynamic duo name */}
           <p className="text-center text-lg font-bold text-white mb-3">
             &ldquo;{result.dynamicDesc}&rdquo;
           </p>
 
-          {/* Reason */}
           <p className="text-sm text-gray-300 leading-relaxed border-t border-white/10 pt-4">
             {result.reason}
           </p>
@@ -112,14 +107,13 @@ export default function CoupleResultCard({
       </div>
 
       {/* Recommended sectors */}
-      <div className="rounded-2xl bg-white border border-[#E5E5E0] p-5 mb-4 shadow-sm">
+      <div className="rounded-2xl bg-white p-5 mb-4 shadow-md">
         <p className="text-xs font-semibold text-[#6B7280] uppercase tracking-widest mb-3">
           함께 투자하면 좋은 섹터
         </p>
         <div className="flex gap-2">
           {result.recommendedSectors.slice(0, 3).map((s) => (
-            <div key={s.name}
-              className="flex-1 rounded-xl bg-[#FAFAF8] border border-[#E5E5E0] p-3 text-center">
+            <div key={s.name} className="flex-1 rounded-xl bg-[#F5F5F0] p-3 text-center">
               <div className="text-xl mb-1">{s.emoji}</div>
               <p className="text-[10px] font-semibold text-[#374151] leading-tight">{s.name}</p>
             </div>
@@ -127,20 +121,18 @@ export default function CoupleResultCard({
         </div>
       </div>
 
-      {/* Disclaimer */}
       <p className="text-[10px] text-[#9CA3AF] text-center mb-5 leading-relaxed">
         ⚠️ This is for entertainment only. Not financial advice. Please do your own research before investing.
       </p>
 
-      {/* Actions */}
       <div className="flex gap-3">
         <button onClick={share}
-          className="flex-1 rounded-2xl py-3.5 text-sm font-semibold text-white shadow-lg"
-          style={{ background: "linear-gradient(135deg, #06B6D4, #7C3AED)" }}>
+          className="flex-1 rounded-2xl touch-target text-sm font-semibold text-white"
+          style={{ background: "#06B6D4" }}>
           Share Result 📤
         </button>
         <button onClick={onReset}
-          className="rounded-2xl border border-[#E5E5E0] bg-white px-5 py-3.5 text-sm font-semibold text-[#374151]">
+          className="rounded-2xl border border-[#E5E5E0] bg-white px-5 touch-target text-sm font-semibold text-[#374151]">
           Retry
         </button>
       </div>

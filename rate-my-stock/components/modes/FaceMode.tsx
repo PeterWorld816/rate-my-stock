@@ -45,12 +45,12 @@ export default function FaceMode({ onResult, onBack, loading, setLoading }: {
   };
 
   return (
-    <section className="px-6 pb-20 max-w-md mx-auto fade-up">
-      <button onClick={onBack} className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 hover:text-[#0D0D0D] transition-colors">
+    <section className="px-4 sm:px-6 pb-safe max-w-xl mx-auto fade-up">
+      <button onClick={onBack} className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 touch-target">
         ← Back
       </button>
 
-      <div className="rounded-3xl bg-white border border-[#E5E5E0] p-6 shadow-sm mb-4">
+      <div className="rounded-3xl bg-white p-5 shadow-md mb-4">
         <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-4"
           style={{ background: "#00D08418", color: "#00D084" }}>
           🤳 Face Read Mode
@@ -64,7 +64,7 @@ export default function FaceMode({ onResult, onBack, loading, setLoading }: {
           onClick={() => inputRef.current?.click()}
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
-          className="relative rounded-2xl border-2 border-dashed border-[#E5E5E0] bg-[#FAFAF8] h-52 flex flex-col items-center justify-center cursor-pointer hover:border-[#00D084] hover:bg-[#F0FDF4] transition-all overflow-hidden"
+          className="relative rounded-2xl border-2 border-dashed border-[#E5E5E0] bg-[#F5F5F0] h-52 flex flex-col items-center justify-center cursor-pointer hover:border-[#00D084] hover:bg-[#F0FDF4] transition-all overflow-hidden"
         >
           {preview ? (
             <img src={preview} alt="preview" className="h-full w-full object-cover rounded-xl" />
@@ -81,14 +81,14 @@ export default function FaceMode({ onResult, onBack, loading, setLoading }: {
 
         {preview && !loading && (
           <button onClick={submit}
-            className="w-full mt-4 rounded-2xl py-3.5 text-sm font-semibold text-white"
-            style={{ background: "linear-gradient(135deg, #00D084, #00A86B)" }}>
+            className="w-full mt-4 rounded-2xl touch-target text-sm font-semibold text-white flex items-center justify-center"
+            style={{ background: "#00D084" }}>
             Analyze My Stock Match 🔍
           </button>
         )}
 
         {loading && (
-          <div className="mt-4 rounded-2xl py-3.5 text-center shimmer rounded-2xl h-12" />
+          <div className="mt-4 rounded-2xl shimmer touch-target" />
         )}
       </div>
 

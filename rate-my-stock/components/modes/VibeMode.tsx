@@ -40,12 +40,12 @@ export default function VibeMode({ onResult, onBack, loading, setLoading }: {
   };
 
   return (
-    <section className="px-6 pb-20 max-w-md mx-auto fade-up">
-      <button onClick={onBack} className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 hover:text-[#0D0D0D] transition-colors">
+    <section className="px-4 sm:px-6 pb-safe max-w-xl mx-auto fade-up">
+      <button onClick={onBack} className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 touch-target">
         ← Back
       </button>
 
-      <div className="rounded-3xl bg-white border border-[#E5E5E0] p-6 shadow-sm">
+      <div className="rounded-3xl bg-white p-5 shadow-md">
         <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-4"
           style={{ background: "#F43F8A18", color: "#F43F8A" }}>
           ✨ Today&apos;s Vibe
@@ -56,13 +56,17 @@ export default function VibeMode({ onResult, onBack, loading, setLoading }: {
 
         {loading ? (
           <div className="grid grid-cols-2 gap-3">
-            {[0,1,2,3,4,5,6,7].map(i => <div key={i} className="h-20 rounded-2xl shimmer" />)}
+            {[0, 1, 2, 3, 4, 5, 6, 7].map(i => (
+              <div key={i} className="h-[80px] rounded-2xl shimmer" />
+            ))}
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-3">
             {vibes.map((v) => (
-              <button key={v.label} onClick={() => submit(v.label)}
-                className="rounded-2xl border border-[#E5E5E0] bg-[#FAFAF8] p-4 text-left hover:border-[#F43F8A] hover:bg-[#FFF0F6] transition-all card-hover"
+              <button
+                key={v.label}
+                onClick={() => submit(v.label)}
+                className="rounded-2xl border border-[#E5E5E0] bg-[#F5F5F0] p-4 text-left min-h-[80px] hover:border-[#F43F8A] hover:bg-[#FFF0F6] transition-all card-hover active:scale-95"
               >
                 <div className="text-2xl mb-1">{v.emoji}</div>
                 <p className="text-sm font-semibold text-[#0D0D0D]">{v.label}</p>

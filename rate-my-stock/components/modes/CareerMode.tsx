@@ -341,8 +341,8 @@ Important: Make the reason witty and career-specific — reference their profess
   // Loading reveal screen
   if (revealing && loading && selectedCareer && selectedCategory) {
     return (
-      <section className="px-6 pb-20 max-w-md mx-auto fade-up">
-        <div className="rounded-3xl bg-white border border-[#E5E5E0] p-8 shadow-sm text-center">
+      <section className="px-4 sm:px-6 pb-safe max-w-xl mx-auto fade-up">
+        <div className="rounded-3xl bg-white p-8 shadow-md text-center">
           <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-6"
             style={{ background: THEME_BG, color: THEME_COLOR }}>
             💼 커리어 매치 분석 중
@@ -365,7 +365,7 @@ Important: Make the reason witty and career-specific — reference their profess
   // STEP: Category selection
   if (step === "category") {
     return (
-      <section className="px-6 pb-20 max-w-2xl mx-auto fade-up">
+      <section className="px-4 sm:px-6 pb-safe max-w-4xl mx-auto fade-up">
         <button onClick={onBack} className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 hover:text-[#0D0D0D] transition-colors">
           ← Back
         </button>
@@ -379,12 +379,12 @@ Important: Make the reason witty and career-specific — reference their profess
           <p className="text-sm text-[#6B7280]">직업 분야를 선택하세요 — 100가지 직업</p>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           {CATEGORIES.map((cat) => (
             <button
               key={cat.id}
               onClick={() => handleCategorySelect(cat)}
-              className="card-hover relative text-left rounded-2xl bg-white border border-[#E5E5E0] p-4 shadow-sm overflow-hidden group"
+              className="card-hover relative text-left rounded-2xl bg-white p-4 shadow-md overflow-hidden group"
             >
               <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl"
                 style={{ background: cat.color }} />
@@ -401,15 +401,15 @@ Important: Make the reason witty and career-specific — reference their profess
   // STEP: Career selection
   if (step === "career" && selectedCategory) {
     return (
-      <section className="px-6 pb-20 max-w-md mx-auto fade-up">
+      <section className="px-4 sm:px-6 pb-safe max-w-xl mx-auto fade-up">
         <button
           onClick={() => { setStep("category"); setSelectedCategory(null); }}
-          className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 hover:text-[#0D0D0D] transition-colors"
+          className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 hover:text-[#0D0D0D] transition-colors touch-target"
         >
           ← Back
         </button>
 
-        <div className="rounded-3xl bg-white border border-[#E5E5E0] p-6 shadow-sm">
+        <div className="rounded-3xl bg-white p-5 shadow-md">
           <div className="flex items-center gap-3 mb-5">
             <div className="w-10 h-10 rounded-2xl flex items-center justify-center text-xl"
               style={{ background: selectedCategory.bg }}>
@@ -431,7 +431,7 @@ Important: Make the reason witty and career-specific — reference their profess
               <button
                 key={career.title}
                 onClick={() => handleCareerSelect(career)}
-                className="w-full text-left rounded-2xl border border-[#E5E5E0] bg-[#FAFAF8] px-4 py-3 text-sm font-medium text-[#374151] transition-all flex items-center gap-3 group"
+                className="w-full text-left rounded-2xl border border-[#E5E5E0] bg-[#F5F5F0] px-4 touch-target text-sm font-medium text-[#374151] transition-all flex items-center gap-3 group"
                 style={{ ["--hover-border-color" as string]: selectedCategory.color }}
                 onMouseEnter={e => {
                   (e.currentTarget as HTMLButtonElement).style.borderColor = selectedCategory.color;
@@ -456,15 +456,15 @@ Important: Make the reason witty and career-specific — reference their profess
   // STEP: Experience question
   if (step === "experience" && selectedCareer) {
     return (
-      <section className="px-6 pb-20 max-w-md mx-auto fade-up">
+      <section className="px-4 sm:px-6 pb-safe max-w-xl mx-auto fade-up">
         <button
           onClick={() => setStep("career")}
-          className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 hover:text-[#0D0D0D] transition-colors"
+          className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 hover:text-[#0D0D0D] transition-colors touch-target"
         >
           ← Back
         </button>
 
-        <div className="rounded-3xl bg-white border border-[#E5E5E0] p-6 shadow-sm">
+        <div className="rounded-3xl bg-white p-5 shadow-md">
           <div className="flex items-center justify-between mb-4">
             <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
               style={{ background: THEME_BG, color: THEME_COLOR }}>
@@ -475,7 +475,7 @@ Important: Make the reason witty and career-specific — reference their profess
 
           <div className="h-1.5 rounded-full bg-[#F3F4F6] mb-6 overflow-hidden">
             <div className="h-full w-1/2 rounded-full transition-all duration-500"
-              style={{ background: THEME_GRADIENT }} />
+              style={{ background: THEME_COLOR }} />
           </div>
 
           <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ color: THEME_COLOR }}>
@@ -490,7 +490,7 @@ Important: Make the reason witty and career-specific — reference their profess
               <button
                 key={opt.id}
                 onClick={() => handleExperienceSelect(opt.id)}
-                className="w-full text-left rounded-2xl border border-[#E5E5E0] bg-[#FAFAF8] px-4 py-3.5 text-sm font-medium text-[#374151] hover:border-[#0D9488] hover:bg-[#F0FDF9] transition-all card-hover flex items-center gap-3"
+                className="w-full text-left rounded-2xl border border-[#E5E5E0] bg-[#F5F5F0] px-4 touch-target text-sm font-medium text-[#374151] hover:border-[#0D9488] hover:bg-[#F0FDF9] transition-all card-hover flex items-center gap-3"
               >
                 <span className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
                   style={{ background: THEME_BG, color: THEME_COLOR }}>
@@ -511,15 +511,15 @@ Important: Make the reason witty and career-specific — reference their profess
   // STEP: Goal question
   if (step === "goal" && selectedCareer && selectedExperience) {
     return (
-      <section className="px-6 pb-20 max-w-md mx-auto fade-up">
+      <section className="px-4 sm:px-6 pb-safe max-w-xl mx-auto fade-up">
         <button
           onClick={() => setStep("experience")}
-          className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 hover:text-[#0D0D0D] transition-colors"
+          className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 hover:text-[#0D0D0D] transition-colors touch-target"
         >
           ← Back
         </button>
 
-        <div className="rounded-3xl bg-white border border-[#E5E5E0] p-6 shadow-sm">
+        <div className="rounded-3xl bg-white p-5 shadow-md">
           <div className="flex items-center justify-between mb-4">
             <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
               style={{ background: THEME_BG, color: THEME_COLOR }}>
@@ -530,7 +530,7 @@ Important: Make the reason witty and career-specific — reference their profess
 
           <div className="h-1.5 rounded-full bg-[#F3F4F6] mb-6 overflow-hidden">
             <div className="h-full w-full rounded-full transition-all duration-500"
-              style={{ background: THEME_GRADIENT }} />
+              style={{ background: THEME_COLOR }} />
           </div>
 
           <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ color: THEME_COLOR }}>
@@ -546,7 +546,7 @@ Important: Make the reason witty and career-specific — reference their profess
                 key={opt.id}
                 onClick={() => handleGoalSelect(opt.id)}
                 disabled={loading}
-                className="w-full text-left rounded-2xl border border-[#E5E5E0] bg-[#FAFAF8] px-4 py-3.5 text-sm font-medium text-[#374151] hover:border-[#0D9488] hover:bg-[#F0FDF9] transition-all card-hover flex items-center gap-3 disabled:opacity-50"
+                className="w-full text-left rounded-2xl border border-[#E5E5E0] bg-[#F5F5F0] px-4 touch-target text-sm font-medium text-[#374151] hover:border-[#0D9488] hover:bg-[#F0FDF9] transition-all card-hover flex items-center gap-3 disabled:opacity-50"
               >
                 <span className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
                   style={{ background: THEME_BG, color: THEME_COLOR }}>

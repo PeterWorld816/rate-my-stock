@@ -2,29 +2,12 @@
 import { useState } from "react";
 import { Result } from "@/app/page";
 
-interface QuizOption {
-  text: string;
-  trait: string;
-}
-
-interface Question {
-  axis: "risk" | "style" | "sector" | "time";
-  q: string;
-  options: QuizOption[];
-}
-
-interface SelectedAnswer {
-  text: string;
-  axis: "risk" | "style" | "sector" | "time";
-  trait: string;
-}
-
+interface QuizOption { text: string; trait: string; }
+interface Question { axis: "risk" | "style" | "sector" | "time"; q: string; options: QuizOption[]; }
+interface SelectedAnswer { text: string; axis: "risk" | "style" | "sector" | "time"; trait: string; }
 interface InvestorType {
-  ticker: string;
-  name: string;
-  archetype: string;
-  risk: "LOW" | "MID" | "HIGH";
-  emoji: string;
+  ticker: string; name: string; archetype: string;
+  risk: "LOW" | "MID" | "HIGH"; emoji: string;
   extras: { ticker: string; name: string; emoji: string }[];
 }
 
@@ -111,7 +94,6 @@ const questions: Question[] = [
   },
 ];
 
-// A=Aggressive S=Stable | G=Growth V=Value | T=Tech B=Broad | R=Reactive P=Patient
 const INVESTOR_TYPES: Record<string, InvestorType> = {
   AGTR: { ticker: "TSLA",  name: "Tesla, Inc.",                          archetype: "혁신가 🚀",       risk: "HIGH", emoji: "🚀", extras: [{ ticker: "PLTR",  name: "Palantir Technologies",          emoji: "🔮" }, { ticker: "COIN",  name: "Coinbase Global",                emoji: "🎰" }] },
   AGTP: { ticker: "NVDA",  name: "NVIDIA Corporation",                   archetype: "미래선구자 🤖",   risk: "HIGH", emoji: "🤖", extras: [{ ticker: "AMD",   name: "Advanced Micro Devices",         emoji: "🐉" }, { ticker: "AVGO",  name: "Broadcom Inc.",                  emoji: "⚡" }] },
@@ -140,17 +122,26 @@ function calculateCode(answers: SelectedAnswer[]): string {
 }
 
 const OPTION_LETTERS = ["A", "B", "C", "D"];
-
 const AXIS_LABELS: Record<string, string> = {
   risk: "위험성향", style: "투자목표", sector: "섹터선호", time: "투자기간",
 };
-
 const CODE_EXPANSIONS: Record<string, string> = {
   A: "⚡ Aggressive", S: "🛡️ Stable",
   G: "🚀 Growth",    V: "💎 Value",
   T: "💻 Tech",      B: "🌐 Broad",
   R: "⚡ Reactive",  P: "🧘 Patient",
 };
+
+// Unified skeleton for quiz options
+function OptionSkeleton() {
+  return (
+    <div className="space-y-3">
+      {[1, 0.85, 0.65, 0.45].map((op, i) => (
+        <div key={i} className="touch-target rounded-2xl shimmer" style={{ opacity: op }} />
+      ))}
+    </div>
+  );
+}
 
 export default function MbtiMode({
   onResult, onBack, loading, setLoading,
@@ -227,8 +218,8 @@ export default function MbtiMode({
   if (revealCode) {
     const investorType = INVESTOR_TYPES[revealCode] ?? INVESTOR_TYPES["SVBP"];
     return (
-      <section className="px-6 pb-20 max-w-md mx-auto fade-up">
-        <div className="rounded-3xl bg-white border border-[#E5E5E0] p-8 shadow-sm text-center">
+      <section className="px-4 sm:px-6 pb-safe max-w-xl mx-auto fade-up">
+        <div className="rounded-3xl bg-white p-6 shadow-md text-center">
           <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-6"
             style={{ background: "#7C3AED18", color: "#7C3AED" }}>
             🧬 분석 완료
@@ -239,7 +230,7 @@ export default function MbtiMode({
           <div className="flex justify-center gap-2 mb-5">
             {revealCode.split("").map((letter, i) => (
               <div key={i} className="w-14 h-14 rounded-2xl flex flex-col items-center justify-center text-white"
-                style={{ background: "linear-gradient(135deg, #7C3AED, #A855F7)" }}>
+                style={{ background: "#7C3AED" }}>
                 <span className="text-2xl font-display font-bold leading-none">{letter}</span>
                 <span className="text-[8px] opacity-70 leading-none mt-0.5">{["RISK", "STYLE", "SECTOR", "TIME"][i]}</span>
               </div>
@@ -253,9 +244,9 @@ export default function MbtiMode({
 
           <p className="text-xs text-[#9CA3AF] mb-8">Finding your perfect stock match...</p>
 
-          <div className="space-y-2.5">
-            {[0, 1, 2, 3].map(i => (
-              <div key={i} className="h-3 rounded-full shimmer" style={{ opacity: 1 - i * 0.15 }} />
+          <div className="space-y-3">
+            {[1, 0.75, 0.5, 0.3].map((op, i) => (
+              <div key={i} className="h-3 rounded-full shimmer" style={{ opacity: op }} />
             ))}
           </div>
         </div>
@@ -264,12 +255,12 @@ export default function MbtiMode({
   }
 
   return (
-    <section className="px-6 pb-20 max-w-md mx-auto fade-up">
-      <button onClick={onBack} className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 hover:text-[#0D0D0D] transition-colors">
+    <section className="px-4 sm:px-6 pb-safe max-w-xl mx-auto fade-up">
+      <button onClick={onBack} className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 touch-target">
         ← Back
       </button>
 
-      <div className="rounded-3xl bg-white border border-[#E5E5E0] p-6 shadow-sm">
+      <div className="rounded-3xl bg-white p-5 shadow-md">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
@@ -284,7 +275,7 @@ export default function MbtiMode({
         {/* Progress bar */}
         <div className="h-1.5 rounded-full bg-[#F3F4F6] mb-4 overflow-hidden">
           <div className="h-full rounded-full transition-all duration-500"
-            style={{ width: `${progress}%`, background: "linear-gradient(90deg, #7C3AED, #A855F7)" }} />
+            style={{ width: `${progress}%`, background: "#7C3AED" }} />
         </div>
 
         {/* Axis tracker */}
@@ -303,7 +294,6 @@ export default function MbtiMode({
           })}
         </div>
 
-        {/* Current axis badge */}
         <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ color: "#A855F7" }}>
           {AXIS_LABELS[currentAxis]}
         </p>
@@ -313,15 +303,13 @@ export default function MbtiMode({
         </h2>
 
         {loading ? (
-          <div className="space-y-3">
-            {[0, 1, 2, 3].map(i => <div key={i} className="h-14 rounded-2xl shimmer" />)}
-          </div>
+          <OptionSkeleton />
         ) : (
           <div className="space-y-3">
             {questions[step].options.map((opt, i) => (
               <button key={opt.text} onClick={() => pick(opt)}
-                className="w-full text-left rounded-2xl border border-[#E5E5E0] bg-[#FAFAF8] px-4 py-3.5 text-sm font-medium text-[#374151] hover:border-[#7C3AED] hover:bg-[#F5F3FF] transition-all card-hover flex items-center gap-3">
-                <span className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
+                className="w-full text-left rounded-2xl border border-[#E5E5E0] bg-[#F5F5F0] px-4 touch-target text-sm font-medium text-[#374151] hover:border-[#7C3AED] hover:bg-[#F5F3FF] transition-all card-hover flex items-center gap-3">
+                <span className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
                   style={{ background: "#7C3AED18", color: "#7C3AED" }}>
                   {OPTION_LETTERS[i]}
                 </span>

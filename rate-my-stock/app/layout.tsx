@@ -1,13 +1,15 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { LanguageProvider } from "@/lib/i18n";
 import BottomNav from "@/components/BottomNav";
+import LanguageSelector from "@/components/LanguageSelector";
 
 export const metadata: Metadata = {
-  title: "주식 배우기 — 게임처럼 재밌게",
-  description: "하루 5분, 퀴즈와 AI 매칭으로 배우는 주식 투자 기초. 무료, 재밌게, 쉽게.",
+  title: "Rate My Stock — Learn Stocks Like a Game",
+  description: "5 min/day, quiz & AI matching to learn stock investing basics. Free, fun, easy.",
   openGraph: {
-    title: "주식 배우기 📈",
-    description: "Duolingo처럼 재밌게 배우는 주식 교육",
+    title: "Rate My Stock 📈",
+    description: "Learn stocks like Duolingo — fun, free, daily.",
     type: "website",
   },
 };
@@ -21,10 +23,15 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko">
+    <html lang="en">
       <body className="bg-[#F5F5F0]" style={{ paddingBottom: "calc(64px + env(safe-area-inset-bottom, 0px))" }}>
-        {children}
-        <BottomNav />
+        <LanguageProvider>
+          <div className="fixed top-3 right-3 z-50 sm:top-4 sm:right-4">
+            <LanguageSelector />
+          </div>
+          {children}
+          <BottomNav />
+        </LanguageProvider>
       </body>
     </html>
   );

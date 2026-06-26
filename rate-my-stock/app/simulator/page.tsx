@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
+import { useLanguage } from "@/lib/i18n";
 
 // ── Stocks ───────────────────────────────────────────────────────────────────
 const STOCKS = [
@@ -16,6 +17,16 @@ const STOCKS = [
 const PRESETS = [100, 500, 1_000, 5_000, 10_000];
 const MIN = 100;
 const MAX = 10_000;
+
+const PERIOD_RANGES = ["1y", "3y", "5y", "10y"] as const;
+type PeriodRange = (typeof PERIOD_RANGES)[number];
+
+const PERIOD_META: Record<PeriodRange, { interval: string; years: number }> = {
+  "1y":  { interval: "1mo",  years: 1  },
+  "3y":  { interval: "1mo",  years: 3  },
+  "5y":  { interval: "1mo",  years: 5  },
+  "10y": { interval: "3mo",  years: 10 },
+};
 
 // ── Mini chart ────────────────────────────────────────────────────────────────
 function MiniChart({ closes, isUp }: { closes: number[]; isUp: boolean }) {
@@ -48,16 +59,13 @@ function MiniChart({ closes, isUp }: { closes: number[]; isUp: boolean }) {
           <stop offset="100%" stopColor={color} stopOpacity="0.02" />
         </linearGradient>
       </defs>
-      {/* Grid lines */}
       {[0.33, 0.66].map((f) => (
         <line key={f} x1={PAD} x2={W - PAD} y1={PAD + f * (H - PAD * 2)} y2={PAD + f * (H - PAD * 2)}
           stroke="rgba(255,255,255,0.07)" strokeWidth="1" />
       ))}
       <path d={areaPath} fill="url(#chartGrad)" />
       <path d={linePath} stroke={color} strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-      {/* Start dot */}
       <circle cx={firstPt.x} cy={firstPt.y} r="3.5" fill="rgba(255,255,255,0.5)" />
-      {/* End dot + pulse */}
       <circle cx={lastPt.x} cy={lastPt.y} r="5" fill={color} fillOpacity="0.25" />
       <circle cx={lastPt.x} cy={lastPt.y} r="3.5" fill={color} />
     </svg>
@@ -71,15 +79,6 @@ const fmtUSD = (n: number, dec = 2) =>
 const fmtCompact = (n: number) =>
   n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 
-function getReaction(pct: number) {
-  if (pct >= 150) return { emoji: "🚀", label: "로켓 발사!",     color: "#00D084" };
-  if (pct >= 50)  return { emoji: "💰", label: "대박났어요!",    color: "#00D084" };
-  if (pct >= 10)  return { emoji: "😊", label: "수익이 났어요!", color: "#00D084" };
-  if (pct >= 0)   return { emoji: "🙂", label: "소소한 이익",    color: "#00D084" };
-  if (pct >= -20) return { emoji: "😅", label: "조금 손해봤어요", color: "#F59E0B" };
-  return                  { emoji: "😢", label: "많이 빠졌어요...", color: "#EF4444" };
-}
-
 // ── Types ─────────────────────────────────────────────────────────────────────
 type StockCache = {
   ticker: string;
@@ -90,36 +89,46 @@ type StockCache = {
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 export default function SimulatorPage() {
-  const [ticker, setTicker]         = useState("NVDA");
-  const [amount, setAmount]         = useState(1_000);
-  const [cache, setCache]           = useState<StockCache | null>(null);
-  const [loading, setLoading]       = useState(false);
-  const [fetchError, setFetchError] = useState(false);
-  const [copied, setCopied]         = useState(false);
+  const { t } = useLanguage();
+  const [ticker, setTicker]               = useState("NVDA");
+  const [amount, setAmount]               = useState(1_000);
+  const [period, setPeriod]               = useState<PeriodRange>("1y");
+  const [cache, setCache]                 = useState<StockCache | null>(null);
+  const [loading, setLoading]             = useState(false);
+  const [fetchError, setFetchError]       = useState(false);
+  const [copied, setCopied]               = useState(false);
   const [hasCalculated, setHasCalculated] = useState(false);
 
-  const stock = STOCKS.find((s) => s.ticker === ticker)!;
+  const stock        = STOCKS.find((s) => s.ticker === ticker)!;
+  const periodLabel  = (r: PeriodRange) =>
+    ({ "1y": t.period1y, "3y": t.period3y, "5y": t.period5y, "10y": t.period10y }[r]);
+  const activeMeta   = PERIOD_META[period];
 
-  // ── Fetch on ticker change (after user hits "계산하기" or on mount)
-  const fetchData = async (t: string) => {
+  function getReaction(pct: number) {
+    if (pct >= 150) return { emoji: "🚀", label: t.reactionRocket,  color: "#00D084" };
+    if (pct >= 50)  return { emoji: "💰", label: t.reactionBig,     color: "#00D084" };
+    if (pct >= 10)  return { emoji: "😊", label: t.reactionProfit,  color: "#00D084" };
+    if (pct >= 0)   return { emoji: "🙂", label: t.reactionSmall,   color: "#00D084" };
+    if (pct >= -20) return { emoji: "😅", label: t.reactionLoss,    color: "#F59E0B" };
+    return                  { emoji: "😢", label: t.reactionBigLoss, color: "#EF4444" };
+  }
+
+  const fetchData = async (tkr: string, r: PeriodRange = period) => {
     setLoading(true);
     setFetchError(false);
+    const meta = PERIOD_META[r];
     try {
-      const res = await fetch(`/api/stock?ticker=${encodeURIComponent(t)}&interval=1mo&range=1y`);
+      const res  = await fetch(`/api/stock?ticker=${encodeURIComponent(tkr)}&interval=${meta.interval}&range=${r}`);
       const data = await res.json();
       if (data.error) throw new Error();
 
-      const r = data?.chart?.result?.[0];
-      if (!r) throw new Error();
-
-      const rawCloses: (number | null)[] = r.indicators?.quote?.[0]?.close ?? [];
-      const closes = rawCloses.filter((c): c is number => c != null && !isNaN(c) && c > 0);
+      const closes: number[] = data.closes ?? [];
       if (closes.length < 2) throw new Error();
 
-      const buyPrice     = closes[0];
-      const currentPrice = r.meta?.regularMarketPrice ?? closes[closes.length - 1];
+      const buyPrice     = (data.buyPrice as number) || closes[0];
+      const currentPrice = (data.price   as number) || closes[closes.length - 1];
 
-      setCache({ ticker: t, buyPrice, currentPrice, closes });
+      setCache({ ticker: tkr, buyPrice, currentPrice, closes });
       setHasCalculated(true);
     } catch {
       setFetchError(true);
@@ -128,10 +137,8 @@ export default function SimulatorPage() {
     }
   };
 
-  // Auto-fetch on mount for default ticker
-  useEffect(() => { fetchData("NVDA"); }, []); // eslint-disable-line
+  useEffect(() => { fetchData("NVDA", "1y"); }, []); // eslint-disable-line
 
-  // ── Derived result (instant when slider moves) ──────────────────────────────
   const result = useMemo(() => {
     if (!cache) return null;
     const shares       = amount / cache.buyPrice;
@@ -141,31 +148,31 @@ export default function SimulatorPage() {
     return { shares, currentValue, profit, returnPct };
   }, [cache, amount]);
 
-  const isUp = result ? result.returnPct >= 0 : true;
+  const isUp     = result ? result.returnPct >= 0 : true;
   const reaction = result ? getReaction(result.returnPct) : null;
   const sliderPct = ((amount - MIN) / (MAX - MIN)) * 100;
 
-  // ── Share ──────────────────────────────────────────────────────────────────
   const handleShare = async () => {
     if (!result || !cache) return;
-    const sign  = result.profit >= 0 ? "+" : "";
-    const pct   = `${sign}${result.returnPct.toFixed(1)}%`;
-    const text  = `${stock.emoji} ${cache.ticker}에 ${fmtCompact(amount)} 투자했으면 지금 ${fmtCompact(result.currentValue)}! (${pct}) 💰\n나도 해보기 → 주식 시뮬레이터`;
-
+    const sign = result.profit >= 0 ? "+" : "";
+    const pct  = `${sign}${result.returnPct.toFixed(1)}%`;
+    const text = t.simShareFmt
+      .replace("{emoji}", stock.emoji)
+      .replace("{ticker}", cache.ticker)
+      .replace("{amount}", fmtCompact(amount))
+      .replace("{period}", periodLabel(period))
+      .replace("{value}", fmtCompact(result.currentValue))
+      .replace("{pct}", pct);
     if (typeof navigator !== "undefined" && "share" in navigator) {
-      try {
-        await (navigator as Navigator & { share(d: object): Promise<void> }).share({ title: "주식 시뮬레이터", text });
-        return;
-      } catch {}
+      try { await (navigator as Navigator & { share(d: object): Promise<void> }).share({ title: t.simulator, text }); return; } catch {}
     }
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-    } catch {}
+    try { await navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 2500); } catch {}
   };
 
-  const bankReturn = useMemo(() => amount * 1.05, [amount]);
+  const bankReturn = useMemo(
+    () => amount * Math.pow(1.05, activeMeta.years),
+    [amount, activeMeta.years]
+  );
 
   return (
     <>
@@ -185,10 +192,7 @@ export default function SimulatorPage() {
           background: #fff; border: 3px solid #00D084;
           box-shadow: 0 2px 10px rgba(0,208,132,0.45); cursor: pointer; border-style: solid;
         }
-        @keyframes fadeSlideUp {
-          from { opacity:0; transform: translateY(16px); }
-          to   { opacity:1; transform: translateY(0); }
-        }
+        @keyframes fadeSlideUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
         .result-enter { animation: fadeSlideUp 0.45s ease both; }
       `}</style>
 
@@ -196,30 +200,28 @@ export default function SimulatorPage() {
         <div className="max-w-sm mx-auto px-4 pt-12 pb-8">
 
           {/* ── Header ── */}
-          <div className="mb-7">
+          <div className="mb-6">
             <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-3" style={{ background: "#F59E0B18", color: "#F59E0B" }}>
-              💸 주식 시뮬레이터
+              💸 {t.simulator}
             </div>
             <h1 className="font-display font-bold text-2xl text-[#0D0D0D] leading-tight mb-1">
-              만약 1년 전에 샀다면?
+              {t.simulatorTitle.replace("{period}", periodLabel(period))}
             </h1>
             <p className="text-sm text-[#6B7280]">
-              종목 선택 + 금액 → 지금 얼마인지 계산해드려요 🔮
+              {t.stockSelect} · {t.investPeriod} · {t.investAmount} 🔮
             </p>
           </div>
 
           {/* ── Stock selector ── */}
-          <div className="mb-6">
-            <p className="text-[11px] font-bold uppercase tracking-widest text-[#9CA3AF] mb-3">
-              종목 선택
-            </p>
+          <div className="mb-5">
+            <p className="text-[11px] font-bold uppercase tracking-widest text-[#9CA3AF] mb-3">{t.stockSelect}</p>
             <div className="grid grid-cols-4 gap-2">
               {STOCKS.map((s) => {
                 const active = ticker === s.ticker;
                 return (
                   <button
                     key={s.ticker}
-                    onClick={() => { setTicker(s.ticker); fetchData(s.ticker); }}
+                    onClick={() => { setTicker(s.ticker); fetchData(s.ticker, period); }}
                     className="flex flex-col items-center rounded-2xl py-3 px-1 transition-all border-2 text-center"
                     style={{
                       background: active ? "#0D0D0D" : "#FFFFFF",
@@ -228,16 +230,10 @@ export default function SimulatorPage() {
                     }}
                   >
                     <span className="text-xl mb-0.5">{s.emoji}</span>
-                    <span
-                      className="text-[9px] font-bold leading-tight"
-                      style={{ color: active ? "#FFFFFF" : "#374151" }}
-                    >
+                    <span className="text-[9px] font-bold leading-tight" style={{ color: active ? "#FFFFFF" : "#374151" }}>
                       {s.ticker}
                     </span>
-                    <span
-                      className="text-[8px] leading-tight mt-0.5"
-                      style={{ color: active ? "#9CA3AF" : "#9CA3AF" }}
-                    >
+                    <span className="text-[8px] leading-tight mt-0.5 text-[#9CA3AF]">
                       {s.name.split(" ")[0]}
                     </span>
                   </button>
@@ -246,35 +242,43 @@ export default function SimulatorPage() {
             </div>
           </div>
 
+          {/* ── Period selector ── */}
+          <div className="mb-5">
+            <p className="text-[11px] font-bold uppercase tracking-widest text-[#9CA3AF] mb-3">{t.investPeriod}</p>
+            <div className="flex gap-2">
+              {PERIOD_RANGES.map((r) => {
+                const active = period === r;
+                return (
+                  <button
+                    key={r}
+                    onClick={() => { setPeriod(r); fetchData(ticker, r); }}
+                    className="flex-1 rounded-2xl py-2.5 text-sm font-bold transition-all border-2 active:scale-95"
+                    style={{
+                      background:   active ? "#0D0D0D" : "#FFFFFF",
+                      borderColor:  active ? "#0D0D0D" : "#E5E5E0",
+                      color:        active ? "#FFFFFF" : "#374151",
+                    }}
+                  >
+                    {periodLabel(r)}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           {/* ── Amount selector ── */}
           <div className="rounded-2xl bg-white p-5 shadow-sm mb-4">
-            <p className="text-[11px] font-bold uppercase tracking-widest text-[#9CA3AF] mb-4">
-              투자 금액
-            </p>
-
-            {/* Current amount display */}
+            <p className="text-[11px] font-bold uppercase tracking-widest text-[#9CA3AF] mb-4">{t.investAmount}</p>
             <div className="flex items-baseline gap-1 mb-5">
-              <span className="text-3xl font-display font-bold text-[#0D0D0D]">
-                {fmtCompact(amount)}
-              </span>
-              <span className="text-sm text-[#9CA3AF]">투자</span>
+              <span className="text-3xl font-display font-bold text-[#0D0D0D]">{fmtCompact(amount)}</span>
+              <span className="text-sm text-[#9CA3AF]">{t.invested}</span>
             </div>
-
-            {/* Slider */}
             <input
-              type="range"
-              className="sim-slider mb-4"
-              min={MIN}
-              max={MAX}
-              step={100}
-              value={amount}
+              type="range" className="sim-slider mb-4"
+              min={MIN} max={MAX} step={100} value={amount}
               onChange={(e) => setAmount(Number(e.target.value))}
-              style={{
-                background: `linear-gradient(to right, #00D084 0%, #00D084 ${sliderPct}%, #E5E5E0 ${sliderPct}%, #E5E5E0 100%)`,
-              }}
+              style={{ background: `linear-gradient(to right, #00D084 0%, #00D084 ${sliderPct}%, #E5E5E0 ${sliderPct}%, #E5E5E0 100%)` }}
             />
-
-            {/* Preset buttons */}
             <div className="flex gap-1.5 flex-wrap">
               {PRESETS.map((p) => (
                 <button
@@ -282,9 +286,9 @@ export default function SimulatorPage() {
                   onClick={() => setAmount(p)}
                   className="rounded-full px-2.5 py-1 text-[10px] font-bold border transition-all"
                   style={{
-                    background: amount === p ? "#00D084" : "#F5F5F0",
+                    background:  amount === p ? "#00D084" : "#F5F5F0",
                     borderColor: amount === p ? "#00D084" : "#E5E5E0",
-                    color: amount === p ? "#ffffff" : "#374151",
+                    color:       amount === p ? "#ffffff" : "#374151",
                   }}
                 >
                   {p >= 1000 ? `$${p / 1000}K` : `$${p}`}
@@ -293,14 +297,14 @@ export default function SimulatorPage() {
             </div>
           </div>
 
-          {/* ── Calculate button (shown before first result) ── */}
+          {/* ── Calculate button ── */}
           {!hasCalculated && !loading && (
             <button
               onClick={() => fetchData(ticker)}
               className="w-full rounded-2xl touch-target text-sm font-bold text-white mb-4"
               style={{ background: "#F59E0B" }}
             >
-              💰 계산하기
+              💰 {t.calculate}
             </button>
           )}
 
@@ -308,9 +312,7 @@ export default function SimulatorPage() {
           {loading && (
             <div className="rounded-3xl bg-[#0D0D0D] p-6 mb-4 flex flex-col items-center justify-center" style={{ minHeight: 200 }}>
               <div className="text-3xl mb-3 animate-spin">⏳</div>
-              <p className="text-white/60 text-sm">
-                {stock.ticker} 데이터 불러오는 중...
-              </p>
+              <p className="text-white/60 text-sm">{stock.ticker} {periodLabel(period)} {t.loadError}...</p>
             </div>
           )}
 
@@ -318,14 +320,14 @@ export default function SimulatorPage() {
           {fetchError && !loading && (
             <div className="rounded-3xl bg-white border border-red-200 p-6 mb-4 text-center">
               <div className="text-3xl mb-2">😵</div>
-              <p className="text-sm font-semibold text-[#0D0D0D] mb-1">데이터를 불러오지 못했어요</p>
-              <p className="text-xs text-[#6B7280] mb-4">잠시 후 다시 시도해주세요</p>
+              <p className="text-sm font-semibold text-[#0D0D0D] mb-1">{t.loadError}</p>
+              <p className="text-xs text-[#6B7280] mb-4">{t.loadErrorSub}</p>
               <button
                 onClick={() => fetchData(ticker)}
                 className="rounded-2xl touch-target px-6 text-sm font-bold text-white"
                 style={{ background: "#EF4444" }}
               >
-                다시 시도
+                {t.retryBtn}
               </button>
             </div>
           )}
@@ -333,78 +335,50 @@ export default function SimulatorPage() {
           {/* ── Result card ── */}
           {!loading && !fetchError && result && cache && (
             <div className="result-enter">
-              {/* Dark main card */}
               <div className="rounded-3xl bg-[#0D0D0D] p-5 mb-3 shadow-xl overflow-hidden relative">
-
-                {/* Glow accent */}
-                <div
-                  className="absolute -top-16 -right-16 w-40 h-40 rounded-full opacity-20 blur-2xl"
-                  style={{ background: isUp ? "#00D084" : "#EF4444" }}
-                />
-
-                {/* Header */}
+                <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full opacity-20 blur-2xl" style={{ background: isUp ? "#00D084" : "#EF4444" }} />
                 <div className="flex items-center gap-2 mb-4 relative">
                   <span className="text-2xl">{stock.emoji}</span>
                   <div>
                     <p className="text-white font-bold text-base leading-tight">${cache.ticker}</p>
-                    <p className="text-gray-400 text-xs">{fmtCompact(amount)} 투자 · 1년 전</p>
+                    <p className="text-gray-400 text-xs">{fmtCompact(amount)} {t.invested} · {periodLabel(period)}</p>
                   </div>
                   {reaction && (
                     <div className="ml-auto text-right">
                       <p className="text-2xl">{reaction.emoji}</p>
-                      <p className="text-[10px] font-semibold" style={{ color: reaction.color }}>
-                        {reaction.label}
-                      </p>
+                      <p className="text-[10px] font-semibold" style={{ color: reaction.color }}>{reaction.label}</p>
                     </div>
                   )}
                 </div>
-
-                {/* Price comparison */}
                 <div className="flex items-center gap-3 mb-4">
                   <div className="flex-1 rounded-xl p-2.5" style={{ background: "rgba(255,255,255,0.07)" }}>
-                    <p className="text-[9px] text-gray-400 uppercase tracking-widest mb-0.5">1년 전 주가</p>
+                    <p className="text-[9px] text-gray-400 uppercase tracking-widest mb-0.5">
+                      {t.buyPriceAgo.replace("{period}", periodLabel(period))}
+                    </p>
                     <p className="text-white font-bold text-sm">{fmtUSD(cache.buyPrice)}</p>
                   </div>
                   <div className="text-gray-500 text-sm font-bold">→</div>
                   <div className="flex-1 rounded-xl p-2.5" style={{ background: isUp ? "#00D08420" : "#EF444420" }}>
-                    <p className="text-[9px] text-gray-400 uppercase tracking-widest mb-0.5">현재 주가</p>
-                    <p className="font-bold text-sm" style={{ color: isUp ? "#00D084" : "#EF4444" }}>
-                      {fmtUSD(cache.currentPrice)}
-                    </p>
+                    <p className="text-[9px] text-gray-400 uppercase tracking-widest mb-0.5">{t.currentPrice}</p>
+                    <p className="font-bold text-sm" style={{ color: isUp ? "#00D084" : "#EF4444" }}>{fmtUSD(cache.currentPrice)}</p>
                   </div>
                 </div>
-
-                {/* Mini chart */}
                 <div className="mb-4 -mx-1">
                   <MiniChart closes={cache.closes} isUp={isUp} />
                 </div>
-
-                {/* Result highlight */}
-                <div
-                  className="rounded-2xl p-4"
-                  style={{ background: isUp ? "rgba(0,208,132,0.12)" : "rgba(239,68,68,0.12)" }}
-                >
+                <div className="rounded-2xl p-4" style={{ background: isUp ? "rgba(0,208,132,0.12)" : "rgba(239,68,68,0.12)" }}>
                   <div className="flex items-end justify-between">
                     <div>
-                      <p className="text-gray-400 text-[10px] uppercase tracking-widest mb-0.5">지금 내 자산</p>
-                      <p
-                        className="font-display font-bold text-3xl leading-none"
-                        style={{ color: isUp ? "#00D084" : "#EF4444" }}
-                      >
+                      <p className="text-gray-400 text-[10px] uppercase tracking-widest mb-0.5">{t.resultText}</p>
+                      <p className="font-display font-bold text-3xl leading-none" style={{ color: isUp ? "#00D084" : "#EF4444" }}>
                         {fmtCompact(result.currentValue)}
                       </p>
                     </div>
                     <div className="text-right">
-                      <p
-                        className="font-bold text-lg leading-none"
-                        style={{ color: isUp ? "#00D084" : "#EF4444" }}
-                      >
+                      <p className="font-bold text-lg leading-none" style={{ color: isUp ? "#00D084" : "#EF4444" }}>
                         {isUp ? "+" : ""}{fmtCompact(result.profit)}
                       </p>
-                      <p
-                        className="text-sm font-semibold"
-                        style={{ color: isUp ? "#00D084" : "#EF4444" }}
-                      >
+                      <p className="text-sm font-semibold" style={{ color: isUp ? "#00D084" : "#EF4444" }}>
                         ({isUp ? "+" : ""}{result.returnPct.toFixed(1)}%)
                       </p>
                     </div>
@@ -412,53 +386,42 @@ export default function SimulatorPage() {
                 </div>
               </div>
 
-              {/* Detail stats */}
               <div className="grid grid-cols-3 gap-2 mb-4">
                 {[
-                  { label: "구매 주식 수", value: `${result.shares.toFixed(3)}주` },
-                  { label: "투자 원금", value: fmtCompact(amount) },
-                  { label: "수익률", value: `${isUp ? "+" : ""}${result.returnPct.toFixed(1)}%`, highlight: true },
+                  { label: t.sharesOwned, value: `${result.shares.toFixed(3)}` },
+                  { label: t.principal,   value: fmtCompact(amount) },
+                  { label: t.returnRate,  value: `${isUp ? "+" : ""}${result.returnPct.toFixed(1)}%`, highlight: true },
                 ].map((s) => (
                   <div key={s.label} className="rounded-2xl bg-white p-3 text-center shadow-sm">
                     <p className="text-[9px] text-[#9CA3AF] uppercase tracking-widest mb-1">{s.label}</p>
-                    <p
-                      className="text-sm font-bold leading-tight"
-                      style={{
-                        color: s.highlight ? (isUp ? "#00D084" : "#EF4444") : "#0D0D0D",
-                      }}
-                    >
+                    <p className="text-sm font-bold leading-tight" style={{ color: s.highlight ? (isUp ? "#00D084" : "#EF4444") : "#0D0D0D" }}>
                       {s.value}
                     </p>
                   </div>
                 ))}
               </div>
 
-              {/* Fun comparison */}
               <div className="rounded-2xl p-4 mb-4" style={{ background: "#7C3AED0D" }}>
-                <p className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: "#7C3AED" }}>
-                  📊 비교
-                </p>
+                <p className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: "#7C3AED" }}>📊 {t.comparison}</p>
                 <div className="space-y-2">
                   {[
                     {
-                      label: `🏦 은행 예금(연 5%) 이었다면`,
+                      label: t.bankDeposit.replace("{period}", periodLabel(period)),
                       value: fmtCompact(bankReturn),
-                      diff: bankReturn - amount,
-                      good: false,
+                      diff:  bankReturn - amount,
+                      good:  false,
                     },
                     {
-                      label: `${stock.emoji} ${cache.ticker} 실제 결과`,
+                      label: `${stock.emoji} ${cache.ticker} ${t.stockActual}`,
                       value: fmtCompact(result.currentValue),
-                      diff: result.profit,
-                      good: isUp,
+                      diff:  result.profit,
+                      good:  isUp,
                     },
                   ].map((c, i) => (
-                    <div key={i} className="flex items-center justify-between">
+                    <div key={i} className="flex items-center justify-between gap-2">
                       <span className="text-xs text-[#374151]">{c.label}</span>
-                      <div className="text-right">
-                        <span className="text-xs font-bold" style={{ color: c.good ? "#00D084" : "#9CA3AF" }}>
-                          {c.value}
-                        </span>
+                      <div className="text-right shrink-0">
+                        <span className="text-xs font-bold" style={{ color: c.good ? "#00D084" : "#9CA3AF" }}>{c.value}</span>
                         <span className="text-[9px] ml-1" style={{ color: c.good ? "#00D084" : "#9CA3AF" }}>
                           ({c.diff >= 0 ? "+" : ""}{fmtCompact(c.diff)})
                         </span>
@@ -468,13 +431,12 @@ export default function SimulatorPage() {
                 </div>
               </div>
 
-              {/* Share */}
               <button
                 onClick={handleShare}
                 className="w-full rounded-2xl touch-target text-sm font-bold text-white mb-3 flex items-center justify-center gap-2"
                 style={{ background: "#0D0D0D" }}
               >
-                {copied ? "✅ 클립보드에 복사됐어요!" : "📤 결과 공유하기"}
+                {copied ? t.copied : t.shareResult}
               </button>
             </div>
           )}
@@ -484,13 +446,11 @@ export default function SimulatorPage() {
             href="/today"
             className="block w-full rounded-2xl border border-[#E5E5E0] bg-white touch-target flex items-center justify-center gap-2 text-sm font-medium text-[#374151]"
           >
-            <span>📈</span>
-            <span>이 주식 오늘 얼마야?</span>
-            <span className="text-[#9CA3AF]">→</span>
+            <span>📈</span><span>{t.checkTodayPrice}</span><span className="text-[#9CA3AF]">→</span>
           </Link>
 
           <p className="text-center text-[9px] text-[#9CA3AF] mt-4 leading-relaxed">
-            ⚠️ 과거 수익률은 미래를 보장하지 않아요. 이 시뮬레이터는 교육 목적으로만 사용하세요.
+            {t.disclaimer}
           </p>
         </div>
       </main>

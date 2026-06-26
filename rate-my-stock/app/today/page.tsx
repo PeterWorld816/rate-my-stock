@@ -1,21 +1,9 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
+import { useLanguage, type LangCode, LOCALE_MAP } from "@/lib/i18n";
 
-// ── Language config ──────────────────────────────────────────────────────────
-const LANG_LIST = [
-  { code: "ko", flag: "🇰🇷", label: "한국어" },
-  { code: "en", flag: "🇺🇸", label: "English" },
-  { code: "ja", flag: "🇯🇵", label: "日本語" },
-  { code: "zh", flag: "🇨🇳", label: "中文" },
-  { code: "es", flag: "🇪🇸", label: "Español" },
-  { code: "fr", flag: "🇫🇷", label: "Français" },
-  { code: "de", flag: "🇩🇪", label: "Deutsch" },
-  { code: "pt", flag: "🇧🇷", label: "Português" },
-  { code: "ar", flag: "🇸🇦", label: "العربية" },
-  { code: "hi", flag: "🇮🇳", label: "हिंदी" },
-] as const;
-type Lang = (typeof LANG_LIST)[number]["code"];
+type Lang = LangCode;
 
 // ── Stock data ────────────────────────────────────────────────────────────────
 type StockDef = {
@@ -390,8 +378,7 @@ export default function TodayPage() {
   const dayIndex = useMemo(() => Math.floor(Date.now() / 86400000) % STOCKS.length, []);
   const stock = STOCKS[dayIndex];
 
-  const [lang, setLang] = useState<Lang>("ko");
-  const [showLangMenu, setShowLangMenu] = useState(false);
+  const { lang, t } = useLanguage();
   const [live, setLive] = useState<LiveData | null>(null);
   const [loading, setLoading] = useState(true);
   const [saved, setSaved] = useState(false);
@@ -400,15 +387,14 @@ export default function TodayPage() {
     fetch(`/api/stock?ticker=${encodeURIComponent(stock.ticker)}`)
       .then((r) => r.json())
       .then((d) => {
-        const meta = d?.chart?.result?.[0]?.meta;
-        if (!meta) return;
+        if (d.error || !d.price) return;
         setLive({
-          price: meta.regularMarketPrice ?? 0,
-          prevClose: meta.chartPreviousClose ?? meta.previousClose ?? meta.regularMarketPreviousClose ?? 0,
-          high52: meta.fiftyTwoWeekHigh ?? 0,
-          low52: meta.fiftyTwoWeekLow ?? 0,
-          currency: meta.currency ?? "USD",
-          longName: meta.longName ?? meta.shortName ?? stock.name,
+          price: d.price,
+          prevClose: d.prevClose,
+          high52: d.high52,
+          low52: d.low52,
+          currency: d.currency,
+          longName: d.longName ?? stock.name,
         });
       })
       .catch(() => {})
@@ -418,10 +404,9 @@ export default function TodayPage() {
   const changePercent = live && live.prevClose ? ((live.price - live.prevClose) / live.prevClose) * 100 : null;
   const up = changePercent !== null ? changePercent >= 0 : null;
 
-  const today = new Date();
-  const dateStr = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
-
-  const currentLang = LANG_LIST.find((l) => l.code === lang)!;
+  const dateStr = new Date().toLocaleDateString(LOCALE_MAP[lang], {
+    year: "numeric", month: "long", day: "numeric",
+  });
 
   const fmt = (n: number) =>
     n >= 1000 ? `$${n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : `$${n.toFixed(2)}`;
@@ -434,42 +419,16 @@ export default function TodayPage() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <p className="text-[11px] font-semibold text-[#6B7280] uppercase tracking-widest mb-0.5">
-              📅 오늘의 주식 · {stock.sector}
+              📅 {t.todayStock} · {stock.sector}
             </p>
             <h1 className="font-display font-bold text-2xl text-[#0D0D0D]">{dateStr}</h1>
           </div>
-          <div className="flex items-center gap-2">
-            {/* Language picker */}
-            <div className="relative">
-              <button
-                onClick={() => setShowLangMenu((v) => !v)}
-                className="flex items-center gap-1.5 rounded-2xl bg-white px-3 py-2 shadow-sm text-xs font-semibold text-[#0D0D0D] border border-[#E5E5E0]"
-              >
-                <span>{currentLang.flag}</span>
-                <span className="hidden sm:inline">{currentLang.label}</span>
-                <span className="text-[#9CA3AF]">▾</span>
-              </button>
-              {showLangMenu && (
-                <div className="absolute right-0 top-full mt-1 z-20 bg-white rounded-2xl shadow-lg border border-[#E5E5E0] py-1.5 min-w-[140px]">
-                  {LANG_LIST.map((l) => (
-                    <button
-                      key={l.code}
-                      onClick={() => { setLang(l.code); setShowLangMenu(false); }}
-                      className={`w-full flex items-center gap-2 px-4 py-2 text-xs font-medium text-left hover:bg-[#F5F5F0] ${lang === l.code ? "text-[#00D084] font-bold" : "text-[#374151]"}`}
-                    >
-                      <span>{l.flag}</span> {l.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-            <button
-              onClick={() => setSaved((v) => !v)}
-              className="w-10 h-10 rounded-full flex items-center justify-center bg-white shadow-sm text-xl"
-            >
-              {saved ? "❤️" : "🤍"}
-            </button>
-          </div>
+          <button
+            onClick={() => setSaved((v) => !v)}
+            className="w-10 h-10 rounded-full flex items-center justify-center bg-white shadow-sm text-xl"
+          >
+            {saved ? "❤️" : "🤍"}
+          </button>
         </div>
 
         {/* ── Main card ── */}
@@ -500,13 +459,13 @@ export default function TodayPage() {
               <p className="text-2xl font-bold">{fmt(live.price)}</p>
               {changePercent !== null && (
                 <p className={`text-sm font-semibold ${up ? "text-green-400" : "text-red-400"}`}>
-                  {up ? "▲" : "▼"} {Math.abs(changePercent).toFixed(2)}% 오늘
+                  {up ? "▲" : "▼"} {Math.abs(changePercent).toFixed(2)}% {t.todayChange}
                 </p>
               )}
             </div>
           ) : (
             <div className="mb-5">
-              <p className="text-sm text-gray-400">실시간 데이터 로딩 실패 — 잠시 후 다시 시도해주세요</p>
+              <p className="text-sm text-gray-400">{t.loadError} — {t.loadErrorSub}</p>
             </div>
           )}
 
@@ -514,9 +473,9 @@ export default function TodayPage() {
           {live && live.high52 > 0 && (
             <div className="mb-5">
               <div className="flex justify-between text-[10px] text-gray-400 mb-1">
-                <span>52주 최저 {fmt(live.low52)}</span>
-                <span>현재가 {fmt(live.price)}</span>
-                <span>52주 최고 {fmt(live.high52)}</span>
+                <span>{t.low52w} {fmt(live.low52)}</span>
+                <span>{t.currentPrice} {fmt(live.price)}</span>
+                <span>{t.high52w} {fmt(live.high52)}</span>
               </div>
               <div className="h-1.5 rounded-full bg-white/10">
                 <div
@@ -540,9 +499,9 @@ export default function TodayPage() {
         {live && (
           <div className="grid grid-cols-3 gap-3 mb-4">
             {[
-              { label: "현재가", value: fmt(live.price), color: "#0D0D0D" },
-              { label: "52주 최고", value: fmt(live.high52), color: "#00D084" },
-              { label: "52주 최저", value: fmt(live.low52), color: "#EF4444" },
+              { label: t.currentPrice, value: fmt(live.price), color: "#0D0D0D" },
+              { label: t.high52w,      value: fmt(live.high52), color: "#00D084" },
+              { label: t.low52w,       value: fmt(live.low52), color: "#EF4444" },
             ].map((s) => (
               <div key={s.label} className="rounded-2xl bg-white p-3 text-center shadow-sm">
                 <p className="text-[9px] text-[#9CA3AF] uppercase tracking-widest mb-1">{s.label}</p>
@@ -556,7 +515,7 @@ export default function TodayPage() {
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="rounded-2xl bg-white p-4 shadow-sm">
             <p className="text-[10px] font-bold uppercase tracking-widest mb-3" style={{ color: "#00D084" }}>
-              👍 매수 근거
+              👍 {t.buyReason}
             </p>
             <ul className="space-y-2">
               {stock.pros.map((p) => (
@@ -569,7 +528,7 @@ export default function TodayPage() {
           </div>
           <div className="rounded-2xl bg-white p-4 shadow-sm">
             <p className="text-[10px] font-bold uppercase tracking-widest mb-3 text-red-500">
-              👎 리스크
+              👎 {t.risk}
             </p>
             <ul className="space-y-2">
               {stock.cons.map((c) => (
@@ -585,7 +544,7 @@ export default function TodayPage() {
         {/* ── Today's concept ── */}
         <div className="rounded-2xl p-4 mb-6" style={{ background: "#7C3AED0D" }}>
           <p className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: "#7C3AED" }}>
-            📚 오늘의 개념
+            📚 {t.todayConcept}
           </p>
           <p className="font-bold text-[#0D0D0D] mb-1">{stock.concept.term}</p>
           <p className="text-sm text-[#6B7280] mb-2 leading-relaxed">{stock.concept.def}</p>
@@ -600,13 +559,13 @@ export default function TodayPage() {
           className="block w-full rounded-2xl touch-target flex items-center justify-center gap-2 text-sm font-bold text-white mb-3"
           style={{ background: "#F59E0B" }}
         >
-          💸 이 주식 시뮬레이터 해보기
+          💸 {t.trySimulator}
         </Link>
         <Link
           href="/quiz"
           className="block w-full rounded-2xl border border-[#E5E5E0] bg-white touch-target flex items-center justify-center text-sm font-medium text-[#6B7280]"
         >
-          🎮 오늘의 퀴즈 풀기
+          🎮 {t.doQuiz}
         </Link>
 
         {/* Rotation hint */}
@@ -615,10 +574,6 @@ export default function TodayPage() {
         </p>
       </div>
 
-      {/* Close lang menu on outside click */}
-      {showLangMenu && (
-        <div className="fixed inset-0 z-10" onClick={() => setShowLangMenu(false)} />
-      )}
     </main>
   );
 }

@@ -1,16 +1,18 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-const tabs = [
-  { href: "/", icon: "🏠", label: "홈" },
-  { href: "/today", icon: "📈", label: "오늘" },
-  { href: "/quiz", icon: "🎮", label: "퀴즈" },
-  { href: "/simulator", icon: "💸", label: "시뮬" },
-];
+import { useLanguage } from "@/lib/i18n";
 
 export default function BottomNav() {
   const pathname = usePathname();
+  const { t } = useLanguage();
+
+  const tabs = [
+    { href: "/",          icon: "🏠", label: t.home },
+    { href: "/today",     icon: "📈", label: t.navToday },
+    { href: "/quiz",      icon: "🎮", label: t.navQuiz },
+    { href: "/simulator", icon: "💸", label: t.navSim },
+  ];
 
   return (
     <nav

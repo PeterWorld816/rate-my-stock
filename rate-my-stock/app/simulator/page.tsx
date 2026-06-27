@@ -1,10 +1,11 @@
 "use client";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useLanguage } from "@/lib/i18n";
 
-// ── Stocks ───────────────────────────────────────────────────────────────────
-const STOCKS = [
+// ── Default stocks ────────────────────────────────────────────────────────────
+const DEFAULT_STOCKS = [
   { ticker: "NVDA", name: "NVIDIA",     emoji: "🤖", accent: "#76B900" },
   { ticker: "TSLA", name: "Tesla",      emoji: "⚡", accent: "#CC0000" },
   { ticker: "AAPL", name: "Apple",      emoji: "🍎", accent: "#555555" },
@@ -88,9 +89,25 @@ type StockCache = {
 };
 
 // ── Page ──────────────────────────────────────────────────────────────────────
-export default function SimulatorPage() {
+function SimulatorContent() {
+  const searchParams  = useSearchParams();
+  const paramTicker   = searchParams.get("ticker");
+  const paramEmoji    = searchParams.get("emoji") ?? "📈";
+  const paramName     = searchParams.get("name") ?? paramTicker ?? "Stock";
+
+  const allStocks = useMemo(() => {
+    if (!paramTicker) return DEFAULT_STOCKS;
+    if (DEFAULT_STOCKS.some((s) => s.ticker === paramTicker)) return DEFAULT_STOCKS;
+    return [
+      { ticker: paramTicker, name: paramName, emoji: paramEmoji, accent: "#00D084" },
+      ...DEFAULT_STOCKS,
+    ];
+  }, [paramTicker, paramEmoji, paramName]);
+
+  const initialTicker = paramTicker ?? "NVDA";
+
   const { t } = useLanguage();
-  const [ticker, setTicker]               = useState("NVDA");
+  const [ticker, setTicker]               = useState(initialTicker);
   const [amount, setAmount]               = useState(1_000);
   const [period, setPeriod]               = useState<PeriodRange>("1y");
   const [cache, setCache]                 = useState<StockCache | null>(null);
@@ -99,7 +116,7 @@ export default function SimulatorPage() {
   const [copied, setCopied]               = useState(false);
   const [hasCalculated, setHasCalculated] = useState(false);
 
-  const stock        = STOCKS.find((s) => s.ticker === ticker)!;
+  const stock        = allStocks.find((s) => s.ticker === ticker)!;
   const periodLabel  = (r: PeriodRange) =>
     ({ "1y": t.period1y, "3y": t.period3y, "5y": t.period5y, "10y": t.period10y }[r]);
   const activeMeta   = PERIOD_META[period];
@@ -137,7 +154,8 @@ export default function SimulatorPage() {
     }
   };
 
-  useEffect(() => { fetchData("NVDA", "1y"); }, []); // eslint-disable-line
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { fetchData(initialTicker, "1y"); }, []);
 
   const result = useMemo(() => {
     if (!cache) return null;
@@ -216,7 +234,7 @@ export default function SimulatorPage() {
           <div className="mb-5">
             <p className="text-[11px] font-bold uppercase tracking-widest text-[#9CA3AF] mb-3">{t.stockSelect}</p>
             <div className="grid grid-cols-4 gap-2">
-              {STOCKS.map((s) => {
+              {allStocks.map((s) => {
                 const active = ticker === s.ticker;
                 return (
                   <button
@@ -455,5 +473,13 @@ export default function SimulatorPage() {
         </div>
       </main>
     </>
+  );
+}
+
+export default function SimulatorPage() {
+  return (
+    <Suspense>
+      <SimulatorContent />
+    </Suspense>
   );
 }

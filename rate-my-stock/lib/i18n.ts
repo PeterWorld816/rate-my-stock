@@ -109,6 +109,15 @@ export interface Translations {
   period5y: string;
   period10y: string;
   simShareFmt: string;
+  // ── Match / Modes
+  navMatch: string;
+  quizSampleQ: string;
+  chipFace: string;
+  chipMbti: string;
+  chipCareer: string;
+  chipCeleb: string;
+  matchHowTitle: string;
+  alsoConsider: string;
 }
 
 export interface LangMeta {
@@ -234,6 +243,14 @@ export const translations: Record<LangCode, Translations> = {
     period5y: "5년",
     period10y: "10년",
     simShareFmt: "{emoji} {ticker}에 {amount} 투자했으면 {period} 후 지금 {value}! ({pct}) 💰\n나도 해보기 → 주식 시뮬레이터",
+    navMatch: "매칭",
+    quizSampleQ: "P/E 비율이 낮을수록 저평가된 주식이다?",
+    chipFace: "🤳 얼굴 분석",
+    chipMbti: "🧠 MBTI",
+    chipCareer: "💼 직업",
+    chipCeleb: "⭐ 셀럽",
+    matchHowTitle: "어떻게 매칭할까요?",
+    alsoConsider: "함께 봐요",
   },
 
   en: {
@@ -330,6 +347,14 @@ export const translations: Record<LangCode, Translations> = {
     period5y: "5 yr",
     period10y: "10 yr",
     simShareFmt: "If I'd put {amount} into {ticker} {period} ago, I'd have {value} now! ({pct}) 💰\nTry it → Stock Simulator",
+    navMatch: "Match",
+    quizSampleQ: "A lower P/E ratio always means an undervalued stock?",
+    chipFace: "🤳 Face Read",
+    chipMbti: "🧠 MBTI",
+    chipCareer: "💼 Career",
+    chipCeleb: "⭐ Celebrity",
+    matchHowTitle: "HOW DO YOU WANT TO BE MATCHED?",
+    alsoConsider: "Also Consider",
   },
 
   zh: {
@@ -426,6 +451,14 @@ export const translations: Record<LangCode, Translations> = {
     period5y: "5年",
     period10y: "10年",
     simShareFmt: "如果{period}前投入{amount}买{ticker}，现在有{value}! ({pct}) 💰\n快来试试 → 股票模拟器",
+    navMatch: "匹配",
+    quizSampleQ: "市盈率越低，股票越被低估？",
+    chipFace: "🤳 面部分析",
+    chipMbti: "🧠 MBTI",
+    chipCareer: "💼 职业",
+    chipCeleb: "⭐ 名人",
+    matchHowTitle: "选择你的匹配方式",
+    alsoConsider: "还可以看看",
   },
 
   ja: {
@@ -522,6 +555,14 @@ export const translations: Record<LangCode, Translations> = {
     period5y: "5年",
     period10y: "10年",
     simShareFmt: "{period}前に{ticker}へ{amount}投資していたら今{value}! ({pct}) 💰\n試してみよう → 株シミュレーター",
+    navMatch: "マッチ",
+    quizSampleQ: "PERが低いほど割安な株だ？",
+    chipFace: "🤳 顔分析",
+    chipMbti: "🧠 MBTI",
+    chipCareer: "💼 職業",
+    chipCeleb: "⭐ セレブ",
+    matchHowTitle: "どうやってマッチングしますか？",
+    alsoConsider: "こちらも見てみよう",
   },
 
   es: {
@@ -618,6 +659,14 @@ export const translations: Record<LangCode, Translations> = {
     period5y: "5 años",
     period10y: "10 años",
     simShareFmt: "Si hubiera invertido {amount} en {ticker} hace {period}, ¡ahora tendría {value}! ({pct}) 💰\nPruébalo → Simulador de Acciones",
+    navMatch: "Perfil",
+    quizSampleQ: "¿Un P/E más bajo siempre significa una acción infravalorada?",
+    chipFace: "🤳 Análisis facial",
+    chipMbti: "🧠 MBTI",
+    chipCareer: "💼 Carrera",
+    chipCeleb: "⭐ Celebridad",
+    matchHowTitle: "¿CÓMO QUIERES SER EMPAREJADO?",
+    alsoConsider: "También Considera",
   },
 
   fr: {
@@ -714,6 +763,14 @@ export const translations: Record<LangCode, Translations> = {
     period5y: "5 ans",
     period10y: "10 ans",
     simShareFmt: "Si j'avais investi {amount} dans {ticker} il y a {period}, j'aurais {value} maintenant! ({pct}) 💰\nEssaie-le → Simulateur d'actions",
+    navMatch: "Match",
+    quizSampleQ: "Un P/E plus bas signifie toujours une action sous-évaluée ?",
+    chipFace: "🤳 Analyse faciale",
+    chipMbti: "🧠 MBTI",
+    chipCareer: "💼 Carrière",
+    chipCeleb: "⭐ Célébrité",
+    matchHowTitle: "COMMENT VOULEZ-VOUS ÊTRE ASSOCIÉ ?",
+    alsoConsider: "Voir aussi",
   },
 
   de: {
@@ -810,6 +867,14 @@ export const translations: Record<LangCode, Translations> = {
     period5y: "5 Jahre",
     period10y: "10 Jahre",
     simShareFmt: "Hätte ich vor {period} {amount} in {ticker} investiert, hätte ich jetzt {value}! ({pct}) 💰\nJetzt ausprobieren → Aktien-Simulator",
+    navMatch: "Match",
+    quizSampleQ: "Ein niedrigeres KGV bedeutet immer eine unterbewertete Aktie?",
+    chipFace: "🤳 Gesichtsanalyse",
+    chipMbti: "🧠 MBTI",
+    chipCareer: "💼 Beruf",
+    chipCeleb: "⭐ Promi",
+    matchHowTitle: "WIE MÖCHTEST DU GEMATCHT WERDEN?",
+    alsoConsider: "Auch in Betracht ziehen",
   },
 
   pt: {
@@ -906,6 +971,14 @@ export const translations: Record<LangCode, Translations> = {
     period5y: "5 anos",
     period10y: "10 anos",
     simShareFmt: "Se eu tivesse investido {amount} em {ticker} há {period}, teria {value} agora! ({pct}) 💰\nExperimente → Simulador de Ações",
+    navMatch: "Match",
+    quizSampleQ: "Um P/E mais baixo sempre significa uma ação subvalorizada?",
+    chipFace: "🤳 Leitura facial",
+    chipMbti: "🧠 MBTI",
+    chipCareer: "💼 Carreira",
+    chipCeleb: "⭐ Celebridade",
+    matchHowTitle: "COMO VOCÊ QUER SER COMBINADO?",
+    alsoConsider: "Também Considere",
   },
 
   hi: {
@@ -1002,6 +1075,14 @@ export const translations: Record<LangCode, Translations> = {
     period5y: "5 साल",
     period10y: "10 साल",
     simShareFmt: "अगर {period} पहले {ticker} में {amount} लगाया होता, तो अभी {value} होता! ({pct}) 💰\nTry करो → Stock Simulator",
+    navMatch: "Match",
+    quizSampleQ: "P/E ratio जितना कम, stock उतना undervalued?",
+    chipFace: "🤳 Face Read",
+    chipMbti: "🧠 MBTI",
+    chipCareer: "💼 Career",
+    chipCeleb: "⭐ Celebrity",
+    matchHowTitle: "कैसे MATCH होना चाहते हैं?",
+    alsoConsider: "Also Consider",
   },
 
   ar: {
@@ -1098,6 +1179,14 @@ export const translations: Record<LangCode, Translations> = {
     period5y: "5 سنوات",
     period10y: "10 سنوات",
     simShareFmt: "لو استثمرت {amount} في {ticker} قبل {period}، لكان لديّ {value} الآن! ({pct}) 💰\nجرّبها ← محاكي الأسهم",
+    navMatch: "تطابق",
+    quizSampleQ: "نسبة P/E المنخفضة تعني دائماً سهماً مقيَّماً بأقل من قيمته؟",
+    chipFace: "🤳 تحليل الوجه",
+    chipMbti: "🧠 MBTI",
+    chipCareer: "💼 المهنة",
+    chipCeleb: "⭐ مشاهير",
+    matchHowTitle: "كيف تريد أن تُطابَق؟",
+    alsoConsider: "تأمل أيضاً",
   },
 };
 

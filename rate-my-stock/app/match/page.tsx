@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Mode, Result, CoupleResult } from "@/app/page";
+import { useLanguage } from "@/lib/i18n";
 import ModeSelector from "@/components/ModeSelector";
 import FaceMode from "@/components/modes/FaceMode";
 import MbtiMode from "@/components/modes/MbtiMode";
@@ -14,6 +15,7 @@ import ResultCard from "@/components/ResultCard";
 import CoupleResultCard from "@/components/CoupleResultCard";
 
 export default function MatchPage() {
+  const { t } = useLanguage();
   const [mode, setMode] = useState<Mode>(null);
   const [result, setResult] = useState<Result | null>(null);
   const [coupleResult, setCoupleResult] = useState<CoupleResult | null>(null);
@@ -41,13 +43,13 @@ export default function MatchPage() {
       {!mode && !result && !coupleResult && (
         <div className="px-4 sm:px-6 pt-12 pb-4 max-w-[1200px] mx-auto">
           <Link href="/" className="inline-flex items-center gap-2 text-sm text-[#6B7280] mb-5 touch-target">
-            ← 홈으로
+            ← {t.goHome}
           </Link>
           <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-3 bg-[#00D08418] text-[#00D084]">
-            ✨ AI 매칭
+            ✨ AI {t.navMatch}
           </div>
-          <h1 className="font-display font-bold text-3xl text-[#0D0D0D] mb-1">나는 무슨 주식?</h1>
-          <p className="text-sm text-[#6B7280]">내 성격 DNA와 딱 맞는 주식을 찾아보세요</p>
+          <h1 className="font-display font-bold text-3xl text-[#0D0D0D] mb-1">{t.matchTitle}</h1>
+          <p className="text-sm text-[#6B7280]">{t.matchSubtitle}</p>
         </div>
       )}
 

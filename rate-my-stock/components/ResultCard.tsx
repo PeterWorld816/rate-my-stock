@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef } from "react";
 import { Result, Mode } from "@/app/page";
+import { useLanguage } from "@/lib/i18n";
 
 const riskColors: Record<string, { bg: string; text: string }> = {
   LOW: { bg: "#DCFCE7", text: "#166534" },
@@ -153,6 +154,7 @@ export default function ResultCard({
   onReset: () => void;
   mode?: Mode | null;
 }) {
+  const { t } = useLanguage();
   const riskKey = (result.risk || "MID").toUpperCase();
   const risk = riskColors[riskKey] || riskColors["MID"];
   const storyRef = useRef<HTMLDivElement>(null);
@@ -303,7 +305,7 @@ export default function ResultCard({
             {result.extras && result.extras.filter(Boolean).length > 0 && (
               <div>
                 <p className="text-[10px] font-semibold text-[#9CA3AF] uppercase tracking-[0.15em] mb-3">
-                  Also Consider
+                  {t.alsoConsider}
                 </p>
                 <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-8 px-8 pb-1">
                   {result.extras.filter(Boolean).map((e) => (

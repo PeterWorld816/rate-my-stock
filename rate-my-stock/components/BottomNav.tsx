@@ -12,6 +12,7 @@ export default function BottomNav() {
     { href: "/today",     icon: "📈", label: t.navToday },
     { href: "/quiz",      icon: "🎮", label: t.navQuiz },
     { href: "/simulator", icon: "💸", label: t.navSim },
+    { href: "/match",     icon: "🔮", label: t.navMatch },
   ];
 
   return (

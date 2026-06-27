@@ -367,6 +367,266 @@ const STOCKS: StockDef[] = [
   },
 ];
 
+// ── English content (for non-Korean locales) ──────────────────────────────
+type EnContent = {
+  pros: [string, string, string];
+  cons: [string, string, string];
+  concept: { term: string; def: string; tip: string };
+};
+
+const STOCKS_EN: Record<string, EnContent> = {
+  "NVDA": {
+    pros: ["#1 beneficiary of AI infrastructure investment", "CUDA software ecosystem moat", "~75% operating margin — elite profitability"],
+    cons: ["P/E 65x+ valuation concerns", "AMD & Intel intensifying competition", "AI investment bubble risk"],
+    concept: { term: "GPU (Graphics Processing Unit)", def: "A chip with thousands of cores for parallel AI & graphics computing. NVIDIA near-monopolizes the market.", tip: "CPU = a few powerful cores. GPU = thousands of small cores = perfect for AI!" },
+  },
+  "AAPL": {
+    pros: ["World's largest company by market cap", "iOS ecosystem lock-in effect", "High-growth services revenue (App Store, iCloud)"],
+    cons: ["Smartphone market growth slowing", "High China revenue exposure — geopolitical risk", "Trailing Google & Microsoft in the AI race"],
+    concept: { term: "Market Capitalization", def: "Stock price × shares outstanding = total company value. AAPL at ~$3T is the world's most valuable.", tip: "Apple ≈ UK's entire GDP. That's how massive the scale is!" },
+  },
+  "MSFT": {
+    pros: ["Azure cloud growing fast — world's #2", "OpenAI investment puts MSFT at the AI frontier", "Office & Teams are enterprise essentials"],
+    cons: ["Mature business growth slowdown concerns", "Still trails AWS in cloud market share", "High valuation"],
+    concept: { term: "Cloud Computing", def: "Storing & computing on remote internet servers instead of your own machine. Azure, AWS, GCP dominate.", tip: "Netflix stores its videos on AWS — every business is migrating to the cloud!" },
+  },
+  "AMZN": {
+    pros: ["AWS cloud is #1 worldwide (~33% share)", "Prime membership customer lock-in effect", "Advertising business growing fast"],
+    cons: ["Thin retail margins + logistics cost pressure", "Union & antitrust regulatory risk", "High capex burden in rising rate environment"],
+    concept: { term: "AWS (Amazon Web Services)", def: "The world's largest cloud platform — Netflix, Airbnb, and most apps run on AWS.", tip: "Amazon's operating profit is mostly AWS, not shopping. The mall funds the cloud!" },
+  },
+  "GOOG": {
+    pros: ["~92% global search advertising share", "YouTube: world's largest video platform", "Gemini AI starting to fight back"],
+    cons: ["Ad revenue hit directly in downturns", "DOJ antitrust lawsuit risk", "Trailing OpenAI & Microsoft in AI image"],
+    concept: { term: "Search Advertising (CPC)", def: "Ads shown at the top of Google search results. Advertisers pay per click = CPC (Cost Per Click).", tip: "Those top blue links when you search? Google earns per click. Billions of clicks daily!" },
+  },
+  "META": {
+    pros: ["Facebook, Instagram & WhatsApp: 3B+ DAU", "Reels & ad revenue fast recovery", "LLaMA open-source AI strategy gaining attention"],
+    cons: ["Privacy & regulatory risk always present", "TikTok stealing teen users", "Metaverse (VR) massive investment uncertainty"],
+    concept: { term: "DAU (Daily Active Users)", def: "The number of people who actually use an app in a day. Ad revenue = DAU × ads per user.", tip: "Meta's 3B DAU = half of Earth's population logs in daily. Every click is ad revenue!" },
+  },
+  "TSLA": {
+    pros: ["Leading OTA software update for EVs", "FSD self-driving subscription monetizing", "Energy storage (Powerwall) business growing"],
+    cons: ["Traditional automakers + China BYD intensifying", "Elon Musk concentration risk", "Profitability concerns from price wars"],
+    concept: { term: "OTA (Over-The-Air) Update", def: "Automatically updating a car's software via internet. Tesla cars upgrade while you sleep.", tip: "Normal cars need a dealer visit for updates. Tesla upgrades itself overnight — it's a rolling iPhone!" },
+  },
+  "NFLX": {
+    pros: ["Original content strategy drives differentiation", "Ad-supported tier diversifies revenue", "Global 200M+ subscribers = strong moat"],
+    cons: ["Disney+, Apple TV+, Amazon Prime intensifying", "Content production costs keep rising", "Growth ceiling in some markets"],
+    concept: { term: "Subscription Economy", def: "A business model where users pay a recurring fee. Stable, predictable revenue is the core advantage.", tip: "200M subscribers × $15/month = $3B in monthly recurring revenue. Predictable as clockwork!" },
+  },
+  "AMD": {
+    pros: ["MI300X GPU accelerating NVIDIA competition", "Data center CPU market share expanding", "PC gaming CPU Ryzen remains popular"],
+    cons: ["Hard to close NVIDIA's CUDA ecosystem gap", "Competing against both Intel and NVIDIA simultaneously", "AI chip demand volatility risk"],
+    concept: { term: "Semiconductor Cycle", def: "Chip demand cycles: shortage → price spike → overinvestment → glut → price crash. Timing is key.", tip: "Current AI boom = shortage phase. Watch out for buying at the cycle peak!" },
+  },
+  "INTC": {
+    pros: ["Foundry business rebuild strategy underway", "CHIPS Act US government subsidy beneficiary", "Low valuation with turnaround upside potential"],
+    cons: ["Lost AI chip market to NVIDIA & AMD", "2–3 generations behind TSMC in manufacturing", "Turnaround timeline highly uncertain"],
+    concept: { term: "Foundry", def: "A factory that manufactures chips designed by other companies. TSMC is #1; Intel is re-entering.", tip: "NVIDIA designs chips but lets TSMC manufacture. Intel tries to do both — that's the challenge!" },
+  },
+  "ORCL": {
+    pros: ["AI cloud (OCI) growing rapidly", "Enterprise DB market long-held dominant position", "Microsoft & Google AI infrastructure partnerships"],
+    cons: ["Legacy DB market being eroded by AWS", "Elevated valuation (expectations already priced in)", "Corporate governance concerns"],
+    concept: { term: "Database (DB)", def: "A system for storing and querying structured data. Oracle has been enterprise DB king for 40+ years.", tip: "Banks, hospitals, government systems mostly run on Oracle DB — invisible but critical everywhere!" },
+  },
+  "SHOP": {
+    pros: ["#1 platform for SMB online stores", "Building independent commerce ecosystem vs Amazon", "Payment, logistics & financial one-stop service"],
+    cons: ["Intensifying direct competition with Amazon", "Must prove profitability after growth slowdown", "High valuation"],
+    concept: { term: "GMV (Gross Merchandise Volume)", def: "Total value of transactions processed on a platform. Shopify's real scale indicator.", tip: "Shopify GMV ≈ $200B+. Of that, ~1.5% fee goes to Shopify. Volume × rate = massive revenue!" },
+  },
+  "UBER": {
+    pros: ["Global #1 in rideshare and food delivery", "Successfully turned profitable", "Autonomous driving partnerships (Waymo) secured"],
+    cons: ["Driver treatment & regulatory risk persist", "Regional competitors (Grab, Lyft) fragmented landscape", "Energy costs pressure margins when oil spikes"],
+    concept: { term: "Platform Business", def: "A model connecting suppliers (drivers) and consumers (riders) to earn a fee in between.", tip: "Uber owns zero cars yet became the world's largest taxi company. Software > assets!" },
+  },
+  "ABNB": {
+    pros: ["Dominant #1 in home-sharing accommodation", "Asset-light platform model = high capital efficiency", "Post-COVID travel demand recovery beneficiary"],
+    cons: ["Short-term rental regulations tightening globally", "Intensifying competition with traditional hotels", "High cyclicality — travel demand sensitive"],
+    concept: { term: "Asset-Light Model", def: "A business that connects without owning assets (no buildings, no cars). Very capital-efficient.", tip: "Airbnb owns zero homes yet has more 'rooms' than Marriott. Platform power is remarkable!" },
+  },
+  "COIN": {
+    pros: ["America's #1 licensed crypto exchange", "Institutional crypto custody services growing", "Regulatory clarity expected to be a tailwind"],
+    cons: ["Revenue directly tied to crypto market volatility", "SEC and other regulatory uncertainty ongoing", "Post-FTX industry trust restoration challenge"],
+    concept: { term: "Cryptocurrency", def: "Digital currency based on blockchain technology. Bitcoin and Ethereum are the flagships.", tip: "Bitcoin's total supply is capped at 21 million — the only currency immune to inflation!" },
+  },
+  "RBLX": {
+    pros: ["30M+ daily active teens on the platform", "User-generated game ecosystem = moat", "Robux virtual currency monetization model"],
+    cons: ["Over-reliance on teens (aging up challenge)", "Developer revenue share controversies", "Growth ceiling if adult users aren't captured"],
+    concept: { term: "Metaverse", def: "A 3D internet where reality and virtual merge — gaming, social, and economic activity converge.", tip: "Roblox is the metaverse in practice! Teens make friends and earn money all inside it." },
+  },
+  "SNAP": {
+    pros: ["Teen AR camera market leader", "Snapchat+ subscription service growing", "Ad targeting tech improvements underway"],
+    cons: ["MAU growth stalling — Meta and TikTok taking share", "Persistent operating losses — profitability challenge", "User base skews too heavily teen"],
+    concept: { term: "AR (Augmented Reality)", def: "Overlaying digital elements onto the real world. Snapchat dog filters and Pokémon GO are examples.", tip: "Snap's AR filters = the world's largest AR platform with 250M daily users!" },
+  },
+  "PYPL": {
+    pros: ["Pioneer in online payments with strong brand trust", "Venmo, Honey portfolio of complementary services", "Compelling undervalued entry point potential"],
+    cons: ["Apple Pay & Google Pay eroding market share", "High fraud transaction costs ongoing", "Growth momentum slowing significantly"],
+    concept: { term: "Payment Processing Fee", def: "A fee per online transaction. Typically 2–3% of transaction value. PayPal, Stripe, Square compete.", tip: "A $100 Amazon checkout = ~$2.50 for PayPal. Volume × fee = enormous scale!" },
+  },
+  "SQ": {
+    pros: ["Cash App consumer financial ecosystem growing", "Bitcoin trading diversifies revenue streams", "SMB point-of-sale hardware market leader"],
+    cons: ["Rising credit risk (BNPL delinquency rates)", "Jack Dorsey's X (Twitter) parallel focus concerns", "Fierce competition from PayPal and Stripe"],
+    concept: { term: "BNPL (Buy Now Pay Later)", def: "Purchase now, pay in installments later. Klarna and Afterpay (Block's subsidiary) lead the space.", tip: "Like layaway, but modern. The risk: high implicit interest rates can fuel overspending!" },
+  },
+  "ROKU": {
+    pros: ["#1 streaming TV platform in the US by share", "Content partnerships & advertising revenue growing", "Successfully pivoted from hardware to platform"],
+    cons: ["OEM TVs with built-in apps intensifying competition", "Slow pace of profitability improvement", "Amazon Fire TV and Apple TV competition"],
+    concept: { term: "CTV (Connected TV) Advertising", def: "Targeted ads served on internet-connected TVs. Same category as YouTube & Netflix ads. High growth.", tip: "TV ads used to be big-brand only. CTV makes targeted ads accessible to small businesses!" },
+  },
+  "SPOT": {
+    pros: ["31% music streaming market share — global #1", "Podcast expansion to broader audio platform", "AI recommendation algorithm technical edge"],
+    cons: ["Low margins due to record label royalty costs", "Apple Music and YouTube Music competition", "Podcast investment ROI still being validated"],
+    concept: { term: "Royalty", def: "A fee Spotify pays to artists and composers per stream. About $0.003–$0.005 per play.", tip: "BTS songs streamed 1B times = ~$3M–$5M in royalties paid by Spotify. Every play costs them!" },
+  },
+  "PLTR": {
+    pros: ["US DoD & CIA long-term contracts = stable revenue", "AIP (AI Platform) enterprise customers growing fast", "Software segment achieved profitability milestone"],
+    cons: ["Extremely high stock price volatility", "Heavy defense reliance = political risk", "Enterprise commercial sales cycle is slow"],
+    concept: { term: "AIP (Artificial Intelligence Platform)", def: "Software enabling enterprises to apply AI to their own data. Palantir leads for military & enterprise data analytics.", tip: "The software the CIA uses to find terrorists is Palantir. Real Big Brother energy!" },
+  },
+  "SNOW": {
+    pros: ["Fastest-growing cloud data warehouse platform", "Positioned as AI & ML data hub for enterprises", "Famous for Warren Buffett's investment"],
+    cons: ["Extreme premium valuation (P/S 20x+)", "Big tech competition (AWS Redshift, GCP BigQuery)", "Path to profitability still unclear"],
+    concept: { term: "Data Warehouse", def: "A large data repository aggregating data from multiple sources for analysis. Core enterprise BI & AI infrastructure.", tip: "Snowflake = the enterprise 'frozen data vault'. All department data merges here for AI training!" },
+  },
+  "CRM": {
+    pros: ["Dominant #1 in enterprise CRM software", "Einstein AI integration driving enterprise digital transformation", "Powerful partner ecosystem"],
+    cons: ["IT budget cuts slow growth", "High valuation", "Complex M&A integrations create org challenges"],
+    concept: { term: "CRM (Customer Relationship Management)", def: "Software consolidating customer info for sales, marketing, and service management. Every sales team's essential tool.", tip: "Managing 500 enterprise customers without Salesforce = Excel hell. CRM prevents that chaos!" },
+  },
+  "NOW": {
+    pros: ["Uncontested #1 in IT workflow automation", "AI integration driving rapid value creation", "97%+ customer retention = stable recurring revenue"],
+    cons: ["Enterprise-only = hard for small businesses to adopt", "High pricing vs. competitors", "IT budget cuts in downturns"],
+    concept: { term: "Workflow Automation", def: "Software that handles repetitive tasks (IT requests, approval processes) automatically. Saves enormous employee time.", tip: "Broken laptop request → auto-assigned to IT → auto-tracked to resolution. That's ServiceNow!" },
+  },
+  "V": {
+    pros: ["~50% global card payment network market share", "Asset-light fee-only model = extremely high margins", "Transaction revenue regardless of economic cycle"],
+    cons: ["Central bank digital currencies (CBDC) long-term threat", "Fintech direct debit competition increasing", "Antitrust regulatory risk"],
+    concept: { term: "Payment Network Effect", def: "More merchants attract more cardholders; more cardholders attract more merchants. Visa's ultimate moat.", tip: "100M merchants + 3.4B cards = a fortress wall no competitor can breach!" },
+  },
+  "MA": {
+    pros: ["#2 global card network alongside Visa", "Emerging market card adoption growth opportunity", "Cybersecurity & data analytics value-add services"],
+    cons: ["Visa/Mastercard duopoly = regulatory risk", "Cash-heavy emerging markets slow penetration", "CBDC long-term risk"],
+    concept: { term: "Duopoly", def: "Two companies dominating a market. Visa and Mastercard control ~80% of global card payments.", tip: "They appear to compete but both win massively. Visa + Mastercard = the McDonald's & Burger King of payments!" },
+  },
+  "JPM": {
+    pros: ["America's largest bank by assets — peak earnings stability", "Jamie Dimon's CEO credibility at an all-time high", "Aggressive AI investment leading digital transformation"],
+    cons: ["Net interest margin pressure when rates fall", "Heavy regulation & increasing capital requirements", "Loan default risk spikes in recession"],
+    concept: { term: "Net Interest Margin (NIM)", def: "Loan rate − deposit rate = bank's core profit spread. Higher rates = wider NIM = more profit.", tip: "If Fed rate = 5%, bank lends at 7%, pays 4% on deposits → 3% NIM. Banks love rate hikes!" },
+  },
+  "BAC": {
+    pros: ["Largest retail bank customer base in America", "Warren Buffett as major shareholder = credibility stamp", "High rate environment beneficiary"],
+    cons: ["Long-term bond investment losses (2023 crisis)", "Technology investment lagging JPMorgan", "Rising consumer loan delinquency concerns"],
+    concept: { term: "Net Interest Spread", def: "The difference between lending rates and deposit rates. A bank's core revenue model.", tip: "Deposit at 4% annual → bank lends at 7% → 3% spread = bank's profit. Simple but powerful!" },
+  },
+  "GS": {
+    pros: ["World's top M&A and IPO advisory franchise", "Most aggressive AI & quant investment transformation", "Asset & wealth management business growing"],
+    cons: ["Consumer banking (Marcus) exit created strategic confusion", "Investment banking deal volume is cyclical", "Regulatory and litigation costs ongoing"],
+    concept: { term: "IPO (Initial Public Offering)", def: "When a private company first sells shares to the public. Investment banks like Goldman advise and manage the process.", tip: "Goldman takes hundreds of millions in fees just to advise one IPO. That's why Wall Street pays so well!" },
+  },
+  "BRK-B": {
+    pros: ["60 years of Warren Buffett's proven value investing", "Diversified across insurance, railroads & energy", "Large Apple stake provides tech market exposure"],
+    cons: ["Succession uncertainty post-Buffett era", "Scale makes alpha generation increasingly harder", "Insurance segment catastrophe risk"],
+    concept: { term: "Value Investing", def: "Buying stocks trading below their intrinsic value and holding long-term. Buffett's 60-year proven method.", tip: "Buffett's quote: 'Buy a wonderful company at a fair price. Not a fair company at a wonderful price.'" },
+  },
+  "JNJ": {
+    pros: ["Dividend King: 60+ consecutive years of dividend increases", "Balanced pharma & medtech portfolio", "Defensive, recession-resistant business"],
+    cons: ["Talc lawsuit liability ongoing", "Drug patent expiration = generic drug competition", "Slow-growing mature company"],
+    concept: { term: "Dividend Aristocrat", def: "An S&P 500 company with 25+ consecutive years of dividend increases. Symbol of stable cash flow.", tip: "JNJ is 60+ years! Buy in the 1960s, reinvest dividends, and you'd have recouped the principal many times over!" },
+  },
+  "PFE": {
+    pros: ["mRNA technology validated by COVID vaccine success", "Cancer & antiviral R&D pipeline", "Low valuation — value play potential"],
+    cons: ["Post-COVID vaccine revenue sharp decline", "Large M&A debt burden remaining", "R&D pipeline success highly uncertain"],
+    concept: { term: "R&D Pipeline", def: "Drugs in development. Must pass Phase 1, 2, 3 trials before approval = blockbuster potential. ~$2.6B per drug.", tip: "Pharma investing = pipeline betting. Win big if trials succeed, stock crashes if they fail!" },
+  },
+  "MRNA": {
+    pros: ["mRNA platform technology proven by COVID vaccine", "Flu, cancer, HIV mRNA vaccine pipeline in development", "Diversifying mRNA technology post-COVID"],
+    cons: ["Revenue collapsed post-COVID — now in operating losses", "mRNA patent battles ongoing with BioNTech", "Pipeline success highly uncertain"],
+    concept: { term: "mRNA Vaccine", def: "Injecting mRNA instead of the actual virus to trigger immunity. Faster to develop than traditional vaccines.", tip: "COVID mRNA vaccine = humanity's first mRNA vaccine ever. Developed in just 11 months vs. the usual 10 years!" },
+  },
+  "DIS": {
+    pros: ["Marvel, Star Wars, Pixar, Disney IP portfolio is the gold standard", "Theme park revenue strong recovery", "Disney+ aiming for profitability milestone"],
+    cons: ["Disney+ subscriber growth slowing", "Debt burden and content costs remain high", "Box office performance volatile"],
+    concept: { term: "IP (Intellectual Property)", def: "Exclusive rights to creative works — films, characters, brands. Marvel & Star Wars IPs are infinite money machines.", tip: "One Marvel IP → films + streaming + merchandise + theme parks = trillions over time. IP is a money printer!" },
+  },
+  "NKE": {
+    pros: ["Just Do It — 50 years of global brand power", "DTC (direct-to-consumer) strategy improving margins", "Athletic & wellness trend tailwind"],
+    cons: ["China market boycott risk ongoing", "DTC shift weakening wholesale channel relationships", "Hoka, On Running emerging brand challengers"],
+    concept: { term: "DTC (Direct-to-Consumer)", def: "Selling directly to consumers without middlemen. Higher margins and more customer data captured.", tip: "Nike app purchase = DTC. Nike.com vs. department store = 2x the margin. Data + profit win!" },
+  },
+  "MCD": {
+    pros: ["40K+ global franchise locations = stable royalty income", "Real estate ownership strategy adds asset value", "Inflation environment = can raise menu prices"],
+    cons: ["Health trends work against fast food image", "Minimum wage increases add cost pressure", "GLP-1 obesity drugs could reduce fast food demand"],
+    concept: { term: "Franchise Model", def: "Licensing your brand & systems to franchisees and collecting royalties. Maximizes capital efficiency.", tip: "McDonald's HQ is essentially a real estate company selling hamburgers. It owns the land under thousands of stores!" },
+  },
+  "SBUX": {
+    pros: ["35,000+ stores globally at immense scale", "Loyalty rewards app = top-tier customer retention", "China long-term growth potential"],
+    cons: ["China store performance risks ongoing", "Consumer spending cuts hit premium coffee demand", "Brian Niccol new CEO strategy still being validated"],
+    concept: { term: "Loyalty Program", def: "Earn points with each purchase → redeem for discounts or freebies. Converts customers into regulars.", tip: "Starbucks app prepaid balances = ~$2B. Customers are essentially giving Starbucks an interest-free loan!" },
+  },
+  "KO": {
+    pros: ["World's strongest global brand — sold in 200+ countries", "Dividend King: 61+ consecutive years of increases", "Warren Buffett's long-held favorite holding"],
+    cons: ["Sugar and carbonated drinks buck health trends", "Raw material cost inflation pressure", "Slow growth — mature, saturated market"],
+    concept: { term: "Economic Moat", def: "A durable competitive advantage that's hard for rivals to cross. Coca-Cola = 140-year brand + global distribution. Coined by Buffett.", tip: "It's not the taste — it's the logo, the habit, the distribution. Building a new Coke brand is near-impossible!" },
+  },
+  "PEP": {
+    pros: ["Diversified portfolio: beverages + snacks (Lay's, Quaker)", "More defensible than Coke thanks to snacks segment", "51 consecutive years of dividend increases"],
+    cons: ["GLP-1 obesity drug trend threatens snack demand", "Raw material cost increases squeeze margins", "Carbonated beverage market saturation"],
+    concept: { term: "Portfolio Diversification", def: "Spreading risk across multiple business lines. PepsiCo covers both beverages and food.", tip: "Even if Pepsi loses the cola war, it wins with chips! That's why Pepsi is more stable than Coke." },
+  },
+  "WMT": {
+    pros: ["America's largest private employer — unmatched scale", "Walmart+ subscriptions & advertising growing", "Low-price shopping demand in inflation benefits Walmart"],
+    cons: ["Amazon e-commerce eroding market share", "Low-margin structure hard to improve", "Rising labor costs ongoing"],
+    concept: { term: "EDLP (Every Day Low Price)", def: "No sales events — just the lowest price every day. Walmart's core strategy and competitive edge.", tip: "Walmart squeezes suppliers for lower prices → passes savings to customers. Massive scale drives the flywheel!" },
+  },
+  "COST": {
+    pros: ["Membership model creates ultra-stable revenue base", "~93% membership renewal rate = exceptional loyalty", "Kirkland private label = high-margin differentiation"],
+    cons: ["Ceiling on membership price increases", "Slow e-commerce transition", "Low unit margin limits revenue growth"],
+    concept: { term: "Membership Business Model", def: "Pay an annual fee to access the store. Costco nearly gives away product margins to keep fees flowing.", tip: "Costco's $1.50 hot dog sells below cost — just to get you inside so you renew your membership!" },
+  },
+  "HD": {
+    pros: ["Dominant #1 in US home improvement market", "Growing Pro (contractor) customer strategy", "Benefits when housing market rebounds"],
+    cons: ["High interest rates → less home buying → less renovation", "Fierce two-player competition with Lowe's", "Construction material price volatility"],
+    concept: { term: "Home Improvement Market", def: "Consumer spending on home renovation and repairs. Surprisingly resilient even in mild recessions.", tip: "COVID WFH boom → invest in your home → Home Depot exploded. Home-body economy in action!" },
+  },
+  "LOW": {
+    pros: ["Stable #2 position as Home Depot's primary rival", "Pro customer services strengthening strategy", "Dividend Aristocrat (60+ consecutive years of increases)"],
+    cons: ["Scale disadvantage vs. Home Depot", "Co-exposed to housing market downturn", "Growing e-commerce competition pressure"],
+    concept: { term: "Dividend Growth Investing", def: "Focusing on annually growing dividends rather than capital gains. Lowe's 60-year streak enables massive compounding.", tip: "Invest in Lowe's in 1965, reinvest dividends — you'd have hundreds of times your original investment today!" },
+  },
+  "TWLO": {
+    pros: ["#1 developer communications API provider", "Email, SMS, voice integrated platform", "Working toward profitability improvement"],
+    cons: ["Competition intensifying, growth slowing", "Enterprise IT budget cuts impact", "Profitability still needs proving"],
+    concept: { term: "API Economy", def: "Offering software functions as building blocks for other apps to use. Twilio's SMS API lets apps send texts.", tip: "When Uber sends 'your driver is arriving' — that's Twilio's API. Pay-per-call = massive scale revenue!" },
+  },
+  "ZM": {
+    pros: ["Became the global standard for video conferencing post-COVID", "Enterprise customer base generating stable revenue", "Integrating AI meeting features actively"],
+    cons: ["Growth dropped sharply after COVID normalization", "Microsoft Teams and Google Meet capturing enterprise", "Pricing pressure from intensifying competition"],
+    concept: { term: "Work From Home (WFH) Economy", def: "Post-COVID hybrid/remote work boom drove massive demand for video conferencing and collaboration tools.", tip: "Zoom stock +600% in 2020 → then -80%. Trend-driven stocks: timing the exit is everything!" },
+  },
+  "DOCU": {
+    pros: ["~80% e-signature market share — overwhelming leader", "Essential tool in enterprise contract processes", "Expanding IAM (Intelligent Agreement Management) platform"],
+    cons: ["Post-COVID growth dropped sharply", "Adobe Sign & HelloSign intensifying competition", "Needs to validate demand at post-peak levels"],
+    concept: { term: "eSignature", def: "Digitally signing contracts instead of paper. Same legal validity. Cuts contract time from days to minutes.", tip: "Each e-signature = ~$0.10–$1 for DocuSign. Millions per day = massive, reliable revenue stream!" },
+  },
+  "LYFT": {
+    pros: ["Focused US market strategy vs. Uber's global approach", "Achieved profitability milestone improving unit economics", "Building autonomous driving partnerships"],
+    cons: ["5x smaller than Uber — scale disadvantage", "No international expansion outside US", "Autonomous driving transition poses existential risk"],
+    concept: { term: "Gross Margin", def: "Revenue minus direct costs. A key profitability metric for service companies. Lyft's driver costs keep it low.", tip: "Lyft Gross Margin ~50% vs. SaaS ~80%. Physical service = lower margins. Software is the better model!" },
+  },
+  "PINS": {
+    pros: ["Purchase-intent users drive strong shopping integration", "AI recommendations improving ad efficiency", "Female-skewing user base = defensible niche"],
+    cons: ["MAU growth stalling — Instagram competition", "AI-generated content floods make differentiation harder", "Revenue per user lower than competing platforms"],
+    concept: { term: "Social Commerce", def: "Shopping directly within a social media platform. Pinterest connects inspiration → immediate purchase.", tip: "Save a couch photo → immediately see 'Buy this couch' button! Pinterest = the world's best desire engine." },
+  },
+  "BABA": {
+    pros: ["Taobao & Tmall = China e-commerce #1", "Alibaba Cloud expanding AI investment", "Compelling low valuation (regulatory fears priced in)"],
+    cons: ["Chinese government regulatory risk ever-present", "JD.com & Pinduoduo competition intensifying", "US-China tension — potential delisting risk"],
+    concept: { term: "ADR (American Depositary Receipt)", def: "Foreign company stock listed on US exchanges. Alibaba trades as an ADR on NYSE. Original listing is Hong Kong.", tip: "Buying Alibaba = investing in a Chinese company through a US exchange. Factor in FX and China policy risk!" },
+  },
+};
+
 // ── Live price data ─────────────────────────────────────────────────────────
 type LiveData = {
   price: number; prevClose: number;
@@ -379,6 +639,8 @@ export default function TodayPage() {
   const stock = STOCKS[dayIndex];
 
   const { lang, t } = useLanguage();
+  const en = lang !== 'ko' ? STOCKS_EN[stock.ticker] : undefined;
+  const concept = en?.concept ?? stock.concept;
   const [live, setLive] = useState<LiveData | null>(null);
   const [loading, setLoading] = useState(true);
   const [saved, setSaved] = useState(false);
@@ -518,7 +780,7 @@ export default function TodayPage() {
               👍 {t.buyReason}
             </p>
             <ul className="space-y-2">
-              {stock.pros.map((p) => (
+              {(en?.pros ?? stock.pros).map((p) => (
                 <li key={p} className="text-xs text-[#374151] flex items-start gap-1.5">
                   <span style={{ color: "#00D084" }} className="shrink-0 font-bold">✓</span>
                   {p}
@@ -531,7 +793,7 @@ export default function TodayPage() {
               👎 {t.risk}
             </p>
             <ul className="space-y-2">
-              {stock.cons.map((c) => (
+              {(en?.cons ?? stock.cons).map((c) => (
                 <li key={c} className="text-xs text-[#374151] flex items-start gap-1.5">
                   <span className="text-red-400 shrink-0 font-bold">×</span>
                   {c}
@@ -546,16 +808,16 @@ export default function TodayPage() {
           <p className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: "#7C3AED" }}>
             📚 {t.todayConcept}
           </p>
-          <p className="font-bold text-[#0D0D0D] mb-1">{stock.concept.term}</p>
-          <p className="text-sm text-[#6B7280] mb-2 leading-relaxed">{stock.concept.def}</p>
+          <p className="font-bold text-[#0D0D0D] mb-1">{concept.term}</p>
+          <p className="text-sm text-[#6B7280] mb-2 leading-relaxed">{concept.def}</p>
           <div className="rounded-xl p-2.5" style={{ background: "#7C3AED12" }}>
-            <p className="text-xs text-[#7C3AED] leading-relaxed">💡 {stock.concept.tip}</p>
+            <p className="text-xs text-[#7C3AED] leading-relaxed">💡 {concept.tip}</p>
           </div>
         </div>
 
         {/* ── CTA ── */}
         <Link
-          href="/simulator"
+          href={`/simulator?ticker=${encodeURIComponent(stock.ticker)}&emoji=${encodeURIComponent(stock.emoji)}&name=${encodeURIComponent(stock.name)}`}
           className="block w-full rounded-2xl touch-target flex items-center justify-center gap-2 text-sm font-bold text-white mb-3"
           style={{ background: "#F59E0B" }}
         >
@@ -570,7 +832,7 @@ export default function TodayPage() {
 
         {/* Rotation hint */}
         <p className="text-center text-[10px] text-[#9CA3AF] mt-4">
-          매일 새로운 종목 소개 · {STOCKS.length}개 종목 로테이션 중
+          {t.rotation.replace("{count}", String(STOCKS.length))}
         </p>
       </div>
 

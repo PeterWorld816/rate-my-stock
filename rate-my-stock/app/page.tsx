@@ -132,7 +132,7 @@ export default function Home() {
             <div className="rounded-xl p-3 mb-4" style={{ background: "#7C3AED0C" }}>
               <p className="text-[10px] font-semibold mb-1" style={{ color: "#7C3AED" }}>{t.quizPreview}</p>
               <p className="text-sm font-medium text-[#0D0D0D]">
-                &ldquo;P/E 비율이 낮을수록 저평가된 주식이다?&rdquo; ⭕❌
+                &ldquo;{t.quizSampleQ}&rdquo; ⭕❌
               </p>
             </div>
 
@@ -193,7 +193,7 @@ export default function Home() {
             </div>
 
             <div className="flex flex-wrap gap-2 mb-4">
-              {["🤳 얼굴 분석", "🧠 MBTI", "💼 직업", "⭐ 셀럽"].map((m) => (
+              {[t.chipFace, t.chipMbti, t.chipCareer, t.chipCeleb].map((m) => (
                 <span key={m} className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-white/10 text-gray-300">
                   {m}
                 </span>

@@ -1,5 +1,6 @@
 "use client";
 import { Mode } from "@/app/page";
+import { useLanguage } from "@/lib/i18n";
 
 const primaryModes = [
   { id: "face" as Mode, icon: "🤳", title: "Face Read", desc: "AI reads your vibe from your photo", tag: "Most Viral" },
@@ -17,6 +18,7 @@ const secondaryModes = [
 const allModes = [...primaryModes, ...secondaryModes];
 
 function ModeCard({ m, onSelect }: { m: (typeof allModes)[0]; onSelect: (id: Mode) => void }) {
+  const { t } = useLanguage();
   return (
     <button
       onClick={() => onSelect(m.id)}
@@ -28,16 +30,17 @@ function ModeCard({ m, onSelect }: { m: (typeof allModes)[0]; onSelect: (id: Mod
       <div className="text-3xl mb-3">{m.icon}</div>
       <h3 className="font-display font-bold text-xl text-[#0D0D0D] mb-1.5">{m.title}</h3>
       <p className="text-sm text-[#6B7280] leading-snug flex-1">{m.desc}</p>
-      <div className="mt-5 text-xs font-semibold text-[#00D084]">Start →</div>
+      <div className="mt-5 text-xs font-semibold text-[#00D084]">{t.startQuiz}</div>
     </button>
   );
 }
 
 export default function ModeSelector({ onSelect }: { onSelect: (m: Mode) => void }) {
+  const { t } = useLanguage();
   return (
     <section className="px-4 sm:px-6 lg:px-8 pb-safe fade-up lg:max-w-[1200px] lg:mx-auto">
       <p className="text-center text-[11px] font-semibold text-[#6B7280] uppercase tracking-[0.2em] mb-8">
-        HOW DO YOU WANT TO BE MATCHED?
+        {t.matchHowTitle}
       </p>
 
       {/* ── Mobile only (<768px): 2 primary large + 5 scroll pills ── */}
@@ -55,7 +58,7 @@ export default function ModeSelector({ onSelect }: { onSelect: (m: Mode) => void
               <div className="text-3xl mb-3">{m.icon}</div>
               <h3 className="font-display font-bold text-xl text-[#0D0D0D] mb-1.5">{m.title}</h3>
               <p className="text-sm text-[#6B7280] leading-snug">{m.desc}</p>
-              <div className="mt-5 text-xs font-semibold text-[#00D084]">Start →</div>
+              <div className="mt-5 text-xs font-semibold text-[#00D084]">{t.startQuiz}</div>
             </button>
           ))}
         </div>

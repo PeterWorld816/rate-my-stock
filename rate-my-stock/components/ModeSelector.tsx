@@ -2,22 +2,9 @@
 import { Mode } from "@/app/page";
 import { useLanguage } from "@/lib/i18n";
 
-const primaryModes = [
-  { id: "face" as Mode, icon: "🤳", title: "Face Read", desc: "AI reads your vibe from your photo", tag: "Most Viral" },
-  { id: "mbti" as Mode, icon: "🧠", title: "Stock MBTI", desc: "Your personality → perfect stock match", tag: "Most Accurate" },
-];
+type ModeEntry = { id: Mode; icon: string; title: string; desc: string; tag: string };
 
-const secondaryModes = [
-  { id: "salary" as Mode, icon: "📝", title: "Personality Quiz", desc: "Financial profile → stock match", tag: "Most Relatable" },
-  { id: "couple" as Mode, icon: "🤝", title: "Friend Match", desc: "2 players · portfolio compatibility", tag: "Most Shareable" },
-  { id: "celebrity" as Mode, icon: "⭐", title: "Celebrity Match", desc: "Match your style to the legends", tag: "Most Surprising" },
-  { id: "career" as Mode, icon: "💼", title: "Career Match", desc: "100 careers · personalized picks", tag: "Most Practical" },
-  { id: "vibe" as Mode, icon: "✨", title: "Today's Vibe", desc: "Your mood = your stock energy", tag: "Most Fun" },
-];
-
-const allModes = [...primaryModes, ...secondaryModes];
-
-function ModeCard({ m, onSelect }: { m: (typeof allModes)[0]; onSelect: (id: Mode) => void }) {
+function ModeCard({ m, onSelect }: { m: ModeEntry; onSelect: (id: Mode) => void }) {
   const { t } = useLanguage();
   return (
     <button
@@ -37,6 +24,22 @@ function ModeCard({ m, onSelect }: { m: (typeof allModes)[0]; onSelect: (id: Mod
 
 export default function ModeSelector({ onSelect }: { onSelect: (m: Mode) => void }) {
   const { t } = useLanguage();
+
+  const primaryModes: ModeEntry[] = [
+    { id: "face", icon: "🤳", title: t.modeCardFaceTitle, desc: t.modeCardFaceDesc, tag: t.modeCardFaceTag },
+    { id: "mbti", icon: "🧠", title: t.modeCardMbtiTitle, desc: t.modeCardMbtiDesc, tag: t.modeCardMbtiTag },
+  ];
+
+  const secondaryModes: ModeEntry[] = [
+    { id: "salary", icon: "📝", title: t.modeCardSalaryTitle, desc: t.modeCardSalaryDesc, tag: t.modeCardSalaryTag },
+    { id: "couple", icon: "🤝", title: t.modeCardCoupleTitle, desc: t.modeCardCoupleDesc, tag: t.modeCardCoupleTag },
+    { id: "celebrity", icon: "⭐", title: t.modeCardCelebTitle, desc: t.modeCardCelebDesc, tag: t.modeCardCelebTag },
+    { id: "career", icon: "💼", title: t.modeCardCareerTitle, desc: t.modeCardCareerDesc, tag: t.modeCardCareerTag },
+    { id: "vibe", icon: "✨", title: t.modeCardVibeTitle, desc: t.modeCardVibeDesc, tag: t.modeCardVibeTag },
+  ];
+
+  const allModes = [...primaryModes, ...secondaryModes];
+
   return (
     <section className="px-4 sm:px-6 lg:px-8 pb-safe fade-up lg:max-w-[1200px] lg:mx-auto">
       <p className="text-center text-[11px] font-semibold text-[#6B7280] uppercase tracking-[0.2em] mb-8">

@@ -118,6 +118,17 @@ export interface Translations {
   chipCeleb: string;
   matchHowTitle: string;
   alsoConsider: string;
+  modeCardFaceTitle: string; modeCardFaceDesc: string; modeCardFaceTag: string;
+  modeCardMbtiTitle: string; modeCardMbtiDesc: string; modeCardMbtiTag: string;
+  modeCardSalaryTitle: string; modeCardSalaryDesc: string; modeCardSalaryTag: string;
+  modeCardCoupleTitle: string; modeCardCoupleDesc: string; modeCardCoupleTag: string;
+  modeCardCelebTitle: string; modeCardCelebDesc: string; modeCardCelebTag: string;
+  modeCardCareerTitle: string; modeCardCareerDesc: string; modeCardCareerTag: string;
+  modeCardVibeTitle: string; modeCardVibeDesc: string; modeCardVibeTag: string;
+  modeLabelFace: string; modeLabelMbti: string; modeLabelVibe: string;
+  modeLabelSalary: string; modeLabelCeleb: string; modeLabelCareer: string;
+  resultShareBtn: string; resultSaveBtn: string; resultRetryBtn: string;
+  resultDisclaimer: string;
 }
 
 export interface LangMeta {
@@ -251,6 +262,17 @@ export const translations: Record<LangCode, Translations> = {
     chipCeleb: "⭐ 셀럽",
     matchHowTitle: "어떻게 매칭할까요?",
     alsoConsider: "함께 봐요",
+    modeCardFaceTitle: "페이스 리드", modeCardFaceDesc: "AI가 사진으로 투자 성향 분석", modeCardFaceTag: "가장 핫한",
+    modeCardMbtiTitle: "주식 MBTI", modeCardMbtiDesc: "내 성격 → 완벽한 주식 매칭", modeCardMbtiTag: "가장 정확한",
+    modeCardSalaryTitle: "성격 퀴즈", modeCardSalaryDesc: "재무 프로필 → 주식 매칭", modeCardSalaryTag: "가장 공감되는",
+    modeCardCoupleTitle: "친구 매칭", modeCardCoupleDesc: "2인 · 포트폴리오 궁합 테스트", modeCardCoupleTag: "가장 공유되는",
+    modeCardCelebTitle: "셀럽 매칭", modeCardCelebDesc: "내 스타일의 투자 아이콘은?", modeCardCelebTag: "가장 의외인",
+    modeCardCareerTitle: "직업 매칭", modeCardCareerDesc: "100가지 직업 · 맞춤 주식 추천", modeCardCareerTag: "가장 실용적인",
+    modeCardVibeTitle: "오늘의 바이브", modeCardVibeDesc: "내 기분 = 내 주식 에너지", modeCardVibeTag: "가장 재미있는",
+    modeLabelFace: "📸 페이스 리드", modeLabelMbti: "🧠 주식 MBTI", modeLabelVibe: "✨ 오늘의 바이브",
+    modeLabelSalary: "📝 성격 퀴즈", modeLabelCeleb: "⭐ 셀럽 매칭", modeLabelCareer: "💼 직업 매칭",
+    resultShareBtn: "공유", resultSaveBtn: "이미지 저장", resultRetryBtn: "다시하기",
+    resultDisclaimer: "엔터테인먼트 전용 · 투자 조언 아님",
   },
 
   en: {
@@ -355,6 +377,17 @@ export const translations: Record<LangCode, Translations> = {
     chipCeleb: "⭐ Celebrity",
     matchHowTitle: "HOW DO YOU WANT TO BE MATCHED?",
     alsoConsider: "Also Consider",
+    modeCardFaceTitle: "Face Read", modeCardFaceDesc: "AI reads your vibe from your photo", modeCardFaceTag: "Most Viral",
+    modeCardMbtiTitle: "Stock MBTI", modeCardMbtiDesc: "Your personality → perfect stock match", modeCardMbtiTag: "Most Accurate",
+    modeCardSalaryTitle: "Personality Quiz", modeCardSalaryDesc: "Financial profile → stock match", modeCardSalaryTag: "Most Relatable",
+    modeCardCoupleTitle: "Friend Match", modeCardCoupleDesc: "2 players · portfolio compatibility", modeCardCoupleTag: "Most Shareable",
+    modeCardCelebTitle: "Celebrity Match", modeCardCelebDesc: "Match your style to the legends", modeCardCelebTag: "Most Surprising",
+    modeCardCareerTitle: "Career Match", modeCardCareerDesc: "100 careers · personalized picks", modeCardCareerTag: "Most Practical",
+    modeCardVibeTitle: "Today's Vibe", modeCardVibeDesc: "Your mood = your stock energy", modeCardVibeTag: "Most Fun",
+    modeLabelFace: "📸 Face Read", modeLabelMbti: "🧠 Stock MBTI", modeLabelVibe: "✨ Today's Vibe",
+    modeLabelSalary: "📝 Personality Quiz", modeLabelCeleb: "⭐ Celebrity Match", modeLabelCareer: "💼 Career Match",
+    resultShareBtn: "Share", resultSaveBtn: "Save Image", resultRetryBtn: "Try Again",
+    resultDisclaimer: "For entertainment only · Not financial advice",
   },
 
   zh: {
@@ -459,6 +492,17 @@ export const translations: Record<LangCode, Translations> = {
     chipCeleb: "⭐ 名人",
     matchHowTitle: "选择你的匹配方式",
     alsoConsider: "还可以看看",
+    modeCardFaceTitle: "面相读取", modeCardFaceDesc: "AI通过照片分析投资风格", modeCardFaceTag: "最热门",
+    modeCardMbtiTitle: "股票MBTI", modeCardMbtiDesc: "你的性格 → 完美股票匹配", modeCardMbtiTag: "最准确",
+    modeCardSalaryTitle: "性格测验", modeCardSalaryDesc: "财务画像 → 股票匹配", modeCardSalaryTag: "最有共鸣",
+    modeCardCoupleTitle: "朋友匹配", modeCardCoupleDesc: "双人 · 投资组合契合度", modeCardCoupleTag: "最爱分享",
+    modeCardCelebTitle: "明星匹配", modeCardCelebDesc: "找到你的投资偶像", modeCardCelebTag: "最惊喜",
+    modeCardCareerTitle: "职业匹配", modeCardCareerDesc: "100种职业 · 个性化推荐", modeCardCareerTag: "最实用",
+    modeCardVibeTitle: "今日氛围", modeCardVibeDesc: "我的心情 = 我的股票能量", modeCardVibeTag: "最有趣",
+    modeLabelFace: "📸 面相读取", modeLabelMbti: "🧠 股票MBTI", modeLabelVibe: "✨ 今日氛围",
+    modeLabelSalary: "📝 性格测验", modeLabelCeleb: "⭐ 明星匹配", modeLabelCareer: "💼 职业匹配",
+    resultShareBtn: "分享", resultSaveBtn: "保存图片", resultRetryBtn: "再试一次",
+    resultDisclaimer: "仅供娱乐 · 非投资建议",
   },
 
   ja: {
@@ -563,6 +607,17 @@ export const translations: Record<LangCode, Translations> = {
     chipCeleb: "⭐ セレブ",
     matchHowTitle: "どうやってマッチングしますか？",
     alsoConsider: "こちらも見てみよう",
+    modeCardFaceTitle: "フェイスリード", modeCardFaceDesc: "AIが写真から投資スタイルを分析", modeCardFaceTag: "最も話題",
+    modeCardMbtiTitle: "株式MBTI", modeCardMbtiDesc: "あなたの性格 → 最適な株式", modeCardMbtiTag: "最も正確",
+    modeCardSalaryTitle: "性格クイズ", modeCardSalaryDesc: "財務プロフィール → 株式マッチング", modeCardSalaryTag: "最も共感",
+    modeCardCoupleTitle: "フレンドマッチ", modeCardCoupleDesc: "2人 · ポートフォリオ相性テスト", modeCardCoupleTag: "最もシェア",
+    modeCardCelebTitle: "セレブマッチ", modeCardCelebDesc: "投資界のアイコンを見つけよう", modeCardCelebTag: "最も意外",
+    modeCardCareerTitle: "キャリアマッチ", modeCardCareerDesc: "100職業 · カスタム株式推薦", modeCardCareerTag: "最も実用的",
+    modeCardVibeTitle: "今日のバイブ", modeCardVibeDesc: "気分 = 株式エネルギー", modeCardVibeTag: "最も楽しい",
+    modeLabelFace: "📸 フェイスリード", modeLabelMbti: "🧠 株式MBTI", modeLabelVibe: "✨ 今日のバイブ",
+    modeLabelSalary: "📝 性格クイズ", modeLabelCeleb: "⭐ セレブマッチ", modeLabelCareer: "💼 キャリアマッチ",
+    resultShareBtn: "シェア", resultSaveBtn: "画像を保存", resultRetryBtn: "もう一度",
+    resultDisclaimer: "エンタメ専用 · 投資アドバイスではありません",
   },
 
   es: {
@@ -667,6 +722,17 @@ export const translations: Record<LangCode, Translations> = {
     chipCeleb: "⭐ Celebridad",
     matchHowTitle: "¿CÓMO QUIERES SER EMPAREJADO?",
     alsoConsider: "También Considera",
+    modeCardFaceTitle: "Lectura Facial", modeCardFaceDesc: "La IA analiza tu estilo desde tu foto", modeCardFaceTag: "El más viral",
+    modeCardMbtiTitle: "Stock MBTI", modeCardMbtiDesc: "Tu personalidad → la acción perfecta", modeCardMbtiTag: "El más preciso",
+    modeCardSalaryTitle: "Quiz de Personalidad", modeCardSalaryDesc: "Perfil financiero → acción ideal", modeCardSalaryTag: "El más relatable",
+    modeCardCoupleTitle: "Match de Amigos", modeCardCoupleDesc: "2 jugadores · compatibilidad", modeCardCoupleTag: "El más compartido",
+    modeCardCelebTitle: "Match de Celebridad", modeCardCelebDesc: "Encuentra tu ícono inversor", modeCardCelebTag: "El más sorprendente",
+    modeCardCareerTitle: "Match de Carrera", modeCardCareerDesc: "100 carreras · recomendación personal", modeCardCareerTag: "El más práctico",
+    modeCardVibeTitle: "Vibra de Hoy", modeCardVibeDesc: "Tu estado de ánimo = tu energía bursátil", modeCardVibeTag: "El más divertido",
+    modeLabelFace: "📸 Lectura Facial", modeLabelMbti: "🧠 Stock MBTI", modeLabelVibe: "✨ Vibra de Hoy",
+    modeLabelSalary: "📝 Quiz de Personalidad", modeLabelCeleb: "⭐ Match de Celebridad", modeLabelCareer: "💼 Match de Carrera",
+    resultShareBtn: "Compartir", resultSaveBtn: "Guardar imagen", resultRetryBtn: "Intentar de nuevo",
+    resultDisclaimer: "Solo entretenimiento · No es asesoramiento financiero",
   },
 
   fr: {
@@ -771,6 +837,17 @@ export const translations: Record<LangCode, Translations> = {
     chipCeleb: "⭐ Célébrité",
     matchHowTitle: "COMMENT VOULEZ-VOUS ÊTRE ASSOCIÉ ?",
     alsoConsider: "Voir aussi",
+    modeCardFaceTitle: "Lecture Faciale", modeCardFaceDesc: "L'IA lit ta vibe depuis ta photo", modeCardFaceTag: "Le plus viral",
+    modeCardMbtiTitle: "Stock MBTI", modeCardMbtiDesc: "Ta personnalité → l'action parfaite", modeCardMbtiTag: "Le plus précis",
+    modeCardSalaryTitle: "Quiz Personnalité", modeCardSalaryDesc: "Profil financier → action idéale", modeCardSalaryTag: "Le plus relatable",
+    modeCardCoupleTitle: "Match d'Amis", modeCardCoupleDesc: "2 joueurs · compatibilité portfolio", modeCardCoupleTag: "Le plus partagé",
+    modeCardCelebTitle: "Match Célébrité", modeCardCelebDesc: "Trouve ton icône investisseur", modeCardCelebTag: "Le plus surprenant",
+    modeCardCareerTitle: "Match Carrière", modeCardCareerDesc: "100 métiers · recommandation perso", modeCardCareerTag: "Le plus pratique",
+    modeCardVibeTitle: "Vibe du Jour", modeCardVibeDesc: "Ton humeur = ton énergie bourse", modeCardVibeTag: "Le plus fun",
+    modeLabelFace: "📸 Lecture Faciale", modeLabelMbti: "🧠 Stock MBTI", modeLabelVibe: "✨ Vibe du Jour",
+    modeLabelSalary: "📝 Quiz Personnalité", modeLabelCeleb: "⭐ Match Célébrité", modeLabelCareer: "💼 Match Carrière",
+    resultShareBtn: "Partager", resultSaveBtn: "Sauvegarder l'image", resultRetryBtn: "Réessayer",
+    resultDisclaimer: "Divertissement uniquement · Pas de conseil financier",
   },
 
   de: {
@@ -875,6 +952,17 @@ export const translations: Record<LangCode, Translations> = {
     chipCeleb: "⭐ Promi",
     matchHowTitle: "WIE MÖCHTEST DU GEMATCHT WERDEN?",
     alsoConsider: "Auch in Betracht ziehen",
+    modeCardFaceTitle: "Gesichtslesen", modeCardFaceDesc: "KI analysiert deinen Stil per Foto", modeCardFaceTag: "Am viralsten",
+    modeCardMbtiTitle: "Aktien MBTI", modeCardMbtiDesc: "Deine Persönlichkeit → perfekte Aktie", modeCardMbtiTag: "Am genauesten",
+    modeCardSalaryTitle: "Persönlichkeitsquiz", modeCardSalaryDesc: "Finanzprofil → Aktienempfehlung", modeCardSalaryTag: "Am nachvollziehbarsten",
+    modeCardCoupleTitle: "Freundes-Match", modeCardCoupleDesc: "2 Spieler · Portfolio-Kompatibilität", modeCardCoupleTag: "Am meisten geteilt",
+    modeCardCelebTitle: "Promi-Match", modeCardCelebDesc: "Finde dein Investor-Idol", modeCardCelebTag: "Am überraschendsten",
+    modeCardCareerTitle: "Karriere-Match", modeCardCareerDesc: "100 Berufe · personalisierte Picks", modeCardCareerTag: "Am praktischsten",
+    modeCardVibeTitle: "Heutiges Vibe", modeCardVibeDesc: "Deine Stimmung = deine Börsen-Energie", modeCardVibeTag: "Am lustigsten",
+    modeLabelFace: "📸 Gesichtslesen", modeLabelMbti: "🧠 Aktien MBTI", modeLabelVibe: "✨ Heutiges Vibe",
+    modeLabelSalary: "📝 Persönlichkeitsquiz", modeLabelCeleb: "⭐ Promi-Match", modeLabelCareer: "💼 Karriere-Match",
+    resultShareBtn: "Teilen", resultSaveBtn: "Bild speichern", resultRetryBtn: "Nochmal versuchen",
+    resultDisclaimer: "Nur zur Unterhaltung · Keine Anlageberatung",
   },
 
   pt: {
@@ -979,6 +1067,17 @@ export const translations: Record<LangCode, Translations> = {
     chipCeleb: "⭐ Celebridade",
     matchHowTitle: "COMO VOCÊ QUER SER COMBINADO?",
     alsoConsider: "Também Considere",
+    modeCardFaceTitle: "Leitura Facial", modeCardFaceDesc: "A IA lê seu estilo pela sua foto", modeCardFaceTag: "Mais viral",
+    modeCardMbtiTitle: "Stock MBTI", modeCardMbtiDesc: "Sua personalidade → a ação perfeita", modeCardMbtiTag: "Mais preciso",
+    modeCardSalaryTitle: "Quiz de Personalidade", modeCardSalaryDesc: "Perfil financeiro → ação ideal", modeCardSalaryTag: "Mais relatable",
+    modeCardCoupleTitle: "Match de Amigos", modeCardCoupleDesc: "2 jogadores · compatibilidade", modeCardCoupleTag: "Mais compartilhado",
+    modeCardCelebTitle: "Match de Celebridade", modeCardCelebDesc: "Encontre seu ícone investidor", modeCardCelebTag: "Mais surpreendente",
+    modeCardCareerTitle: "Match de Carreira", modeCardCareerDesc: "100 carreiras · picks personalizados", modeCardCareerTag: "Mais prático",
+    modeCardVibeTitle: "Vibe de Hoje", modeCardVibeDesc: "Seu humor = sua energia na bolsa", modeCardVibeTag: "Mais divertido",
+    modeLabelFace: "📸 Leitura Facial", modeLabelMbti: "🧠 Stock MBTI", modeLabelVibe: "✨ Vibe de Hoje",
+    modeLabelSalary: "📝 Quiz de Personalidade", modeLabelCeleb: "⭐ Match de Celebridade", modeLabelCareer: "💼 Match de Carreira",
+    resultShareBtn: "Compartilhar", resultSaveBtn: "Salvar imagem", resultRetryBtn: "Tentar novamente",
+    resultDisclaimer: "Apenas entretenimento · Não é conselho financeiro",
   },
 
   hi: {
@@ -1083,6 +1182,17 @@ export const translations: Record<LangCode, Translations> = {
     chipCeleb: "⭐ Celebrity",
     matchHowTitle: "कैसे MATCH होना चाहते हैं?",
     alsoConsider: "Also Consider",
+    modeCardFaceTitle: "फेस रीड", modeCardFaceDesc: "AI फोटो से आपकी investment style पढ़ता है", modeCardFaceTag: "सबसे Viral",
+    modeCardMbtiTitle: "Stock MBTI", modeCardMbtiDesc: "आपकी personality → perfect stock match", modeCardMbtiTag: "सबसे Accurate",
+    modeCardSalaryTitle: "Personality Quiz", modeCardSalaryDesc: "Financial profile → stock match", modeCardSalaryTag: "सबसे Relatable",
+    modeCardCoupleTitle: "Friend Match", modeCardCoupleDesc: "2 खिलाड़ी · portfolio compatibility", modeCardCoupleTag: "सबसे ज़्यादा Share",
+    modeCardCelebTitle: "Celebrity Match", modeCardCelebDesc: "अपना investor icon खोजें", modeCardCelebTag: "सबसे Surprising",
+    modeCardCareerTitle: "Career Match", modeCardCareerDesc: "100 careers · personalized picks", modeCardCareerTag: "सबसे Practical",
+    modeCardVibeTitle: "आज का Vibe", modeCardVibeDesc: "मेरा mood = मेरी stock energy", modeCardVibeTag: "सबसे Fun",
+    modeLabelFace: "📸 फेस रीड", modeLabelMbti: "🧠 Stock MBTI", modeLabelVibe: "✨ आज का Vibe",
+    modeLabelSalary: "📝 Personality Quiz", modeLabelCeleb: "⭐ Celebrity Match", modeLabelCareer: "💼 Career Match",
+    resultShareBtn: "Share करें", resultSaveBtn: "Image Save करें", resultRetryBtn: "फिर से करें",
+    resultDisclaimer: "सिर्फ मनोरंजन के लिए · वित्तीय सलाह नहीं",
   },
 
   ar: {
@@ -1187,6 +1297,17 @@ export const translations: Record<LangCode, Translations> = {
     chipCeleb: "⭐ مشاهير",
     matchHowTitle: "كيف تريد أن تُطابَق؟",
     alsoConsider: "تأمل أيضاً",
+    modeCardFaceTitle: "قراءة الوجه", modeCardFaceDesc: "الذكاء الاصطناعي يقرأ أسلوبك من صورتك", modeCardFaceTag: "الأكثر انتشاراً",
+    modeCardMbtiTitle: "MBTI الأسهم", modeCardMbtiDesc: "شخصيتك → الأسهم المثالية", modeCardMbtiTag: "الأكثر دقة",
+    modeCardSalaryTitle: "اختبار الشخصية", modeCardSalaryDesc: "ملفك المالي → توصية أسهم", modeCardSalaryTag: "الأكثر تعبيراً",
+    modeCardCoupleTitle: "مطابقة الأصدقاء", modeCardCoupleDesc: "لاعبان · توافق المحفظة", modeCardCoupleTag: "الأكثر مشاركة",
+    modeCardCelebTitle: "مطابقة المشاهير", modeCardCelebDesc: "اعثر على أيقونتك الاستثمارية", modeCardCelebTag: "الأكثر إثارة",
+    modeCardCareerTitle: "مطابقة المهنة", modeCardCareerDesc: "100 مهنة · توصيات مخصصة", modeCardCareerTag: "الأكثر عملية",
+    modeCardVibeTitle: "حال اليوم", modeCardVibeDesc: "مزاجي = طاقتي في البورصة", modeCardVibeTag: "الأكثر متعة",
+    modeLabelFace: "📸 قراءة الوجه", modeLabelMbti: "🧠 MBTI الأسهم", modeLabelVibe: "✨ حال اليوم",
+    modeLabelSalary: "📝 اختبار الشخصية", modeLabelCeleb: "⭐ مطابقة المشاهير", modeLabelCareer: "💼 مطابقة المهنة",
+    resultShareBtn: "مشاركة", resultSaveBtn: "حفظ الصورة", resultRetryBtn: "المحاولة مجدداً",
+    resultDisclaimer: "للترفيه فقط · ليس نصيحة مالية",
   },
 };
 

@@ -9,15 +9,6 @@ const riskColors: Record<string, { bg: string; text: string }> = {
   HIGH: { bg: "#FEE2E2", text: "#991B1B" },
 };
 
-const modeLabels: Partial<Record<NonNullable<Mode>, string>> = {
-  face: "📸 Face Read",
-  mbti: "🧠 Stock MBTI",
-  vibe: "✨ Today's Vibe",
-  salary: "📝 Personality Quiz",
-  celebrity: "⭐ Celebrity Match",
-  career: "💼 Career Match",
-};
-
 function Toast({ message, onDone }: { message: string; onDone: () => void }) {
   return (
     <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 fade-up" onAnimationEnd={onDone}>
@@ -32,11 +23,11 @@ function Toast({ message, onDone }: { message: string; onDone: () => void }) {
 function StoryCard({
   cardRef,
   result,
-  mode,
+  modeLabel,
 }: {
   cardRef: React.RefObject<HTMLDivElement>;
   result: Result;
-  mode?: Mode | null;
+  modeLabel?: string | null;
 }) {
   const riskKey = (result.risk || "MID").toUpperCase();
   const risk = riskColors[riskKey] || riskColors["MID"];
@@ -44,7 +35,6 @@ function StoryCard({
   const strokeDash = circumference * ((result.score ?? 0) / 100);
   const reasonText =
     result.reason.length > 150 ? result.reason.slice(0, 147) + "..." : result.reason;
-  const modeLabel = mode && modeLabels[mode] ? `${modeLabels[mode]} Result` : null;
 
   return (
     <div
@@ -163,6 +153,10 @@ export default function ResultCard({
 
   const circumference = 2 * Math.PI * 44;
   const strokeDash = circumference * ((result.score ?? 0) / 100);
+  const modeLabels: Partial<Record<NonNullable<Mode>, string>> = {
+    face: t.modeLabelFace, mbti: t.modeLabelMbti, vibe: t.modeLabelVibe,
+    salary: t.modeLabelSalary, celebrity: t.modeLabelCeleb, career: t.modeLabelCareer,
+  };
   const modeLabel = mode && modeLabels[mode] ? `${modeLabels[mode]} Result` : null;
 
   const showToast = (msg: string) => {
@@ -205,7 +199,7 @@ export default function ResultCard({
 
   return (
     <>
-      <StoryCard cardRef={storyRef} result={result} mode={mode} />
+      <StoryCard cardRef={storyRef} result={result} modeLabel={modeLabel} />
       {toast && <Toast message={toast} onDone={() => setToast(null)} />}
 
       <section className="px-4 sm:px-6 pb-safe max-w-[480px] mx-auto fade-up">
@@ -325,7 +319,7 @@ export default function ResultCard({
 
         {/* Disclaimer */}
         <p className="text-[10px] text-[#9CA3AF] text-center mb-5">
-          For entertainment only · Not financial advice
+          {t.resultDisclaimer}
         </p>
 
         {/* 3 action buttons */}
@@ -335,7 +329,7 @@ export default function ResultCard({
             className="card-hover rounded-2xl py-3.5 flex flex-col items-center justify-center gap-1 bg-[#0D0D0D] text-white"
           >
             <span className="text-base">↗</span>
-            <span className="text-xs font-semibold">Share</span>
+            <span className="text-xs font-semibold">{t.resultShareBtn}</span>
           </button>
 
           <button
@@ -349,7 +343,7 @@ export default function ResultCard({
             ) : (
               <>
                 <span className="text-base">↓</span>
-                <span className="text-xs font-semibold">Save Image</span>
+                <span className="text-xs font-semibold">{t.resultSaveBtn}</span>
               </>
             )}
           </button>
@@ -359,7 +353,7 @@ export default function ResultCard({
             className="card-hover rounded-2xl py-3.5 flex flex-col items-center justify-center gap-1 bg-white shadow-md text-[#0D0D0D]"
           >
             <span className="text-base">↩</span>
-            <span className="text-xs font-semibold">Try Again</span>
+            <span className="text-xs font-semibold">{t.resultRetryBtn}</span>
           </button>
         </div>
       </section>

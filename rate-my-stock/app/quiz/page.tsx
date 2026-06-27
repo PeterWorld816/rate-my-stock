@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useLanguage, quizPool, QuizQ } from "@/lib/i18n";
+import { loadStats, applyXP } from "@/lib/gamification";
 
 const TOTAL = 5;
 const XP_PER_Q = 20;
@@ -25,6 +26,7 @@ export default function QuizPage() {
   const [score, setScore] = useState(0);
   const [answers, setAnswers] = useState<boolean[]>([]);
   const [copied, setCopied] = useState(false);
+  const [leveledUp, setLeveledUp] = useState<number | null>(null);
 
   useEffect(() => {
     setQuestions(pickRandom(quizPool[lang] ?? quizPool.ko));
@@ -52,6 +54,9 @@ export default function QuizPage() {
       setCurrent((c) => c + 1);
       setSelected(null);
     } else {
+      const prevLevel = loadStats().level;
+      const updated = applyXP(score * XP_PER_Q);
+      if (updated.level > prevLevel) setLeveledUp(updated.level);
       setPhase("result");
     }
   };
@@ -63,6 +68,7 @@ export default function QuizPage() {
     setSelected(null);
     setScore(0);
     setAnswers([]);
+    setLeveledUp(null);
   };
 
   const handleShare = async () => {
@@ -118,6 +124,15 @@ export default function QuizPage() {
                 </div>
               ))}
             </div>
+
+            {/* Level Up */}
+            {leveledUp && (
+              <div className="rounded-2xl p-3 mb-3 text-center" style={{ background: "#7C3AED18" }}>
+                <p className="text-lg font-display font-bold" style={{ color: "#7C3AED" }}>
+                  🎉 Level Up! Lv.{leveledUp}
+                </p>
+              </div>
+            )}
 
             {/* XP */}
             <div className="rounded-2xl p-3 mb-6" style={{ background: "#00D08412" }}>

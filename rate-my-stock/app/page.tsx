@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useLanguage } from "@/lib/i18n";
+import { useGamification } from "@/lib/useGamification";
 
 // ── Shared types ──────────────────────────────────────────────────────────────
 export type Mode =
@@ -35,6 +36,7 @@ export type CoupleResult = {
 
 export default function Home() {
   const { t } = useLanguage();
+  const { stats } = useGamification();
 
   return (
     <main className="min-h-screen bg-[#F5F5F0] font-sans">
@@ -59,9 +61,9 @@ export default function Home() {
         {/* Gamification bar */}
         <div className="inline-flex items-center gap-0 rounded-2xl bg-white shadow-sm overflow-hidden">
           {[
-            { icon: "🔥", value: `3${t.day}`, label: t.streak },
-            { icon: "⚡", value: "420", label: t.xp },
-            { icon: "🏆", value: "Lv.4", label: t.level },
+            { icon: "🔥", value: `${stats.streak}${t.day}`, label: t.streak },
+            { icon: "⚡", value: String(stats.xp), label: t.xp },
+            { icon: "🏆", value: `Lv.${stats.level}`, label: t.level },
           ].map((stat, i) => (
             <div key={i} className="flex items-center gap-2 px-4 py-3">
               {i > 0 && <div className="w-px h-6 bg-[#E5E5E0] -ml-2 mr-2" />}

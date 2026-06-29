@@ -1,6 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Result } from "@/app/page";
+import { useLanguage, celebData, type CelebQuestion, type CelebMeta } from "@/lib/i18n";
 
 type CelebId = "elon" | "buffett" | "cathie" | "cramer";
 
@@ -8,87 +9,55 @@ interface Celebrity {
   id: CelebId;
   name: string;
   emoji: string;
-  title: string;
   color: string;
   bgColor: string;
-  tagline: string;
   holdingsDisplay: string[];
   holdings: string[];
   extrasDisplay: string[];
 }
-interface QuizOption { text: string; pts: Record<CelebId, number>; }
-interface Question { q: string; options: QuizOption[]; }
 
 const CELEBRITIES: Celebrity[] = [
   {
-    id: "elon", name: "Elon Musk", emoji: "🚀", title: "The Disruptor",
-    color: "#CC2936", bgColor: "#FFF1F0", tagline: "Move fast. Break everything.",
-    holdingsDisplay: ["TSLA", "SpaceX", "X Corp"], holdings: ["TSLA", "PLTR", "COIN"], extrasDisplay: ["PLTR", "COIN"],
+    id: "elon", name: "Elon Musk", emoji: "🚀",
+    color: "#CC2936", bgColor: "#FFF1F0",
+    holdingsDisplay: ["TSLA", "SpaceX", "X Corp"],
+    holdings: ["TSLA", "PLTR", "COIN"], extrasDisplay: ["PLTR", "COIN"],
   },
   {
-    id: "buffett", name: "Warren Buffett", emoji: "🦉", title: "The Oracle of Omaha",
-    color: "#1A7741", bgColor: "#F0FDF4", tagline: "Be fearful when others are greedy.",
-    holdingsDisplay: ["AAPL", "BRK.B", "KO", "AXP"], holdings: ["AAPL", "KO", "AXP", "BRK.B"], extrasDisplay: ["KO", "AXP"],
+    id: "buffett", name: "Warren Buffett", emoji: "🦉",
+    color: "#1A7741", bgColor: "#F0FDF4",
+    holdingsDisplay: ["AAPL", "BRK.B", "KO", "AXP"],
+    holdings: ["AAPL", "KO", "AXP", "BRK.B"], extrasDisplay: ["KO", "AXP"],
   },
   {
-    id: "cathie", name: "Cathie Wood", emoji: "🔮", title: "The Innovation Queen",
-    color: "#7C3AED", bgColor: "#F5F3FF", tagline: "The future arrives faster than you think.",
-    holdingsDisplay: ["TSLA", "COIN", "ROKU", "PATH"], holdings: ["TSLA", "COIN", "ROKU", "PATH"], extrasDisplay: ["COIN", "ROKU"],
+    id: "cathie", name: "Cathie Wood", emoji: "🔮",
+    color: "#7C3AED", bgColor: "#F5F3FF",
+    holdingsDisplay: ["TSLA", "COIN", "ROKU", "PATH"],
+    holdings: ["TSLA", "COIN", "ROKU", "PATH"], extrasDisplay: ["COIN", "ROKU"],
   },
   {
-    id: "cramer", name: "Jim Cramer", emoji: "📺", title: "Mad Money Jim",
-    color: "#FF6B35", bgColor: "#FFF7ED", tagline: "Booyah! Stay diversified!",
-    holdingsDisplay: ["JPM", "JNJ", "AAPL", "HON"], holdings: ["JPM", "JNJ", "HON", "GS"], extrasDisplay: ["JNJ", "GS"],
+    id: "cramer", name: "Jim Cramer", emoji: "📺",
+    color: "#FF6B35", bgColor: "#FFF7ED",
+    holdingsDisplay: ["JPM", "JNJ", "AAPL", "HON"],
+    holdings: ["JPM", "JNJ", "HON", "GS"], extrasDisplay: ["JNJ", "GS"],
   },
 ];
 
 const OPTION_LETTERS = ["A", "B", "C", "D"];
-
-const questions: Question[] = [
-  {
-    q: "What's your core investment philosophy?",
-    options: [
-      { text: "Disrupt or die. Old industries deserve to be destroyed 🔥", pts: { elon: 3, cathie: 1, buffett: 0, cramer: 0 } },
-      { text: "Find great companies, pay fair prices, hold forever 📚", pts: { elon: 0, cathie: 0, buffett: 3, cramer: 1 } },
-      { text: "Invest in the future before Wall Street even wakes up 🔮", pts: { elon: 1, cathie: 3, buffett: 0, cramer: 0 } },
-      { text: "Stay diversified, balanced, and trust the experts 📺", pts: { elon: 0, cathie: 0, buffett: 0, cramer: 3 } },
-    ],
-  },
-  {
-    q: "The market drops -30% this week. Your move?",
-    options: [
-      { text: "Tweet about it, then buy more. Conviction never dies ⚡", pts: { elon: 3, cathie: 1, buffett: 0, cramer: 0 } },
-      { text: "Read the annual report. My thesis hasn't changed 📖", pts: { elon: 0, cathie: 0, buffett: 3, cramer: 0 } },
-      { text: "Load up. Disruption is on sale — this is the dip 🛒", pts: { elon: 1, cathie: 3, buffett: 1, cramer: 0 } },
-      { text: "Rotate into safer sectors immediately. Protect capital 🛡️", pts: { elon: 0, cathie: 0, buffett: 0, cramer: 3 } },
-    ],
-  },
-  {
-    q: "Which portfolio would you actually build?",
-    options: [
-      { text: "TSLA, AI startups, SpaceX bets, Neuralink 🚀", pts: { elon: 3, cathie: 1, buffett: 0, cramer: 0 } },
-      { text: "AAPL, Coca-Cola, American Express, BRK.B 🥤", pts: { elon: 0, cathie: 0, buffett: 3, cramer: 1 } },
-      { text: "COIN, ROKU, genomics, blockchain, disruptive biotech 🧬", pts: { elon: 0, cathie: 3, buffett: 0, cramer: 0 } },
-      { text: "Blue-chips from every sector I saw on TV today 📺", pts: { elon: 0, cathie: 0, buffett: 0, cramer: 3 } },
-    ],
-  },
-];
-
 const MAX_SCORE = 9;
 
-function calcMatch(answers: QuizOption[]): { celeb: Celebrity; pct: number } {
+function calcMatch(answers: CelebQuestion["options"]): { celeb: Celebrity; pct: number } {
   const scores: Record<CelebId, number> = { elon: 0, buffett: 0, cathie: 0, cramer: 0 };
   for (const opt of answers) {
     for (const id of Object.keys(scores) as CelebId[]) scores[id] += opt.pts[id];
   }
-  const winnerId = (Object.keys(scores) as CelebId[]).reduce((a, b) => scores[a] >= scores[b] ? a : b);
+  const winnerId = (Object.keys(scores) as CelebId[]).reduce((a, b) =>
+    scores[a] >= scores[b] ? a : b
+  );
   const pct = Math.round((scores[winnerId] / MAX_SCORE) * 100);
   return { celeb: CELEBRITIES.find(c => c.id === winnerId)!, pct };
 }
 
-type Phase = "intro" | "quiz" | "matching";
-
-// Unified skeleton
 function OptionSkeleton() {
   return (
     <div className="space-y-3">
@@ -99,19 +68,34 @@ function OptionSkeleton() {
   );
 }
 
+type Phase = "intro" | "quiz" | "matching";
+
 export default function CelebrityMode({ onResult, onBack, loading, setLoading }: {
   onResult: (r: Result) => void;
   onBack: () => void;
   loading: boolean;
   setLoading: (b: boolean) => void;
 }) {
+  const { t, lang } = useLanguage();
+  const locale = celebData[lang] ?? celebData.en!;
+  const questions = locale.questions;
+
   const [phase, setPhase] = useState<Phase>("intro");
   const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<QuizOption[]>([]);
+  const [answers, setAnswers] = useState<CelebQuestion["options"]>([]);
+
+  useEffect(() => {
+    setPhase("intro");
+    setStep(0);
+    setAnswers([]);
+  }, [lang]);
+
+  const getMeta = (id: CelebId) =>
+    (locale as unknown as Record<string, CelebMeta>)[id] ?? locale.elon;
 
   const progress = (step / questions.length) * 100;
 
-  const pick = async (option: QuizOption) => {
+  const pick = async (option: CelebQuestion["options"][number]) => {
     const newAnswers = [...answers, option];
     if (step < questions.length - 1) {
       setAnswers(newAnswers);
@@ -149,19 +133,19 @@ export default function CelebrityMode({ onResult, onBack, loading, setLoading }:
     }
   };
 
-  // Matching / loading screen
+  // ── Matching / loading screen ─────────────────────────────────────────────
   if (phase === "matching") {
     return (
       <section className="px-4 sm:px-6 pb-safe max-w-xl mx-auto fade-up">
         <div className="rounded-3xl bg-white p-8 shadow-md text-center">
           <div className="text-5xl mb-4">🔍</div>
           <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#F59E0B" }}>
-            Finding Your Match
+            {t.celebMatchingLabel}
           </p>
           <h2 className="font-display font-bold text-xl mb-2 text-[#0D0D0D]">
-            Analyzing your investment DNA...
+            {t.celebMatchingTitle}
           </h2>
-          <p className="text-sm text-[#6B7280] mb-8">Scanning 4 celebrity portfolios 🌟</p>
+          <p className="text-sm text-[#6B7280] mb-8">{t.celebMatchingSubtitle}</p>
           <div className="space-y-3">
             {CELEBRITIES.map((c, i) => (
               <div key={c.id} className="flex items-center gap-3 text-left">
@@ -178,7 +162,7 @@ export default function CelebrityMode({ onResult, onBack, loading, setLoading }:
     );
   }
 
-  // Quiz screen
+  // ── Quiz screen ───────────────────────────────────────────────────────────
   if (phase === "quiz") {
     return (
       <section className="px-4 sm:px-6 pb-safe max-w-xl mx-auto fade-up">
@@ -186,14 +170,16 @@ export default function CelebrityMode({ onResult, onBack, loading, setLoading }:
           onClick={() => { setPhase("intro"); setStep(0); setAnswers([]); }}
           className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 touch-target"
         >
-          ← Back
+          ← {t.back}
         </button>
 
         <div className="rounded-3xl bg-white p-5 shadow-md">
           <div className="flex items-center justify-between mb-4">
-            <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
-              style={{ background: "#F59E0B18", color: "#D97706" }}>
-              🌟 Celebrity Match
+            <div
+              className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
+              style={{ background: "#F59E0B18", color: "#D97706" }}
+            >
+              {t.celebChip}
             </div>
             <span className="text-xs font-bold tabular-nums" style={{ color: "#D97706" }}>
               {step + 1} / {questions.length}
@@ -201,11 +187,13 @@ export default function CelebrityMode({ onResult, onBack, loading, setLoading }:
           </div>
 
           <div className="h-1.5 rounded-full bg-[#F3F4F6] mb-5 overflow-hidden">
-            <div className="h-full rounded-full transition-all duration-500"
-              style={{ width: `${progress}%`, background: "#F59E0B" }} />
+            <div
+              className="h-full rounded-full transition-all duration-500"
+              style={{ width: `${progress}%`, background: "#F59E0B" }}
+            />
           </div>
 
-          {/* Celebrity avatars */}
+          {/* Celebrity avatar bar */}
           <div className="flex gap-2 mb-6">
             {CELEBRITIES.map(c => (
               <div key={c.id} className="flex-1 rounded-xl py-1.5 text-center text-base" style={{ background: c.bgColor }}>
@@ -221,10 +209,15 @@ export default function CelebrityMode({ onResult, onBack, loading, setLoading }:
           {loading ? <OptionSkeleton /> : (
             <div className="space-y-3">
               {questions[step].options.map((opt, i) => (
-                <button key={opt.text} onClick={() => pick(opt)}
-                  className="w-full text-left rounded-2xl border border-[#E5E5E0] bg-[#F5F5F0] px-4 touch-target text-sm font-medium text-[#374151] hover:border-[#F59E0B] hover:bg-[#FFFBEB] transition-all card-hover flex items-center gap-3">
-                  <span className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
-                    style={{ background: "#F59E0B18", color: "#D97706" }}>
+                <button
+                  key={opt.text}
+                  onClick={() => pick(opt)}
+                  className="w-full text-left rounded-2xl border border-[#E5E5E0] bg-[#F5F5F0] px-4 touch-target text-sm font-medium text-[#374151] hover:border-[#F59E0B] hover:bg-[#FFFBEB] transition-all card-hover flex items-center gap-3"
+                >
+                  <span
+                    className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
+                    style={{ background: "#F59E0B18", color: "#D97706" }}
+                  >
                     {OPTION_LETTERS[i]}
                   </span>
                   <span>{opt.text}</span>
@@ -237,53 +230,64 @@ export default function CelebrityMode({ onResult, onBack, loading, setLoading }:
     );
   }
 
-  // Intro screen
+  // ── Intro screen ──────────────────────────────────────────────────────────
   return (
     <section className="px-4 sm:px-6 pb-safe max-w-xl mx-auto fade-up">
       <button onClick={onBack} className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 touch-target">
-        ← Back
+        ← {t.back}
       </button>
 
       <div className="rounded-3xl bg-white p-5 shadow-md">
-        <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-4"
-          style={{ background: "#F59E0B18", color: "#D97706" }}>
-          🌟 Celebrity Match
+        <div
+          className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-4"
+          style={{ background: "#F59E0B18", color: "#D97706" }}
+        >
+          {t.celebChip}
         </div>
 
         <h2 className="font-display font-bold text-2xl mb-1 text-[#0D0D0D]">
-          Which investor are you?
+          {t.celebIntroTitle}
         </h2>
-        <p className="text-sm text-[#6B7280] mb-6">
-          Answer 3 questions to find your celebrity investor twin.
-        </p>
+        <p className="text-sm text-[#6B7280] mb-6">{t.celebIntroSubtitle}</p>
 
         <div className="grid grid-cols-2 gap-3 mb-6">
-          {CELEBRITIES.map(celeb => (
-            <div key={celeb.id}
-              className="rounded-2xl p-4 relative overflow-hidden"
-              style={{ background: celeb.bgColor, border: `1px solid ${celeb.color}30` }}>
-              <div className="absolute top-0 left-0 right-0 h-0.5" style={{ background: celeb.color }} />
-              <div className="text-2xl mb-2">{celeb.emoji}</div>
-              <p className="font-bold text-sm text-[#0D0D0D] leading-tight mb-0.5">{celeb.name}</p>
-              <p className="text-[10px] font-semibold mb-2" style={{ color: celeb.color }}>{celeb.title}</p>
-              <div className="flex flex-wrap gap-1">
-                {celeb.holdingsDisplay.slice(0, 3).map(t => (
-                  <span key={t} className="text-[9px] font-bold px-1.5 py-0.5 rounded-full text-white"
-                    style={{ background: celeb.color }}>
-                    {t}
-                  </span>
-                ))}
+          {CELEBRITIES.map(celeb => {
+            const meta = getMeta(celeb.id);
+            return (
+              <div
+                key={celeb.id}
+                className="rounded-2xl p-4 relative overflow-hidden"
+                style={{ background: celeb.bgColor, border: `1px solid ${celeb.color}30` }}
+              >
+                <div className="absolute top-0 left-0 right-0 h-0.5" style={{ background: celeb.color }} />
+                <div className="text-2xl mb-2">{celeb.emoji}</div>
+                <p className="font-bold text-sm text-[#0D0D0D] leading-tight mb-0.5">{celeb.name}</p>
+                <p className="text-[10px] font-semibold mb-2" style={{ color: celeb.color }}>{meta.title}</p>
+                <div className="flex flex-wrap gap-1">
+                  {celeb.holdingsDisplay.slice(0, 3).map(ticker => (
+                    <span
+                      key={ticker}
+                      className="text-[9px] font-bold px-1.5 py-0.5 rounded-full text-white"
+                      style={{ background: celeb.color }}
+                    >
+                      {ticker}
+                    </span>
+                  ))}
+                </div>
+                <p className="text-[9px] text-[#9CA3AF] mt-2 italic leading-tight">
+                  &ldquo;{meta.tagline}&rdquo;
+                </p>
               </div>
-              <p className="text-[9px] text-[#9CA3AF] mt-2 italic leading-tight">&ldquo;{celeb.tagline}&rdquo;</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <button
           onClick={() => setPhase("quiz")}
           className="w-full rounded-2xl touch-target text-sm font-bold text-white flex items-center justify-center"
-          style={{ background: "#F59E0B" }}>
-          Find My Celebrity Match 🌟
+          style={{ background: "#F59E0B" }}
+        >
+          {t.celebStartBtn}
         </button>
       </div>
     </section>

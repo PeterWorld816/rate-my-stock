@@ -139,6 +139,14 @@ export interface Translations {
   mbtiAxisStyle: string;
   mbtiAxisSector: string;
   mbtiAxisTime: string;
+  // Celebrity Match mode
+  celebChip: string;
+  celebIntroTitle: string;
+  celebIntroSubtitle: string;
+  celebStartBtn: string;
+  celebMatchingLabel: string;
+  celebMatchingTitle: string;
+  celebMatchingSubtitle: string;
 }
 
 export interface LangMeta {
@@ -284,6 +292,7 @@ export const translations: Record<LangCode, Translations> = {
     resultShareBtn: "공유", resultSaveBtn: "이미지 저장", resultRetryBtn: "다시하기",
     resultDisclaimer: "엔터테인먼트 전용 · 투자 조언 아님",
     mbtiChip: "🧬 주식 MBTI", mbtiBack: "← 뒤로", mbtiRevealTitle: "🧬 분석 완료", mbtiRevealSubtitle: "당신의 투자자 유형은", mbtiRevealLoading: "완벽한 주식 매칭 찾는 중...", mbtiAxisRisk: "위험성향", mbtiAxisStyle: "투자목표", mbtiAxisSector: "섹터선호", mbtiAxisTime: "투자기간",
+    celebChip: "🌟 셀럽 매칭", celebIntroTitle: "당신은 어떤 투자자인가요?", celebIntroSubtitle: "3가지 질문으로 나와 닮은 셀럽 투자자를 찾아보세요.", celebStartBtn: "내 셀럽 투자자 찾기 🌟", celebMatchingLabel: "매칭 중", celebMatchingTitle: "투자 DNA 분석 중...", celebMatchingSubtitle: "셀럽 4인 포트폴리오 스캔 중 🌟",
   },
 
   en: {
@@ -400,6 +409,7 @@ export const translations: Record<LangCode, Translations> = {
     resultShareBtn: "Share", resultSaveBtn: "Save Image", resultRetryBtn: "Try Again",
     resultDisclaimer: "For entertainment only · Not financial advice",
     mbtiChip: "🧬 Stock MBTI", mbtiBack: "← Back", mbtiRevealTitle: "🧬 Analysis Complete", mbtiRevealSubtitle: "Your investor type is", mbtiRevealLoading: "Finding your perfect stock match...", mbtiAxisRisk: "Risk", mbtiAxisStyle: "Style", mbtiAxisSector: "Sector", mbtiAxisTime: "Time",
+    celebChip: "🌟 Celebrity Match", celebIntroTitle: "Which investor are you?", celebIntroSubtitle: "Answer 3 questions to find your celebrity investor twin.", celebStartBtn: "Find My Celebrity Match 🌟", celebMatchingLabel: "Finding Your Match", celebMatchingTitle: "Analyzing your investment DNA...", celebMatchingSubtitle: "Scanning 4 celebrity portfolios 🌟",
   },
 
   zh: {
@@ -516,6 +526,7 @@ export const translations: Record<LangCode, Translations> = {
     resultShareBtn: "分享", resultSaveBtn: "保存图片", resultRetryBtn: "再试一次",
     resultDisclaimer: "仅供娱乐 · 非投资建议",
     mbtiChip: "🧬 股票MBTI", mbtiBack: "← 返回", mbtiRevealTitle: "🧬 分析完成", mbtiRevealSubtitle: "您的投资者类型是", mbtiRevealLoading: "正在寻找最佳匹配股票...", mbtiAxisRisk: "风险偏好", mbtiAxisStyle: "投资风格", mbtiAxisSector: "行业偏好", mbtiAxisTime: "投资期限",
+    celebChip: "🌟 名人匹配", celebIntroTitle: "你是哪种投资者？", celebIntroSubtitle: "回答3个问题，找到与你相似的名人投资者。", celebStartBtn: "找到我的名人匹配 🌟", celebMatchingLabel: "匹配中", celebMatchingTitle: "分析您的投资DNA...", celebMatchingSubtitle: "正在扫描4位名人的投资组合 🌟",
   },
 
   ja: {
@@ -632,6 +643,7 @@ export const translations: Record<LangCode, Translations> = {
     resultShareBtn: "シェア", resultSaveBtn: "画像を保存", resultRetryBtn: "もう一度",
     resultDisclaimer: "エンタメ専用 · 投資アドバイスではありません",
     mbtiChip: "🧬 株式MBTI", mbtiBack: "← 戻る", mbtiRevealTitle: "🧬 分析完了", mbtiRevealSubtitle: "あなたの投資家タイプは", mbtiRevealLoading: "ベストな株を探しています...", mbtiAxisRisk: "リスク志向", mbtiAxisStyle: "投資スタイル", mbtiAxisSector: "セクター選好", mbtiAxisTime: "投資期間",
+    celebChip: "🌟 著名人マッチ", celebIntroTitle: "あなたはどのタイプの投資家？", celebIntroSubtitle: "3つの質問で、あなたに似た著名投資家を見つけましょう。", celebStartBtn: "私の著名人を見つける 🌟", celebMatchingLabel: "マッチング中", celebMatchingTitle: "投資DNAを分析中...", celebMatchingSubtitle: "4人の著名人ポートフォリオをスキャン中 🌟",
   },
 
   es: {
@@ -748,6 +760,7 @@ export const translations: Record<LangCode, Translations> = {
     resultShareBtn: "Compartir", resultSaveBtn: "Guardar imagen", resultRetryBtn: "Intentar de nuevo",
     resultDisclaimer: "Solo entretenimiento · No es asesoramiento financiero",
     mbtiChip: "🧬 MBTI de Acciones", mbtiBack: "← Atrás", mbtiRevealTitle: "🧬 Análisis Completo", mbtiRevealSubtitle: "Tu tipo de inversor es", mbtiRevealLoading: "Buscando tu acción perfecta...", mbtiAxisRisk: "Riesgo", mbtiAxisStyle: "Estilo", mbtiAxisSector: "Sector", mbtiAxisTime: "Plazo",
+    celebChip: "🌟 Match Celebridad", celebIntroTitle: "¿Qué tipo de inversor eres?", celebIntroSubtitle: "Responde 3 preguntas para encontrar tu celebridad inversora gemela.", celebStartBtn: "Encontrar mi celebridad 🌟", celebMatchingLabel: "Buscando tu match", celebMatchingTitle: "Analizando tu ADN inversor...", celebMatchingSubtitle: "Escaneando 4 portafolios de celebridades 🌟",
   },
 
   fr: {
@@ -864,6 +877,7 @@ export const translations: Record<LangCode, Translations> = {
     resultShareBtn: "Partager", resultSaveBtn: "Sauvegarder l'image", resultRetryBtn: "Réessayer",
     resultDisclaimer: "Divertissement uniquement · Pas de conseil financier",
     mbtiChip: "🧬 MBTI Boursier", mbtiBack: "← Retour", mbtiRevealTitle: "🧬 Analyse Terminée", mbtiRevealSubtitle: "Votre profil d'investisseur est", mbtiRevealLoading: "Recherche de votre action idéale...", mbtiAxisRisk: "Risque", mbtiAxisStyle: "Style", mbtiAxisSector: "Secteur", mbtiAxisTime: "Durée",
+    celebChip: "🌟 Match Célébrité", celebIntroTitle: "Quel type d'investisseur êtes-vous ?", celebIntroSubtitle: "Répondez à 3 questions pour trouver votre jumeau investisseur célèbre.", celebStartBtn: "Trouver ma célébrité 🌟", celebMatchingLabel: "Recherche en cours", celebMatchingTitle: "Analyse de votre ADN investisseur...", celebMatchingSubtitle: "Scan de 4 portefeuilles de célébrités 🌟",
   },
 
   de: {
@@ -980,6 +994,7 @@ export const translations: Record<LangCode, Translations> = {
     resultShareBtn: "Teilen", resultSaveBtn: "Bild speichern", resultRetryBtn: "Nochmal versuchen",
     resultDisclaimer: "Nur zur Unterhaltung · Keine Anlageberatung",
     mbtiChip: "🧬 Aktien MBTI", mbtiBack: "← Zurück", mbtiRevealTitle: "🧬 Analyse Abgeschlossen", mbtiRevealSubtitle: "Ihr Investorentyp ist", mbtiRevealLoading: "Suche Ihre perfekte Aktie...", mbtiAxisRisk: "Risiko", mbtiAxisStyle: "Stil", mbtiAxisSector: "Sektor", mbtiAxisTime: "Zeitraum",
+    celebChip: "🌟 Promi-Match", celebIntroTitle: "Was für ein Investor bist du?", celebIntroSubtitle: "Beantworte 3 Fragen, um deinen berühmten Investoren-Zwilling zu finden.", celebStartBtn: "Meinen Promi finden 🌟", celebMatchingLabel: "Matching läuft", celebMatchingTitle: "Analysiere deine Investment-DNA...", celebMatchingSubtitle: "4 Promi-Portfolios werden gescannt 🌟",
   },
 
   pt: {
@@ -1096,6 +1111,7 @@ export const translations: Record<LangCode, Translations> = {
     resultShareBtn: "Compartilhar", resultSaveBtn: "Salvar imagem", resultRetryBtn: "Tentar novamente",
     resultDisclaimer: "Apenas entretenimento · Não é conselho financeiro",
     mbtiChip: "🧬 MBTI de Ações", mbtiBack: "← Voltar", mbtiRevealTitle: "🧬 Análise Concluída", mbtiRevealSubtitle: "Seu tipo de investidor é", mbtiRevealLoading: "Encontrando sua ação perfeita...", mbtiAxisRisk: "Risco", mbtiAxisStyle: "Estilo", mbtiAxisSector: "Setor", mbtiAxisTime: "Prazo",
+    celebChip: "🌟 Match Celebridade", celebIntroTitle: "Que tipo de investidor você é?", celebIntroSubtitle: "Responda 3 perguntas para encontrar sua celebridade investidora gêmea.", celebStartBtn: "Encontrar minha celebridade 🌟", celebMatchingLabel: "Buscando match", celebMatchingTitle: "Analisando seu DNA de investidor...", celebMatchingSubtitle: "Escaneando 4 portfólios de celebridades 🌟",
   },
 
   hi: {
@@ -1212,6 +1228,7 @@ export const translations: Record<LangCode, Translations> = {
     resultShareBtn: "Share करें", resultSaveBtn: "Image Save करें", resultRetryBtn: "फिर से करें",
     resultDisclaimer: "सिर्फ मनोरंजन के लिए · वित्तीय सलाह नहीं",
     mbtiChip: "🧬 स्टॉक MBTI", mbtiBack: "← वापस", mbtiRevealTitle: "🧬 विश्लेषण पूर्ण", mbtiRevealSubtitle: "आपका निवेशक प्रकार है", mbtiRevealLoading: "आपके लिए सही स्टॉक खोज रहे हैं...", mbtiAxisRisk: "जोखिम", mbtiAxisStyle: "शैली", mbtiAxisSector: "क्षेत्र", mbtiAxisTime: "अवधि",
+    celebChip: "🌟 सेलिब्रिटी मैच", celebIntroTitle: "आप किस तरह के निवेशक हैं?", celebIntroSubtitle: "3 सवालों के जवाब दें और अपने जैसी मशहूर निवेशक खोजें।", celebStartBtn: "मेरी सेलिब्रिटी खोजें 🌟", celebMatchingLabel: "मैच हो रहा है", celebMatchingTitle: "आपका निवेश DNA विश्लेषण हो रहा है...", celebMatchingSubtitle: "4 सेलिब्रिटी पोर्टफोलियो स्कैन हो रहे हैं 🌟",
   },
 
   ar: {
@@ -1328,6 +1345,7 @@ export const translations: Record<LangCode, Translations> = {
     resultShareBtn: "مشاركة", resultSaveBtn: "حفظ الصورة", resultRetryBtn: "المحاولة مجدداً",
     resultDisclaimer: "للترفيه فقط · ليس نصيحة مالية",
     mbtiChip: "🧬 MBTI الأسهم", mbtiBack: "→ رجوع", mbtiRevealTitle: "🧬 اكتمل التحليل", mbtiRevealSubtitle: "نوع المستثمر لديك هو", mbtiRevealLoading: "جارٍ البحث عن أفضل سهم لك...", mbtiAxisRisk: "المخاطرة", mbtiAxisStyle: "الأسلوب", mbtiAxisSector: "القطاع", mbtiAxisTime: "المدة",
+    celebChip: "🌟 مطابقة المشاهير", celebIntroTitle: "ما نوع المستثمر الذي أنت عليه؟", celebIntroSubtitle: "أجب على 3 أسئلة لتجد مشهورك الاستثماري المشابه لك.", celebStartBtn: "اعثر على مشهوري 🌟", celebMatchingLabel: "جارٍ المطابقة", celebMatchingTitle: "تحليل DNA الاستثماري...", celebMatchingSubtitle: "جارٍ مسح 4 محافظ للمشاهير 🌟",
   },
 };
 
@@ -1649,6 +1667,90 @@ export const mbtiQuestions: Partial<Record<LangCode, MbtiQ[]>> = {
       ],
     },
   ],
+};
+
+// ── Celebrity Match data pool (ko / en; others fall back to en) ───────────────
+export type CelebQuestion = {
+  q: string;
+  options: { text: string; pts: { elon: number; buffett: number; cathie: number; cramer: number } }[];
+};
+export type CelebMeta = { title: string; tagline: string };
+export type CelebData = {
+  questions: CelebQuestion[];
+  elon: CelebMeta; buffett: CelebMeta; cathie: CelebMeta; cramer: CelebMeta;
+};
+
+export const celebData: Partial<Record<LangCode, CelebData>> = {
+  ko: {
+    questions: [
+      {
+        q: "당신의 핵심 투자 철학은?",
+        options: [
+          { text: "파괴하거나 사라지거나. 구산업은 붕괴해야 해 🔥", pts: { elon: 3, cathie: 1, buffett: 0, cramer: 0 } },
+          { text: "좋은 기업, 합리적인 가격, 영원히 보유 📚", pts: { elon: 0, cathie: 0, buffett: 3, cramer: 1 } },
+          { text: "월가가 눈치채기 전에 미래에 먼저 투자 🔮", pts: { elon: 1, cathie: 3, buffett: 0, cramer: 0 } },
+          { text: "분산투자, 균형 유지, 전문가 신뢰 📺", pts: { elon: 0, cathie: 0, buffett: 0, cramer: 3 } },
+        ],
+      },
+      {
+        q: "이번 주 시장이 -30% 폭락했어요. 어떻게 하시겠어요?",
+        options: [
+          { text: "트윗 남기고 더 산다. 확신은 죽지 않아 ⚡", pts: { elon: 3, cathie: 1, buffett: 0, cramer: 0 } },
+          { text: "연간 보고서 읽는다. 내 thesis는 변하지 않았어 📖", pts: { elon: 0, cathie: 0, buffett: 3, cramer: 0 } },
+          { text: "더 사자. 혁신이 할인 중이야 — 이게 바로 기회 🛒", pts: { elon: 1, cathie: 3, buffett: 1, cramer: 0 } },
+          { text: "즉시 안전 섹터로 이동. 원금 보호가 최우선 🛡️", pts: { elon: 0, cathie: 0, buffett: 0, cramer: 3 } },
+        ],
+      },
+      {
+        q: "어떤 포트폴리오를 만들고 싶어요?",
+        options: [
+          { text: "테슬라, AI 스타트업, 스페이스X, 뉴럴링크 🚀", pts: { elon: 3, cathie: 1, buffett: 0, cramer: 0 } },
+          { text: "애플, 코카콜라, 아메리칸 익스프레스, BRK.B 🥤", pts: { elon: 0, cathie: 0, buffett: 3, cramer: 1 } },
+          { text: "코인베이스, ROKU, 유전공학, 블록체인, 혁신 바이오 🧬", pts: { elon: 0, cathie: 3, buffett: 0, cramer: 0 } },
+          { text: "오늘 TV에서 본 모든 섹터 우량주 📺", pts: { elon: 0, cathie: 0, buffett: 0, cramer: 3 } },
+        ],
+      },
+    ],
+    elon:    { title: "파괴적 혁신가",   tagline: "빠르게 움직여라. 다 부숴버려." },
+    buffett: { title: "오마하의 현인",   tagline: "남이 탐욕스러울 때 두려워하라." },
+    cathie:  { title: "혁신의 여왕",     tagline: "미래는 생각보다 빨리 온다." },
+    cramer:  { title: "광란의 머니 짐",  tagline: "부야! 분산투자를 잊지 마!" },
+  },
+  en: {
+    questions: [
+      {
+        q: "What's your core investment philosophy?",
+        options: [
+          { text: "Disrupt or die. Old industries deserve to be destroyed 🔥", pts: { elon: 3, cathie: 1, buffett: 0, cramer: 0 } },
+          { text: "Find great companies, pay fair prices, hold forever 📚", pts: { elon: 0, cathie: 0, buffett: 3, cramer: 1 } },
+          { text: "Invest in the future before Wall Street even wakes up 🔮", pts: { elon: 1, cathie: 3, buffett: 0, cramer: 0 } },
+          { text: "Stay diversified, balanced, and trust the experts 📺", pts: { elon: 0, cathie: 0, buffett: 0, cramer: 3 } },
+        ],
+      },
+      {
+        q: "The market drops -30% this week. Your move?",
+        options: [
+          { text: "Tweet about it, then buy more. Conviction never dies ⚡", pts: { elon: 3, cathie: 1, buffett: 0, cramer: 0 } },
+          { text: "Read the annual report. My thesis hasn't changed 📖", pts: { elon: 0, cathie: 0, buffett: 3, cramer: 0 } },
+          { text: "Load up. Disruption is on sale — this is the dip 🛒", pts: { elon: 1, cathie: 3, buffett: 1, cramer: 0 } },
+          { text: "Rotate into safer sectors immediately. Protect capital 🛡️", pts: { elon: 0, cathie: 0, buffett: 0, cramer: 3 } },
+        ],
+      },
+      {
+        q: "Which portfolio would you actually build?",
+        options: [
+          { text: "TSLA, AI startups, SpaceX bets, Neuralink 🚀", pts: { elon: 3, cathie: 1, buffett: 0, cramer: 0 } },
+          { text: "AAPL, Coca-Cola, American Express, BRK.B 🥤", pts: { elon: 0, cathie: 0, buffett: 3, cramer: 1 } },
+          { text: "COIN, ROKU, genomics, blockchain, disruptive biotech 🧬", pts: { elon: 0, cathie: 3, buffett: 0, cramer: 0 } },
+          { text: "Blue-chips from every sector I saw on TV today 📺", pts: { elon: 0, cathie: 0, buffett: 0, cramer: 3 } },
+        ],
+      },
+    ],
+    elon:    { title: "The Disruptor",        tagline: "Move fast. Break everything." },
+    buffett: { title: "The Oracle of Omaha",  tagline: "Be fearful when others are greedy." },
+    cathie:  { title: "The Innovation Queen", tagline: "The future arrives faster than you think." },
+    cramer:  { title: "Mad Money Jim",         tagline: "Booyah! Stay diversified!" },
+  },
 };
 
 // ── Context ────────────────────────────────────────────────────────────────────

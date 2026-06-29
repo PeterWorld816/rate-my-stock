@@ -1,6 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Result } from "@/app/page";
+import { useLanguage, careerLocale } from "@/lib/i18n";
 
 interface CareerEntry {
   emoji: string;
@@ -210,20 +211,6 @@ const CATEGORIES: CategoryData[] = [
   },
 ];
 
-const EXPERIENCE_OPTIONS = [
-  { id: "beginner", label: "🌱 처음 시작", desc: "투자가 처음이에요" },
-  { id: "some", label: "📚 1~3년", desc: "기초는 알아요" },
-  { id: "experienced", label: "💼 3~7년", desc: "어느 정도 경험 있어요" },
-  { id: "expert", label: "🔥 7년+", desc: "베테랑 투자자예요" },
-];
-
-const GOAL_OPTIONS = [
-  { id: "retirement", label: "🏖️ 노후 준비", desc: "장기 안정 성장" },
-  { id: "shortterm", label: "⚡ 단기 수익", desc: "1~2년 내 수익 목표" },
-  { id: "passive", label: "💰 패시브 인컴", desc: "배당 & 현금흐름" },
-  { id: "growth", label: "🚀 자산 급성장", desc: "공격적 성장 추구" },
-];
-
 const THEME_COLOR = "#0D9488";
 const THEME_GRADIENT = "linear-gradient(135deg, #0D9488, #0F766E)";
 const THEME_BG = "#0D948818";
@@ -241,11 +228,37 @@ export default function CareerMode({
   loading: boolean;
   setLoading: (b: boolean) => void;
 }) {
+  const { t, lang } = useLanguage();
+  const catLocale = careerLocale[lang] ?? careerLocale.en!;
+
+  const localizedCats: CategoryData[] = CATEGORIES.map((cat, ci) => {
+    const loc = catLocale.categories[ci];
+    return {
+      ...cat,
+      name: loc?.name ?? cat.name,
+      careers: cat.careers.map((career, ji) => ({
+        ...career,
+        title: loc?.careers[ji]?.title ?? career.title,
+      })),
+    };
+  });
+
+  const expOptions = catLocale.expOptions;
+  const goalOptions = catLocale.goalOptions;
+
   const [step, setStep] = useState<Step>("category");
   const [selectedCategory, setSelectedCategory] = useState<CategoryData | null>(null);
   const [selectedCareer, setSelectedCareer] = useState<CareerEntry | null>(null);
   const [selectedExperience, setSelectedExperience] = useState<string | null>(null);
   const [revealing, setRevealing] = useState(false);
+
+  useEffect(() => {
+    setStep("category");
+    setSelectedCategory(null);
+    setSelectedCareer(null);
+    setSelectedExperience(null);
+    setRevealing(false);
+  }, [lang]);
 
   const handleCategorySelect = (cat: CategoryData) => {
     setSelectedCategory(cat);
@@ -345,12 +358,12 @@ Important: Make the reason witty and career-specific — reference their profess
         <div className="rounded-3xl bg-white p-8 shadow-md text-center">
           <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-6"
             style={{ background: THEME_BG, color: THEME_COLOR }}>
-            💼 커리어 매치 분석 중
+            {t.careerLoadingChip}
           </div>
           <div className="text-6xl mb-4">{selectedCareer.emoji}</div>
           <p className="text-xl font-bold mb-1" style={{ color: THEME_COLOR }}>{selectedCareer.title}</p>
           <p className="text-sm text-[#6B7280] mb-8">
-            {selectedCategory.emoji} {selectedCategory.name} · 딱 맞는 주식 찾는 중...
+            {selectedCategory.emoji} {selectedCategory.name} · {t.careerLoadingSubtitle}
           </p>
           <div className="space-y-2.5">
             {[0, 1, 2, 3].map(i => (
@@ -367,20 +380,20 @@ Important: Make the reason witty and career-specific — reference their profess
     return (
       <section className="px-4 sm:px-6 pb-safe max-w-4xl mx-auto fade-up">
         <button onClick={onBack} className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 hover:text-[#0D0D0D] transition-colors">
-          ← Back
+          ← {t.back}
         </button>
 
         <div className="text-center mb-6">
           <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-3"
             style={{ background: THEME_BG, color: THEME_COLOR }}>
-            💼 Career Match
+            {t.careerChip}
           </div>
-          <h2 className="font-display font-bold text-2xl text-[#0D0D0D] mb-1">당신의 직업은?</h2>
-          <p className="text-sm text-[#6B7280]">직업 분야를 선택하세요 — 100가지 직업</p>
+          <h2 className="font-display font-bold text-2xl text-[#0D0D0D] mb-1">{t.careerCategoryTitle}</h2>
+          <p className="text-sm text-[#6B7280]">{t.careerCategorySubtitle}</p>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-          {CATEGORIES.map((cat) => (
+          {localizedCats.map((cat) => (
             <button
               key={cat.id}
               onClick={() => handleCategorySelect(cat)}
@@ -390,7 +403,7 @@ Important: Make the reason witty and career-specific — reference their profess
                 style={{ background: cat.color }} />
               <div className="text-3xl mb-2">{cat.emoji}</div>
               <p className="font-bold text-sm text-[#0D0D0D] mb-0.5">{cat.name}</p>
-              <p className="text-[10px]" style={{ color: cat.color }}>{cat.careers.length}가지 직업 →</p>
+              <p className="text-[10px]" style={{ color: cat.color }}>{cat.careers.length}{t.careerCountSuffix}</p>
             </button>
           ))}
         </div>
@@ -406,7 +419,7 @@ Important: Make the reason witty and career-specific — reference their profess
           onClick={() => { setStep("category"); setSelectedCategory(null); }}
           className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 hover:text-[#0D0D0D] transition-colors touch-target"
         >
-          ← Back
+          ← {t.back}
         </button>
 
         <div className="rounded-3xl bg-white p-5 shadow-md">
@@ -418,13 +431,13 @@ Important: Make the reason witty and career-specific — reference their profess
             <div>
               <div className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold"
                 style={{ background: selectedCategory.bg, color: selectedCategory.color }}>
-                💼 Career Match
+                {t.careerChip}
               </div>
               <p className="font-bold text-[#0D0D0D]">{selectedCategory.name}</p>
             </div>
           </div>
 
-          <p className="text-sm font-semibold text-[#374151] mb-3">정확한 직업을 선택하세요</p>
+          <p className="text-sm font-semibold text-[#374151] mb-3">{t.careerPickLabel}</p>
 
           <div className="space-y-2">
             {selectedCategory.careers.map((career) => (
@@ -432,7 +445,6 @@ Important: Make the reason witty and career-specific — reference their profess
                 key={career.title}
                 onClick={() => handleCareerSelect(career)}
                 className="w-full text-left rounded-2xl border border-[#E5E5E0] bg-[#F5F5F0] px-4 touch-target text-sm font-medium text-[#374151] transition-all flex items-center gap-3 group"
-                style={{ ["--hover-border-color" as string]: selectedCategory.color }}
                 onMouseEnter={e => {
                   (e.currentTarget as HTMLButtonElement).style.borderColor = selectedCategory.color;
                   (e.currentTarget as HTMLButtonElement).style.background = selectedCategory.bg;
@@ -461,7 +473,7 @@ Important: Make the reason witty and career-specific — reference their profess
           onClick={() => setStep("career")}
           className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 hover:text-[#0D0D0D] transition-colors touch-target"
         >
-          ← Back
+          ← {t.back}
         </button>
 
         <div className="rounded-3xl bg-white p-5 shadow-md">
@@ -479,14 +491,14 @@ Important: Make the reason witty and career-specific — reference their profess
           </div>
 
           <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ color: THEME_COLOR }}>
-            투자 경험
+            {t.careerExpLabel}
           </p>
           <h2 className="font-display font-bold text-xl mb-6 leading-snug text-[#0D0D0D]">
-            투자 경험이 얼마나 되나요?
+            {t.careerExpTitle}
           </h2>
 
           <div className="space-y-3">
-            {EXPERIENCE_OPTIONS.map((opt) => (
+            {expOptions.map((opt) => (
               <button
                 key={opt.id}
                 onClick={() => handleExperienceSelect(opt.id)}
@@ -516,7 +528,7 @@ Important: Make the reason witty and career-specific — reference their profess
           onClick={() => setStep("experience")}
           className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 hover:text-[#0D0D0D] transition-colors touch-target"
         >
-          ← Back
+          ← {t.back}
         </button>
 
         <div className="rounded-3xl bg-white p-5 shadow-md">
@@ -534,14 +546,14 @@ Important: Make the reason witty and career-specific — reference their profess
           </div>
 
           <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ color: THEME_COLOR }}>
-            투자 목표
+            {t.careerGoalLabel}
           </p>
           <h2 className="font-display font-bold text-xl mb-6 leading-snug text-[#0D0D0D]">
-            투자의 주요 목표는 무엇인가요?
+            {t.careerGoalTitle}
           </h2>
 
           <div className="space-y-3">
-            {GOAL_OPTIONS.map((opt) => (
+            {goalOptions.map((opt) => (
               <button
                 key={opt.id}
                 onClick={() => handleGoalSelect(opt.id)}

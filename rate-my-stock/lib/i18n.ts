@@ -147,6 +147,14 @@ export interface Translations {
   celebMatchingLabel: string;
   celebMatchingTitle: string;
   celebMatchingSubtitle: string;
+  // Vibe mode
+  vibeChip: string; vibeTitle: string; vibeSubtitle: string;
+  // Career Match mode
+  careerChip: string; careerCategoryTitle: string; careerCategorySubtitle: string;
+  careerCountSuffix: string; careerPickLabel: string;
+  careerExpLabel: string; careerExpTitle: string;
+  careerGoalLabel: string; careerGoalTitle: string;
+  careerLoadingChip: string; careerLoadingSubtitle: string;
 }
 
 export interface LangMeta {
@@ -293,6 +301,8 @@ export const translations: Record<LangCode, Translations> = {
     resultDisclaimer: "엔터테인먼트 전용 · 투자 조언 아님",
     mbtiChip: "🧬 주식 MBTI", mbtiBack: "← 뒤로", mbtiRevealTitle: "🧬 분석 완료", mbtiRevealSubtitle: "당신의 투자자 유형은", mbtiRevealLoading: "완벽한 주식 매칭 찾는 중...", mbtiAxisRisk: "위험성향", mbtiAxisStyle: "투자목표", mbtiAxisSector: "섹터선호", mbtiAxisTime: "투자기간",
     celebChip: "🌟 셀럽 매칭", celebIntroTitle: "당신은 어떤 투자자인가요?", celebIntroSubtitle: "3가지 질문으로 나와 닮은 셀럽 투자자를 찾아보세요.", celebStartBtn: "내 셀럽 투자자 찾기 🌟", celebMatchingLabel: "매칭 중", celebMatchingTitle: "투자 DNA 분석 중...", celebMatchingSubtitle: "셀럽 4인 포트폴리오 스캔 중 🌟",
+    vibeChip: "✨ 오늘의 바이브", vibeTitle: "오늘 기분이 어때요?", vibeSubtitle: "지금 내 기분 = 오늘의 주식 에너지",
+    careerChip: "💼 커리어 매치", careerCategoryTitle: "당신의 직업은?", careerCategorySubtitle: "직업 분야를 선택하세요 — 100가지 직업", careerCountSuffix: "가지 직업 →", careerPickLabel: "정확한 직업을 선택하세요", careerExpLabel: "투자 경험", careerExpTitle: "투자 경험이 얼마나 되나요?", careerGoalLabel: "투자 목표", careerGoalTitle: "투자의 주요 목표는 무엇인가요?", careerLoadingChip: "💼 커리어 매치 분석 중", careerLoadingSubtitle: "딱 맞는 주식 찾는 중...",
   },
 
   en: {
@@ -410,6 +420,8 @@ export const translations: Record<LangCode, Translations> = {
     resultDisclaimer: "For entertainment only · Not financial advice",
     mbtiChip: "🧬 Stock MBTI", mbtiBack: "← Back", mbtiRevealTitle: "🧬 Analysis Complete", mbtiRevealSubtitle: "Your investor type is", mbtiRevealLoading: "Finding your perfect stock match...", mbtiAxisRisk: "Risk", mbtiAxisStyle: "Style", mbtiAxisSector: "Sector", mbtiAxisTime: "Time",
     celebChip: "🌟 Celebrity Match", celebIntroTitle: "Which investor are you?", celebIntroSubtitle: "Answer 3 questions to find your celebrity investor twin.", celebStartBtn: "Find My Celebrity Match 🌟", celebMatchingLabel: "Finding Your Match", celebMatchingTitle: "Analyzing your investment DNA...", celebMatchingSubtitle: "Scanning 4 celebrity portfolios 🌟",
+    vibeChip: "✨ Today's Vibe", vibeTitle: "How are you feeling?", vibeSubtitle: "Your vibe energy = your stock energy today.",
+    careerChip: "💼 Career Match", careerCategoryTitle: "What's your job?", careerCategorySubtitle: "Pick your industry — 100 careers", careerCountSuffix: " careers →", careerPickLabel: "Select your specific job", careerExpLabel: "Experience", careerExpTitle: "How much investment experience do you have?", careerGoalLabel: "Investment Goal", careerGoalTitle: "What's your main investment goal?", careerLoadingChip: "💼 Analyzing Career Match", careerLoadingSubtitle: "Finding your perfect stock...",
   },
 
   zh: {
@@ -527,6 +539,8 @@ export const translations: Record<LangCode, Translations> = {
     resultDisclaimer: "仅供娱乐 · 非投资建议",
     mbtiChip: "🧬 股票MBTI", mbtiBack: "← 返回", mbtiRevealTitle: "🧬 分析完成", mbtiRevealSubtitle: "您的投资者类型是", mbtiRevealLoading: "正在寻找最佳匹配股票...", mbtiAxisRisk: "风险偏好", mbtiAxisStyle: "投资风格", mbtiAxisSector: "行业偏好", mbtiAxisTime: "投资期限",
     celebChip: "🌟 名人匹配", celebIntroTitle: "你是哪种投资者？", celebIntroSubtitle: "回答3个问题，找到与你相似的名人投资者。", celebStartBtn: "找到我的名人匹配 🌟", celebMatchingLabel: "匹配中", celebMatchingTitle: "分析您的投资DNA...", celebMatchingSubtitle: "正在扫描4位名人的投资组合 🌟",
+    vibeChip: "✨ 今日状态", vibeTitle: "今天感觉如何？", vibeSubtitle: "你的状态 = 今天的股票能量。",
+    careerChip: "💼 职业匹配", careerCategoryTitle: "你的职业是什么？", careerCategorySubtitle: "选择你的行业 — 100种职业", careerCountSuffix: "种职业 →", careerPickLabel: "选择你的具体职业", careerExpLabel: "投资经验", careerExpTitle: "你有多少投资经验？", careerGoalLabel: "投资目标", careerGoalTitle: "你的主要投资目标是什么？", careerLoadingChip: "💼 职业匹配分析中", careerLoadingSubtitle: "正在寻找最适合的股票...",
   },
 
   ja: {
@@ -644,6 +658,8 @@ export const translations: Record<LangCode, Translations> = {
     resultDisclaimer: "エンタメ専用 · 投資アドバイスではありません",
     mbtiChip: "🧬 株式MBTI", mbtiBack: "← 戻る", mbtiRevealTitle: "🧬 分析完了", mbtiRevealSubtitle: "あなたの投資家タイプは", mbtiRevealLoading: "ベストな株を探しています...", mbtiAxisRisk: "リスク志向", mbtiAxisStyle: "投資スタイル", mbtiAxisSector: "セクター選好", mbtiAxisTime: "投資期間",
     celebChip: "🌟 著名人マッチ", celebIntroTitle: "あなたはどのタイプの投資家？", celebIntroSubtitle: "3つの質問で、あなたに似た著名投資家を見つけましょう。", celebStartBtn: "私の著名人を見つける 🌟", celebMatchingLabel: "マッチング中", celebMatchingTitle: "投資DNAを分析中...", celebMatchingSubtitle: "4人の著名人ポートフォリオをスキャン中 🌟",
+    vibeChip: "✨ 今日のバイブ", vibeTitle: "今日の気分は？", vibeSubtitle: "今の気分 = 今日の株エネルギー",
+    careerChip: "💼 職業マッチ", careerCategoryTitle: "あなたの職業は？", careerCategorySubtitle: "業界を選択 — 100職種", careerCountSuffix: "職種 →", careerPickLabel: "具体的な職業を選択", careerExpLabel: "投資経験", careerExpTitle: "投資経験はどのくらいですか？", careerGoalLabel: "投資目標", careerGoalTitle: "主な投資目標は何ですか？", careerLoadingChip: "💼 職業マッチ分析中", careerLoadingSubtitle: "最適な株を探しています...",
   },
 
   es: {
@@ -761,6 +777,8 @@ export const translations: Record<LangCode, Translations> = {
     resultDisclaimer: "Solo entretenimiento · No es asesoramiento financiero",
     mbtiChip: "🧬 MBTI de Acciones", mbtiBack: "← Atrás", mbtiRevealTitle: "🧬 Análisis Completo", mbtiRevealSubtitle: "Tu tipo de inversor es", mbtiRevealLoading: "Buscando tu acción perfecta...", mbtiAxisRisk: "Riesgo", mbtiAxisStyle: "Estilo", mbtiAxisSector: "Sector", mbtiAxisTime: "Plazo",
     celebChip: "🌟 Match Celebridad", celebIntroTitle: "¿Qué tipo de inversor eres?", celebIntroSubtitle: "Responde 3 preguntas para encontrar tu celebridad inversora gemela.", celebStartBtn: "Encontrar mi celebridad 🌟", celebMatchingLabel: "Buscando tu match", celebMatchingTitle: "Analizando tu ADN inversor...", celebMatchingSubtitle: "Escaneando 4 portafolios de celebridades 🌟",
+    vibeChip: "✨ Vibe de Hoy", vibeTitle: "¿Cómo te sientes?", vibeSubtitle: "Tu energía hoy = tu energía bursátil.",
+    careerChip: "💼 Match de Carrera", careerCategoryTitle: "¿Cuál es tu profesión?", careerCategorySubtitle: "Elige tu industria — 100 carreras", careerCountSuffix: " carreras →", careerPickLabel: "Selecciona tu trabajo específico", careerExpLabel: "Experiencia", careerExpTitle: "¿Cuánta experiencia inversora tienes?", careerGoalLabel: "Meta de Inversión", careerGoalTitle: "¿Cuál es tu principal objetivo?", careerLoadingChip: "💼 Analizando Career Match", careerLoadingSubtitle: "Buscando tu acción perfecta...",
   },
 
   fr: {
@@ -878,6 +896,8 @@ export const translations: Record<LangCode, Translations> = {
     resultDisclaimer: "Divertissement uniquement · Pas de conseil financier",
     mbtiChip: "🧬 MBTI Boursier", mbtiBack: "← Retour", mbtiRevealTitle: "🧬 Analyse Terminée", mbtiRevealSubtitle: "Votre profil d'investisseur est", mbtiRevealLoading: "Recherche de votre action idéale...", mbtiAxisRisk: "Risque", mbtiAxisStyle: "Style", mbtiAxisSector: "Secteur", mbtiAxisTime: "Durée",
     celebChip: "🌟 Match Célébrité", celebIntroTitle: "Quel type d'investisseur êtes-vous ?", celebIntroSubtitle: "Répondez à 3 questions pour trouver votre jumeau investisseur célèbre.", celebStartBtn: "Trouver ma célébrité 🌟", celebMatchingLabel: "Recherche en cours", celebMatchingTitle: "Analyse de votre ADN investisseur...", celebMatchingSubtitle: "Scan de 4 portefeuilles de célébrités 🌟",
+    vibeChip: "✨ Vibe du Jour", vibeTitle: "Comment vous sentez-vous ?", vibeSubtitle: "Votre énergie du jour = votre énergie boursière.",
+    careerChip: "💼 Match Carrière", careerCategoryTitle: "Quelle est votre profession ?", careerCategorySubtitle: "Choisissez votre secteur — 100 métiers", careerCountSuffix: " métiers →", careerPickLabel: "Sélectionnez votre métier précis", careerExpLabel: "Expérience", careerExpTitle: "Quelle est votre expérience en investissement ?", careerGoalLabel: "Objectif", careerGoalTitle: "Quel est votre principal objectif ?", careerLoadingChip: "💼 Analyse Career Match", careerLoadingSubtitle: "Recherche de votre action idéale...",
   },
 
   de: {
@@ -995,6 +1015,8 @@ export const translations: Record<LangCode, Translations> = {
     resultDisclaimer: "Nur zur Unterhaltung · Keine Anlageberatung",
     mbtiChip: "🧬 Aktien MBTI", mbtiBack: "← Zurück", mbtiRevealTitle: "🧬 Analyse Abgeschlossen", mbtiRevealSubtitle: "Ihr Investorentyp ist", mbtiRevealLoading: "Suche Ihre perfekte Aktie...", mbtiAxisRisk: "Risiko", mbtiAxisStyle: "Stil", mbtiAxisSector: "Sektor", mbtiAxisTime: "Zeitraum",
     celebChip: "🌟 Promi-Match", celebIntroTitle: "Was für ein Investor bist du?", celebIntroSubtitle: "Beantworte 3 Fragen, um deinen berühmten Investoren-Zwilling zu finden.", celebStartBtn: "Meinen Promi finden 🌟", celebMatchingLabel: "Matching läuft", celebMatchingTitle: "Analysiere deine Investment-DNA...", celebMatchingSubtitle: "4 Promi-Portfolios werden gescannt 🌟",
+    vibeChip: "✨ Heutiger Vibe", vibeTitle: "Wie fühlst du dich?", vibeSubtitle: "Deine Energie heute = deine Aktienenergie.",
+    careerChip: "💼 Karriere-Match", careerCategoryTitle: "Was ist dein Beruf?", careerCategorySubtitle: "Wähle deine Branche — 100 Berufe", careerCountSuffix: " Berufe →", careerPickLabel: "Wähle deinen spezifischen Beruf", careerExpLabel: "Erfahrung", careerExpTitle: "Wie viel Investitionserfahrung hast du?", careerGoalLabel: "Anlageziel", careerGoalTitle: "Was ist dein wichtigstes Anlageziel?", careerLoadingChip: "💼 Karriere-Match wird analysiert", careerLoadingSubtitle: "Suche deine perfekte Aktie...",
   },
 
   pt: {
@@ -1112,6 +1134,8 @@ export const translations: Record<LangCode, Translations> = {
     resultDisclaimer: "Apenas entretenimento · Não é conselho financeiro",
     mbtiChip: "🧬 MBTI de Ações", mbtiBack: "← Voltar", mbtiRevealTitle: "🧬 Análise Concluída", mbtiRevealSubtitle: "Seu tipo de investidor é", mbtiRevealLoading: "Encontrando sua ação perfeita...", mbtiAxisRisk: "Risco", mbtiAxisStyle: "Estilo", mbtiAxisSector: "Setor", mbtiAxisTime: "Prazo",
     celebChip: "🌟 Match Celebridade", celebIntroTitle: "Que tipo de investidor você é?", celebIntroSubtitle: "Responda 3 perguntas para encontrar sua celebridade investidora gêmea.", celebStartBtn: "Encontrar minha celebridade 🌟", celebMatchingLabel: "Buscando match", celebMatchingTitle: "Analisando seu DNA de investidor...", celebMatchingSubtitle: "Escaneando 4 portfólios de celebridades 🌟",
+    vibeChip: "✨ Vibe de Hoje", vibeTitle: "Como você está se sentindo?", vibeSubtitle: "Sua energia hoje = sua energia em ações.",
+    careerChip: "💼 Match de Carreira", careerCategoryTitle: "Qual é a sua profissão?", careerCategorySubtitle: "Escolha seu setor — 100 carreiras", careerCountSuffix: " carreiras →", careerPickLabel: "Selecione sua profissão específica", careerExpLabel: "Experiência", careerExpTitle: "Quanta experiência de investimento você tem?", careerGoalLabel: "Objetivo", careerGoalTitle: "Qual é o seu principal objetivo?", careerLoadingChip: "💼 Analisando Career Match", careerLoadingSubtitle: "Encontrando sua ação perfeita...",
   },
 
   hi: {
@@ -1229,6 +1253,8 @@ export const translations: Record<LangCode, Translations> = {
     resultDisclaimer: "सिर्फ मनोरंजन के लिए · वित्तीय सलाह नहीं",
     mbtiChip: "🧬 स्टॉक MBTI", mbtiBack: "← वापस", mbtiRevealTitle: "🧬 विश्लेषण पूर्ण", mbtiRevealSubtitle: "आपका निवेशक प्रकार है", mbtiRevealLoading: "आपके लिए सही स्टॉक खोज रहे हैं...", mbtiAxisRisk: "जोखिम", mbtiAxisStyle: "शैली", mbtiAxisSector: "क्षेत्र", mbtiAxisTime: "अवधि",
     celebChip: "🌟 सेलिब्रिटी मैच", celebIntroTitle: "आप किस तरह के निवेशक हैं?", celebIntroSubtitle: "3 सवालों के जवाब दें और अपने जैसी मशहूर निवेशक खोजें।", celebStartBtn: "मेरी सेलिब्रिटी खोजें 🌟", celebMatchingLabel: "मैच हो रहा है", celebMatchingTitle: "आपका निवेश DNA विश्लेषण हो रहा है...", celebMatchingSubtitle: "4 सेलिब्रिटी पोर्टफोलियो स्कैन हो रहे हैं 🌟",
+    vibeChip: "✨ आज का वाइब", vibeTitle: "आज आप कैसा महसूस कर रहे हैं?", vibeSubtitle: "आपकी ऊर्जा = आज का शेयर बाज़ार एनर्जी।",
+    careerChip: "💼 करियर मैच", careerCategoryTitle: "आपका पेशा क्या है?", careerCategorySubtitle: "अपना उद्योग चुनें — 100 करियर", careerCountSuffix: " करियर →", careerPickLabel: "अपना विशिष्ट काम चुनें", careerExpLabel: "अनुभव", careerExpTitle: "आपके पास कितना निवेश अनुभव है?", careerGoalLabel: "लक्ष्य", careerGoalTitle: "आपका मुख्य निवेश लक्ष्य क्या है?", careerLoadingChip: "💼 करियर मैच विश्लेषण हो रहा है", careerLoadingSubtitle: "आपके लिए सही स्टॉक खोज रहे हैं...",
   },
 
   ar: {
@@ -1346,6 +1372,8 @@ export const translations: Record<LangCode, Translations> = {
     resultDisclaimer: "للترفيه فقط · ليس نصيحة مالية",
     mbtiChip: "🧬 MBTI الأسهم", mbtiBack: "→ رجوع", mbtiRevealTitle: "🧬 اكتمل التحليل", mbtiRevealSubtitle: "نوع المستثمر لديك هو", mbtiRevealLoading: "جارٍ البحث عن أفضل سهم لك...", mbtiAxisRisk: "المخاطرة", mbtiAxisStyle: "الأسلوب", mbtiAxisSector: "القطاع", mbtiAxisTime: "المدة",
     celebChip: "🌟 مطابقة المشاهير", celebIntroTitle: "ما نوع المستثمر الذي أنت عليه؟", celebIntroSubtitle: "أجب على 3 أسئلة لتجد مشهورك الاستثماري المشابه لك.", celebStartBtn: "اعثر على مشهوري 🌟", celebMatchingLabel: "جارٍ المطابقة", celebMatchingTitle: "تحليل DNA الاستثماري...", celebMatchingSubtitle: "جارٍ مسح 4 محافظ للمشاهير 🌟",
+    vibeChip: "✨ حال اليوم", vibeTitle: "كيف تشعر اليوم؟", vibeSubtitle: "طاقتك اليوم = طاقة بورصتك.",
+    careerChip: "💼 مطابقة المهنة", careerCategoryTitle: "ما هي مهنتك؟", careerCategorySubtitle: "اختر مجالك — 100 مهنة", careerCountSuffix: " مهنة →", careerPickLabel: "اختر وظيفتك المحددة", careerExpLabel: "الخبرة", careerExpTitle: "ما مقدار خبرتك في الاستثمار؟", careerGoalLabel: "الهدف", careerGoalTitle: "ما هو هدفك الاستثماري الرئيسي؟", careerLoadingChip: "💼 جارٍ تحليل مطابقة المهنة", careerLoadingSubtitle: "جارٍ البحث عن أفضل سهم لك...",
   },
 };
 
@@ -1750,6 +1778,95 @@ export const celebData: Partial<Record<LangCode, CelebData>> = {
     buffett: { title: "The Oracle of Omaha",  tagline: "Be fearful when others are greedy." },
     cathie:  { title: "The Innovation Queen", tagline: "The future arrives faster than you think." },
     cramer:  { title: "Mad Money Jim",         tagline: "Booyah! Stay diversified!" },
+  },
+};
+
+// ── Vibe Mode data pool (ko / en; others fall back to en) ────────────────────
+export type VibeItem = { key: string; emoji: string; label: string; desc: string };
+
+export const vibeItems: Partial<Record<LangCode, VibeItem[]>> = {
+  ko: [
+    { key: "On fire",    emoji: "🔥", label: "열정 넘침",   desc: "오늘 최고 컨디션" },
+    { key: "Chill",      emoji: "😌", label: "차분해",       desc: "균형 잡힌 하루" },
+    { key: "Frustrated", emoji: "😤", label: "답답해",       desc: "한 방이 필요해" },
+    { key: "Hyped",      emoji: "🤩", label: "흥분됨",       desc: "리스크 받을 준비 완료" },
+    { key: "Meh",        emoji: "😴", label: "별로야",       desc: "에너지 없는 날" },
+    { key: "Zen",        emoji: "🧘", label: "평온해",       desc: "장기적 시각으로" },
+    { key: "Anxious",    emoji: "😰", label: "불안해",       desc: "손실이 무서워" },
+    { key: "Confident",  emoji: "💪", label: "자신 있어",    desc: "과정을 믿어" },
+  ],
+  en: [
+    { key: "On fire",    emoji: "🔥", label: "On fire",    desc: "Crushing it today" },
+    { key: "Chill",      emoji: "😌", label: "Chill",      desc: "Balanced & steady" },
+    { key: "Frustrated", emoji: "😤", label: "Frustrated", desc: "Need a win" },
+    { key: "Hyped",      emoji: "🤩", label: "Hyped",      desc: "Ready to take risks" },
+    { key: "Meh",        emoji: "😴", label: "Meh",        desc: "Low energy day" },
+    { key: "Zen",        emoji: "🧘", label: "Zen",        desc: "Long-term thinking" },
+    { key: "Anxious",    emoji: "😰", label: "Anxious",    desc: "Scared of losses" },
+    { key: "Confident",  emoji: "💪", label: "Confident",  desc: "Trust the process" },
+  ],
+};
+
+// ── Career Match data pool (ko / en; others fall back to en) ─────────────────
+export type CareerExpOption = { id: string; label: string; desc: string };
+export type CareerLocale = {
+  categories: Array<{ name: string; careers: Array<{ title: string }> }>;
+  expOptions: CareerExpOption[];
+  goalOptions: CareerExpOption[];
+};
+
+export const careerLocale: Partial<Record<LangCode, CareerLocale>> = {
+  ko: {
+    categories: [
+      { name: "기술/IT",          careers: [{ title: "소프트웨어 개발자" }, { title: "AI/ML 엔지니어" }, { title: "사이버보안 전문가" }, { title: "클라우드 엔지니어" }, { title: "데이터 사이언티스트" }, { title: "모바일 앱 개발자" }, { title: "게임 개발자" }, { title: "웹 개발자" }, { title: "IT 컨설턴트" }, { title: "DevOps 엔지니어" }] },
+      { name: "의료/헬스케어",    careers: [{ title: "의사" }, { title: "약사" }, { title: "간호사" }, { title: "치과의사" }, { title: "정신과 의사" }, { title: "의학 연구원" }, { title: "물리치료사" }, { title: "유전공학자" }, { title: "외과의사" }, { title: "한의사/대체의학" }] },
+      { name: "금융/투자",        careers: [{ title: "주식 트레이더" }, { title: "투자 은행가" }, { title: "자산 관리사" }, { title: "퀀트 애널리스트" }, { title: "부동산 투자자" }, { title: "핀테크 전문가" }, { title: "보험 계리사" }, { title: "금융 분석가" }, { title: "헤지펀드 매니저" }, { title: "이코노미스트" }] },
+      { name: "교육/연구",        careers: [{ title: "교사/강사" }, { title: "물리학자" }, { title: "화학자" }, { title: "연구원" }, { title: "언론인/작가" }, { title: "수학자/통계학자" }, { title: "사회과학자" }, { title: "우주과학자" }, { title: "생물학자" }, { title: "교육 행정가" }] },
+      { name: "창작/예술",        careers: [{ title: "그래픽 디자이너" }, { title: "사진작가" }, { title: "영상 제작자" }, { title: "음악가" }, { title: "작가/소설가" }, { title: "배우/엔터테이너" }, { title: "건축가" }, { title: "UX/UI 디자이너" }, { title: "일러스트레이터" }, { title: "크리에이터/유튜버" }] },
+      { name: "엔지니어링",       careers: [{ title: "토목 엔지니어" }, { title: "전기 엔지니어" }, { title: "기계 엔지니어" }, { title: "화학 엔지니어" }, { title: "항공우주 엔지니어" }, { title: "환경 엔지니어" }, { title: "산업 엔지니어" }, { title: "자동차 엔지니어" }, { title: "로보틱스 엔지니어" }, { title: "수자원 엔지니어" }] },
+      { name: "비즈니스/마케팅",  careers: [{ title: "마케터/광고 전문가" }, { title: "영업 관리자" }, { title: "CEO/창업자" }, { title: "소셜 미디어 매니저" }, { title: "브랜드 매니저" }, { title: "공급망 관리자" }, { title: "비즈니스 개발 매니저" }, { title: "글로벌 무역 전문가" }, { title: "경영 컨설턴트" }, { title: "이커머스 전문가" }] },
+      { name: "법률/공공",        careers: [{ title: "변호사" }, { title: "판사" }, { title: "공무원" }, { title: "외교관" }, { title: "경찰관" }, { title: "소방관/응급대원" }, { title: "사회복지사" }, { title: "법무사/공증인" }, { title: "검사/수사관" }, { title: "NGO/비영리 활동가" }] },
+      { name: "서비스/요식업",    careers: [{ title: "셰프/요리사" }, { title: "레스토랑 오너" }, { title: "카페 운영자" }, { title: "항공 승무원" }, { title: "호텔 매니저" }, { title: "미용사/뷰티 전문가" }, { title: "이벤트 플래너" }, { title: "크루즈/관광업" }, { title: "소믈리에/F&B 컨설턴트" }, { title: "스파/웰니스 전문가" }] },
+      { name: "농업/에너지",      careers: [{ title: "농부/농업인" }, { title: "산림/환경관리" }, { title: "전력/에너지 엔지니어" }, { title: "태양광 전문가" }, { title: "해양/수산업" }, { title: "축산/낙농업" }, { title: "배터리/EV 기술자" }, { title: "유기농/푸드테크" }, { title: "석유/가스 기술자" }, { title: "신재생에너지 전문가" }] },
+    ],
+    expOptions: [
+      { id: "beginner",    label: "🌱 처음 시작", desc: "투자가 처음이에요" },
+      { id: "some",        label: "📚 1~3년",     desc: "기초는 알아요" },
+      { id: "experienced", label: "💼 3~7년",     desc: "어느 정도 경험 있어요" },
+      { id: "expert",      label: "🔥 7년+",      desc: "베테랑 투자자예요" },
+    ],
+    goalOptions: [
+      { id: "retirement", label: "🏖️ 노후 준비",  desc: "장기 안정 성장" },
+      { id: "shortterm",  label: "⚡ 단기 수익",   desc: "1~2년 내 수익 목표" },
+      { id: "passive",    label: "💰 패시브 인컴", desc: "배당 & 현금흐름" },
+      { id: "growth",     label: "🚀 자산 급성장", desc: "공격적 성장 추구" },
+    ],
+  },
+  en: {
+    categories: [
+      { name: "Tech / IT",              careers: [{ title: "Software Developer" }, { title: "AI/ML Engineer" }, { title: "Cybersecurity Expert" }, { title: "Cloud Engineer" }, { title: "Data Scientist" }, { title: "Mobile App Developer" }, { title: "Game Developer" }, { title: "Web Developer" }, { title: "IT Consultant" }, { title: "DevOps Engineer" }] },
+      { name: "Healthcare",             careers: [{ title: "Doctor" }, { title: "Pharmacist" }, { title: "Nurse" }, { title: "Dentist" }, { title: "Psychiatrist" }, { title: "Medical Researcher" }, { title: "Physical Therapist" }, { title: "Genetic Engineer" }, { title: "Surgeon" }, { title: "Traditional Medicine Practitioner" }] },
+      { name: "Finance / Investing",    careers: [{ title: "Stock Trader" }, { title: "Investment Banker" }, { title: "Wealth Manager" }, { title: "Quant Analyst" }, { title: "Real Estate Investor" }, { title: "Fintech Specialist" }, { title: "Actuary" }, { title: "Financial Analyst" }, { title: "Hedge Fund Manager" }, { title: "Economist" }] },
+      { name: "Education / Research",   careers: [{ title: "Teacher / Instructor" }, { title: "Physicist" }, { title: "Chemist" }, { title: "Researcher" }, { title: "Journalist / Writer" }, { title: "Mathematician / Statistician" }, { title: "Social Scientist" }, { title: "Astrophysicist" }, { title: "Biologist" }, { title: "Education Administrator" }] },
+      { name: "Creative / Arts",        careers: [{ title: "Graphic Designer" }, { title: "Photographer" }, { title: "Video Producer" }, { title: "Musician" }, { title: "Author / Novelist" }, { title: "Actor / Entertainer" }, { title: "Architect" }, { title: "UX/UI Designer" }, { title: "Illustrator" }, { title: "Creator / YouTuber" }] },
+      { name: "Engineering",            careers: [{ title: "Civil Engineer" }, { title: "Electrical Engineer" }, { title: "Mechanical Engineer" }, { title: "Chemical Engineer" }, { title: "Aerospace Engineer" }, { title: "Environmental Engineer" }, { title: "Industrial Engineer" }, { title: "Automotive Engineer" }, { title: "Robotics Engineer" }, { title: "Water Resource Engineer" }] },
+      { name: "Business / Marketing",   careers: [{ title: "Marketer / Advertiser" }, { title: "Sales Manager" }, { title: "CEO / Founder" }, { title: "Social Media Manager" }, { title: "Brand Manager" }, { title: "Supply Chain Manager" }, { title: "Business Development Manager" }, { title: "Global Trade Specialist" }, { title: "Management Consultant" }, { title: "E-commerce Specialist" }] },
+      { name: "Law / Public Sector",    careers: [{ title: "Lawyer" }, { title: "Judge" }, { title: "Civil Servant" }, { title: "Diplomat" }, { title: "Police Officer" }, { title: "Firefighter / EMT" }, { title: "Social Worker" }, { title: "Paralegal / Notary" }, { title: "Prosecutor / Investigator" }, { title: "NGO / Non-profit Activist" }] },
+      { name: "Service / F&B",          careers: [{ title: "Chef / Cook" }, { title: "Restaurant Owner" }, { title: "Café Owner" }, { title: "Flight Attendant" }, { title: "Hotel Manager" }, { title: "Hairstylist / Beauty Professional" }, { title: "Event Planner" }, { title: "Cruise / Tourism" }, { title: "Sommelier / F&B Consultant" }, { title: "Spa / Wellness Expert" }] },
+      { name: "Agriculture / Energy",   careers: [{ title: "Farmer / Agriculturalist" }, { title: "Forestry / Environmental Manager" }, { title: "Power / Energy Engineer" }, { title: "Solar Energy Specialist" }, { title: "Marine / Fishery Worker" }, { title: "Livestock / Dairy Farmer" }, { title: "Battery / EV Technician" }, { title: "Organic / FoodTech" }, { title: "Oil / Gas Technician" }, { title: "Renewable Energy Specialist" }] },
+    ],
+    expOptions: [
+      { id: "beginner",    label: "🌱 Just Starting", desc: "New to investing" },
+      { id: "some",        label: "📚 1–3 Years",     desc: "Know the basics" },
+      { id: "experienced", label: "💼 3–7 Years",     desc: "Solid experience" },
+      { id: "expert",      label: "🔥 7+ Years",      desc: "Seasoned investor" },
+    ],
+    goalOptions: [
+      { id: "retirement", label: "🏖️ Retirement",       desc: "Long-term stable growth" },
+      { id: "shortterm",  label: "⚡ Short-term Gains", desc: "Profits within 1–2 years" },
+      { id: "passive",    label: "💰 Passive Income",   desc: "Dividends & cash flow" },
+      { id: "growth",     label: "🚀 Aggressive Growth", desc: "High-risk, high-reward" },
+    ],
   },
 };
 

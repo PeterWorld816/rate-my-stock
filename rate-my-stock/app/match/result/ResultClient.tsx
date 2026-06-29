@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { toPng } from "html-to-image";
 import { Result, Mode } from "@/app/page";
@@ -33,10 +34,7 @@ const MODE_TAGS: Record<string, string[]> = {
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-type Params = {
-  t: string; n: string; s: string; r: string; e: string; m: string;
-  arch: string; code: string; celeb: string; cmatch: string; celemoji: string;
-};
+// (params now read directly from URL via useSearchParams inside ResultContent)
 
 // ── Share Card (capture target) ───────────────────────────────────────────────
 
@@ -183,19 +181,24 @@ function Toast({ message, onDone }: { message: string; onDone: () => void }) {
 
 // ── Main component ────────────────────────────────────────────────────────────
 
-export default function ResultClient({ params }: { params: Params }) {
+function ResultContent() {
+  const sp = useSearchParams();
   const { t, lang } = useLanguage();
   const [stored, setStored]   = useState<{ result: Result; mode: Mode } | null>(null);
   const cardRef               = useRef<HTMLDivElement>(null);
   const [saving, setSaving]   = useState(false);
   const [toast, setToast]     = useState<string | null>(null);
 
-  const ticker = params.t;
-  const name   = params.n;
-  const score  = Number(params.s);
-  const risk   = (params.r.toUpperCase()) as "LOW" | "MID" | "HIGH";
-  const emoji  = params.e;
-  const mode   = params.m;
+  const ticker   = sp.get("t") ?? "";
+  const name     = sp.get("n") ?? "";
+  const score    = Number(sp.get("s") ?? 0);
+  const risk     = ((sp.get("r") ?? "MID").toUpperCase()) as "LOW" | "MID" | "HIGH";
+  const emoji    = sp.get("e") ?? "📈";
+  const mode     = sp.get("m") ?? "";
+  const arch     = sp.get("arch") ?? "";
+  const celeb    = sp.get("celeb") ?? "";
+  const cmatch   = sp.get("cmatch") ?? "";
+  const celemoji = sp.get("celemoji") ?? "";
 
   const isKo = lang === "ko";
 
@@ -333,14 +336,14 @@ export default function ResultClient({ params }: { params: Params }) {
                   </span>
                 </div>
               </div>
-              {(params.arch || fullResult.archetype) && (
+              {(arch || fullResult.archetype) && (
                 <p className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.4)" }}>
-                  {params.arch || fullResult.archetype}
+                  {arch || fullResult.archetype}
                 </p>
               )}
-              {params.celeb && (
+              {celeb && (
                 <p className="text-xs font-medium mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>
-                  {params.celemoji} {params.celeb} {params.cmatch ? `${params.cmatch}%` : ""}
+                  {celemoji} {celeb} {cmatch ? `${cmatch}%` : ""}
                 </p>
               )}
             </div>
@@ -391,5 +394,13 @@ export default function ResultClient({ params }: { params: Params }) {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function ResultClient() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#F5F5F0]" />}>
+      <ResultContent />
+    </Suspense>
   );
 }

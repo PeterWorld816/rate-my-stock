@@ -44,19 +44,6 @@ export async function generateMetadata({
   };
 }
 
-export default function ResultPage({ searchParams }: { searchParams: RawSP }) {
-  const params = {
-    t:       str(searchParams.t,       "STOCK"),
-    n:       str(searchParams.n),
-    s:       str(searchParams.s,       "0"),
-    r:       str(searchParams.r,       "MID"),
-    e:       str(searchParams.e,       "📈"),
-    m:       str(searchParams.m),
-    arch:    str(searchParams.arch),
-    code:    str(searchParams.code),
-    celeb:   str(searchParams.celeb),
-    cmatch:  str(searchParams.cmatch),
-    celemoji:str(searchParams.celemoji),
-  };
-  return <ResultClient params={params} />;
+export default function ResultPage() {
+  return <ResultClient />;
 }

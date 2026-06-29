@@ -82,7 +82,7 @@ export default function LanguageSelector() {
           `}</style>
 
           <ul className="py-1.5">
-            {LANGUAGES.map((l) => {
+            {LANGUAGES.filter((l) => l.code === "ko" || l.code === "en").map((l) => {
               const active = lang === l.code;
               return (
                 <li key={l.code}>

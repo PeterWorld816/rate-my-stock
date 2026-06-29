@@ -40,11 +40,12 @@ const MODE_TAGS: Record<string, string[]> = {
 
 function ShareCard({
   cardRef,
-  ticker, name, emoji, score, risk, mode,
+  ticker, name, emoji, score, risk, mode, facePhoto,
 }: {
   cardRef: React.RefObject<HTMLDivElement>;
   ticker: string; name: string; emoji: string;
   score: number; risk: "LOW" | "MID" | "HIGH"; mode: string;
+  facePhoto?: string | null;
 }) {
   const rc   = RISK_COLORS[risk] ?? RISK_COLORS.MID;
   const tags = MODE_TAGS[mode] ?? ["#RateMyStock", "#주식타입"];
@@ -94,7 +95,19 @@ function ShareCard({
         display: "flex", flexDirection: "column",
         alignItems: "center", paddingBottom: "52px", gap: 0,
       }}>
-        <div style={{ fontSize: "64px", lineHeight: 1, marginBottom: "14px" }}>{emoji}</div>
+        {facePhoto ? (
+          <div style={{
+            width: "88px", height: "88px", borderRadius: "50%",
+            overflow: "hidden", marginBottom: "14px",
+            border: "3px solid #00D084",
+            boxShadow: "0 0 0 4px rgba(0,208,132,0.15)",
+          }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={facePhoto} alt="profile" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          </div>
+        ) : (
+          <div style={{ fontSize: "64px", lineHeight: 1, marginBottom: "14px" }}>{emoji}</div>
+        )}
 
         <div style={{
           color: "#00D084", fontSize: "56px", fontWeight: 900,
@@ -184,10 +197,11 @@ function Toast({ message, onDone }: { message: string; onDone: () => void }) {
 function ResultContent() {
   const sp = useSearchParams();
   const { t, lang } = useLanguage();
-  const [stored, setStored]   = useState<{ result: Result; mode: Mode } | null>(null);
-  const cardRef               = useRef<HTMLDivElement>(null);
-  const [saving, setSaving]   = useState(false);
-  const [toast, setToast]     = useState<string | null>(null);
+  const [stored, setStored]     = useState<{ result: Result; mode: Mode } | null>(null);
+  const [facePhoto, setFacePhoto] = useState<string | null>(null);
+  const cardRef                 = useRef<HTMLDivElement>(null);
+  const [saving, setSaving]     = useState(false);
+  const [toast, setToast]       = useState<string | null>(null);
 
   const ticker   = sp.get("t") ?? "";
   const name     = sp.get("n") ?? "";
@@ -206,8 +220,12 @@ function ResultContent() {
     try {
       const raw = sessionStorage.getItem("rms_share_result");
       if (raw) setStored(JSON.parse(raw));
+      if (mode === "face") {
+        const photo = sessionStorage.getItem("rms_face_photo");
+        if (photo) setFacePhoto(photo);
+      }
     } catch {}
-  }, []);
+  }, [mode]);
 
   const showToast = (msg: string) => {
     setToast(msg);
@@ -279,6 +297,7 @@ function ResultContent() {
               cardRef={cardRef}
               ticker={ticker} name={name} emoji={emoji}
               score={score} risk={risk} mode={mode}
+              facePhoto={facePhoto}
             />
           </div>
         </div>
@@ -314,6 +333,17 @@ function ResultContent() {
           <div className="rounded-3xl overflow-hidden shadow-md mb-4 fade-up">
             {/* Dark top */}
             <div className="bg-[#0D0D0D] px-6 pt-6 pb-6">
+              {facePhoto && (
+                <div className="flex justify-center mb-4">
+                  <div
+                    className="w-20 h-20 rounded-full overflow-hidden"
+                    style={{ border: "3px solid #00D084", boxShadow: "0 0 0 4px rgba(0,208,132,0.15)" }}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={facePhoto} alt="profile" className="w-full h-full object-cover" />
+                  </div>
+                </div>
+              )}
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <p

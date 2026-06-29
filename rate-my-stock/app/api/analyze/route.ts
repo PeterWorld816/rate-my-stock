@@ -3,6 +3,18 @@ import Anthropic from "@anthropic-ai/sdk";
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
+const LANG_NAMES: Record<string, string> = {
+  ko: "Korean (한국어)",
+  zh: "Chinese (中文)",
+  ja: "Japanese (日本語)",
+  es: "Spanish (Español)",
+  fr: "French (Français)",
+  de: "German (Deutsch)",
+  pt: "Portuguese (Português)",
+  hi: "Hindi (हिन्दी)",
+  ar: "Arabic (العربية)",
+};
+
 const SYSTEM_PROMPT = `You are StockGPT, a witty AI that matches people to stocks based on their personality, face, vibe, or financial habits.
 
 Your job is to analyze the user's input and return a stock recommendation as a JSON object. Be fun, insightful, and slightly roast the person in a friendly way.
@@ -225,7 +237,11 @@ Analyze both investors, match each to their ideal stock, and return their Friend
   };
 }
 
-async function callClaude(prompt: string, imageBase64?: string) {
+async function callClaude(prompt: string, imageBase64?: string, lang?: string) {
+  const langInstruction = lang && lang !== "en" && LANG_NAMES[lang]
+    ? `\n\nLANGUAGE RULE: You MUST write the "reason" field entirely in ${LANG_NAMES[lang]}. All other JSON fields (ticker, name, risk, emoji, extras.ticker, extras.name, extras.emoji) must remain in English.`
+    : "";
+
   const content: Anthropic.MessageParam["content"] = imageBase64
     ? [
         {
@@ -247,7 +263,7 @@ async function callClaude(prompt: string, imageBase64?: string) {
     model: "claude-sonnet-4-6",
     max_tokens: 1024,
     temperature: 0.9,
-    system: SYSTEM_PROMPT,
+    system: SYSTEM_PROMPT + langInstruction,
     messages: [{ role: "user", content }],
   });
 
@@ -292,7 +308,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { mode, image, answers, vibe, investorCode, archetype, p1Answers, p2Answers,
             celebrity, celebrityId, matchPct, holdings,
-            career, careerCategory, experience, goal, careerPrompt } = body;
+            career, careerCategory, experience, goal, careerPrompt, lang } = body;
 
     // Couple mode returns a different shape — handle separately
     if (mode === "couple" && p1Answers && p2Answers) {
@@ -303,7 +319,7 @@ export async function POST(req: NextRequest) {
     let result;
 
     if (mode === "face" && image) {
-      result = await callClaude("", image);
+      result = await callClaude("", image, lang);
     } else if (mode === "mbti" && answers) {
       const codeContext = investorCode && archetype
         ? ` This investor's Stock MBTI code is ${investorCode} ("${archetype}") — meaning ${
@@ -320,7 +336,7 @@ Q6 (ideal portfolio): ${answers[5]}
 Q7 (decision-making style): ${answers[6]}
 Q8 (investment horizon): ${answers[7]}
 What stock are they?`;
-      result = await callClaude(prompt);
+      result = await callClaude(prompt, undefined, lang);
     } else if (mode === "celebrity" && celebrity && answers) {
       const holdingsList = Array.isArray(holdings) ? (holdings as string[]).join(", ") : "AAPL, VTI";
       const celebPersonality: Record<string, string> = {
@@ -341,7 +357,7 @@ Q3 (portfolio choice): ${answers[2]}
 
 CRITICAL: You MUST recommend ONE stock from this exact list: ${holdingsList}
 Pick the holding that best fits the user's personality from those answers. Reference ${celebrity}'s actual investment style and explain why this stock — which ${celebrity} actually holds — is the perfect match for this user. Be fun, slightly roasty, and reference both the celebrity and the stock's real personality.`;
-      result = await callClaude(prompt);
+      result = await callClaude(prompt, undefined, lang);
     } else if (mode === "career" && career && careerPrompt) {
       const experienceLabels: Record<string, string> = {
         beginner: "just starting out with no prior investment experience",
@@ -364,9 +380,9 @@ Main investment goal: ${goalLabels[String(goal)] ?? String(goal)}.
 This ${String(career)} has insider knowledge of the ${String(careerCategory)} industry. Recommend the best stock match for them, prioritizing stocks they would understand from their field.
 
 Make the reason witty and career-specific — reference their profession, the insider knowledge they have, and tie it to the stock's personality. Factor in their experience level and goal.`;
-      result = await callClaude(fullPrompt);
+      result = await callClaude(fullPrompt, undefined, lang);
     } else if (mode === "vibe" && vibe) {
-      result = await callClaude(`Today's mood: ${vibe}. Based purely on this energy and vibe, what stock matches this person right now?`);
+      result = await callClaude(`Today's mood: ${vibe}. Based purely on this energy and vibe, what stock matches this person right now?`, undefined, lang);
     } else if (mode === "salary" && answers) {
       const prompt = `Financial profile:
 - Annual income: ${answers.salary}
@@ -374,7 +390,7 @@ Make the reason witty and career-specific — reference their profession, the in
 - Biggest expense: ${answers.spend}
 - Investment horizon: ${answers.horizon}
 What stock portfolio archetype are they?`;
-      result = await callClaude(prompt);
+      result = await callClaude(prompt, undefined, lang);
     } else {
       throw new Error("Invalid mode or missing data");
     }

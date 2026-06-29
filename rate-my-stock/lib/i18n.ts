@@ -155,6 +155,15 @@ export interface Translations {
   careerExpLabel: string; careerExpTitle: string;
   careerGoalLabel: string; careerGoalTitle: string;
   careerLoadingChip: string; careerLoadingSubtitle: string;
+  // Face Read mode
+  faceChip: string;
+  faceBack: string;
+  faceTitle: string;
+  faceSubtitle: string;
+  faceDropHint: string;
+  faceTapHint: string;
+  faceAnalyzeBtn: string;
+  facePrivacyNote: string;
 }
 
 export interface LangMeta {
@@ -303,6 +312,7 @@ export const translations: Record<LangCode, Translations> = {
     celebChip: "🌟 셀럽 매칭", celebIntroTitle: "당신은 어떤 투자자인가요?", celebIntroSubtitle: "3가지 질문으로 나와 닮은 셀럽 투자자를 찾아보세요.", celebStartBtn: "내 셀럽 투자자 찾기 🌟", celebMatchingLabel: "매칭 중", celebMatchingTitle: "투자 DNA 분석 중...", celebMatchingSubtitle: "셀럽 4인 포트폴리오 스캔 중 🌟",
     vibeChip: "✨ 오늘의 바이브", vibeTitle: "오늘 기분이 어때요?", vibeSubtitle: "지금 내 기분 = 오늘의 주식 에너지",
     careerChip: "💼 커리어 매치", careerCategoryTitle: "당신의 직업은?", careerCategorySubtitle: "직업 분야를 선택하세요 — 100가지 직업", careerCountSuffix: "가지 직업 →", careerPickLabel: "정확한 직업을 선택하세요", careerExpLabel: "투자 경험", careerExpTitle: "투자 경험이 얼마나 되나요?", careerGoalLabel: "투자 목표", careerGoalTitle: "투자의 주요 목표는 무엇인가요?", careerLoadingChip: "💼 커리어 매치 분석 중", careerLoadingSubtitle: "딱 맞는 주식 찾는 중...",
+    faceChip: "🤳 페이스 리드", faceBack: "← 뒤로", faceTitle: "사진 업로드", faceSubtitle: "AI가 당신의 투자 바이브를 읽어드려요", faceDropHint: "여기에 사진을 드래그하거나", faceTapHint: "탭해서 선택하기", faceAnalyzeBtn: "주식 매칭 분석하기 🔍", facePrivacyNote: "사진은 분석에만 쓰이며 서버에 저장되지 않습니다 · 엔터테인먼트 전용입니다",
   },
 
   en: {
@@ -422,6 +432,7 @@ export const translations: Record<LangCode, Translations> = {
     celebChip: "🌟 Celebrity Match", celebIntroTitle: "Which investor are you?", celebIntroSubtitle: "Answer 3 questions to find your celebrity investor twin.", celebStartBtn: "Find My Celebrity Match 🌟", celebMatchingLabel: "Finding Your Match", celebMatchingTitle: "Analyzing your investment DNA...", celebMatchingSubtitle: "Scanning 4 celebrity portfolios 🌟",
     vibeChip: "✨ Today's Vibe", vibeTitle: "How are you feeling?", vibeSubtitle: "Your vibe energy = your stock energy today.",
     careerChip: "💼 Career Match", careerCategoryTitle: "What's your job?", careerCategorySubtitle: "Pick your industry — 100 careers", careerCountSuffix: " careers →", careerPickLabel: "Select your specific job", careerExpLabel: "Experience", careerExpTitle: "How much investment experience do you have?", careerGoalLabel: "Investment Goal", careerGoalTitle: "What's your main investment goal?", careerLoadingChip: "💼 Analyzing Career Match", careerLoadingSubtitle: "Finding your perfect stock...",
+    faceChip: "🤳 Face Read", faceBack: "← Back", faceTitle: "Upload Your Photo", faceSubtitle: "AI reads your investment vibe from your photo", faceDropHint: "Drop photo here", faceTapHint: "or tap to browse", faceAnalyzeBtn: "Analyze My Stock Match 🔍", facePrivacyNote: "Photos are used for analysis only and never stored on our servers · For entertainment only",
   },
 
   zh: {
@@ -541,6 +552,7 @@ export const translations: Record<LangCode, Translations> = {
     celebChip: "🌟 名人匹配", celebIntroTitle: "你是哪种投资者？", celebIntroSubtitle: "回答3个问题，找到与你相似的名人投资者。", celebStartBtn: "找到我的名人匹配 🌟", celebMatchingLabel: "匹配中", celebMatchingTitle: "分析您的投资DNA...", celebMatchingSubtitle: "正在扫描4位名人的投资组合 🌟",
     vibeChip: "✨ 今日状态", vibeTitle: "今天感觉如何？", vibeSubtitle: "你的状态 = 今天的股票能量。",
     careerChip: "💼 职业匹配", careerCategoryTitle: "你的职业是什么？", careerCategorySubtitle: "选择你的行业 — 100种职业", careerCountSuffix: "种职业 →", careerPickLabel: "选择你的具体职业", careerExpLabel: "投资经验", careerExpTitle: "你有多少投资经验？", careerGoalLabel: "投资目标", careerGoalTitle: "你的主要投资目标是什么？", careerLoadingChip: "💼 职业匹配分析中", careerLoadingSubtitle: "正在寻找最适合的股票...",
+    faceChip: "🤳 Face Read", faceBack: "← Back", faceTitle: "Upload Your Photo", faceSubtitle: "AI reads your investment vibe from your photo", faceDropHint: "Drop photo here", faceTapHint: "or tap to browse", faceAnalyzeBtn: "Analyze My Stock Match 🔍", facePrivacyNote: "Photos are used for analysis only and never stored on our servers · For entertainment only",
   },
 
   ja: {
@@ -660,6 +672,7 @@ export const translations: Record<LangCode, Translations> = {
     celebChip: "🌟 著名人マッチ", celebIntroTitle: "あなたはどのタイプの投資家？", celebIntroSubtitle: "3つの質問で、あなたに似た著名投資家を見つけましょう。", celebStartBtn: "私の著名人を見つける 🌟", celebMatchingLabel: "マッチング中", celebMatchingTitle: "投資DNAを分析中...", celebMatchingSubtitle: "4人の著名人ポートフォリオをスキャン中 🌟",
     vibeChip: "✨ 今日のバイブ", vibeTitle: "今日の気分は？", vibeSubtitle: "今の気分 = 今日の株エネルギー",
     careerChip: "💼 職業マッチ", careerCategoryTitle: "あなたの職業は？", careerCategorySubtitle: "業界を選択 — 100職種", careerCountSuffix: "職種 →", careerPickLabel: "具体的な職業を選択", careerExpLabel: "投資経験", careerExpTitle: "投資経験はどのくらいですか？", careerGoalLabel: "投資目標", careerGoalTitle: "主な投資目標は何ですか？", careerLoadingChip: "💼 職業マッチ分析中", careerLoadingSubtitle: "最適な株を探しています...",
+    faceChip: "🤳 Face Read", faceBack: "← Back", faceTitle: "Upload Your Photo", faceSubtitle: "AI reads your investment vibe from your photo", faceDropHint: "Drop photo here", faceTapHint: "or tap to browse", faceAnalyzeBtn: "Analyze My Stock Match 🔍", facePrivacyNote: "Photos are used for analysis only and never stored on our servers · For entertainment only",
   },
 
   es: {
@@ -779,6 +792,7 @@ export const translations: Record<LangCode, Translations> = {
     celebChip: "🌟 Match Celebridad", celebIntroTitle: "¿Qué tipo de inversor eres?", celebIntroSubtitle: "Responde 3 preguntas para encontrar tu celebridad inversora gemela.", celebStartBtn: "Encontrar mi celebridad 🌟", celebMatchingLabel: "Buscando tu match", celebMatchingTitle: "Analizando tu ADN inversor...", celebMatchingSubtitle: "Escaneando 4 portafolios de celebridades 🌟",
     vibeChip: "✨ Vibe de Hoy", vibeTitle: "¿Cómo te sientes?", vibeSubtitle: "Tu energía hoy = tu energía bursátil.",
     careerChip: "💼 Match de Carrera", careerCategoryTitle: "¿Cuál es tu profesión?", careerCategorySubtitle: "Elige tu industria — 100 carreras", careerCountSuffix: " carreras →", careerPickLabel: "Selecciona tu trabajo específico", careerExpLabel: "Experiencia", careerExpTitle: "¿Cuánta experiencia inversora tienes?", careerGoalLabel: "Meta de Inversión", careerGoalTitle: "¿Cuál es tu principal objetivo?", careerLoadingChip: "💼 Analizando Career Match", careerLoadingSubtitle: "Buscando tu acción perfecta...",
+    faceChip: "🤳 Face Read", faceBack: "← Back", faceTitle: "Upload Your Photo", faceSubtitle: "AI reads your investment vibe from your photo", faceDropHint: "Drop photo here", faceTapHint: "or tap to browse", faceAnalyzeBtn: "Analyze My Stock Match 🔍", facePrivacyNote: "Photos are used for analysis only and never stored on our servers · For entertainment only",
   },
 
   fr: {
@@ -898,6 +912,7 @@ export const translations: Record<LangCode, Translations> = {
     celebChip: "🌟 Match Célébrité", celebIntroTitle: "Quel type d'investisseur êtes-vous ?", celebIntroSubtitle: "Répondez à 3 questions pour trouver votre jumeau investisseur célèbre.", celebStartBtn: "Trouver ma célébrité 🌟", celebMatchingLabel: "Recherche en cours", celebMatchingTitle: "Analyse de votre ADN investisseur...", celebMatchingSubtitle: "Scan de 4 portefeuilles de célébrités 🌟",
     vibeChip: "✨ Vibe du Jour", vibeTitle: "Comment vous sentez-vous ?", vibeSubtitle: "Votre énergie du jour = votre énergie boursière.",
     careerChip: "💼 Match Carrière", careerCategoryTitle: "Quelle est votre profession ?", careerCategorySubtitle: "Choisissez votre secteur — 100 métiers", careerCountSuffix: " métiers →", careerPickLabel: "Sélectionnez votre métier précis", careerExpLabel: "Expérience", careerExpTitle: "Quelle est votre expérience en investissement ?", careerGoalLabel: "Objectif", careerGoalTitle: "Quel est votre principal objectif ?", careerLoadingChip: "💼 Analyse Career Match", careerLoadingSubtitle: "Recherche de votre action idéale...",
+    faceChip: "🤳 Face Read", faceBack: "← Back", faceTitle: "Upload Your Photo", faceSubtitle: "AI reads your investment vibe from your photo", faceDropHint: "Drop photo here", faceTapHint: "or tap to browse", faceAnalyzeBtn: "Analyze My Stock Match 🔍", facePrivacyNote: "Photos are used for analysis only and never stored on our servers · For entertainment only",
   },
 
   de: {
@@ -1017,6 +1032,7 @@ export const translations: Record<LangCode, Translations> = {
     celebChip: "🌟 Promi-Match", celebIntroTitle: "Was für ein Investor bist du?", celebIntroSubtitle: "Beantworte 3 Fragen, um deinen berühmten Investoren-Zwilling zu finden.", celebStartBtn: "Meinen Promi finden 🌟", celebMatchingLabel: "Matching läuft", celebMatchingTitle: "Analysiere deine Investment-DNA...", celebMatchingSubtitle: "4 Promi-Portfolios werden gescannt 🌟",
     vibeChip: "✨ Heutiger Vibe", vibeTitle: "Wie fühlst du dich?", vibeSubtitle: "Deine Energie heute = deine Aktienenergie.",
     careerChip: "💼 Karriere-Match", careerCategoryTitle: "Was ist dein Beruf?", careerCategorySubtitle: "Wähle deine Branche — 100 Berufe", careerCountSuffix: " Berufe →", careerPickLabel: "Wähle deinen spezifischen Beruf", careerExpLabel: "Erfahrung", careerExpTitle: "Wie viel Investitionserfahrung hast du?", careerGoalLabel: "Anlageziel", careerGoalTitle: "Was ist dein wichtigstes Anlageziel?", careerLoadingChip: "💼 Karriere-Match wird analysiert", careerLoadingSubtitle: "Suche deine perfekte Aktie...",
+    faceChip: "🤳 Face Read", faceBack: "← Back", faceTitle: "Upload Your Photo", faceSubtitle: "AI reads your investment vibe from your photo", faceDropHint: "Drop photo here", faceTapHint: "or tap to browse", faceAnalyzeBtn: "Analyze My Stock Match 🔍", facePrivacyNote: "Photos are used for analysis only and never stored on our servers · For entertainment only",
   },
 
   pt: {
@@ -1136,6 +1152,7 @@ export const translations: Record<LangCode, Translations> = {
     celebChip: "🌟 Match Celebridade", celebIntroTitle: "Que tipo de investidor você é?", celebIntroSubtitle: "Responda 3 perguntas para encontrar sua celebridade investidora gêmea.", celebStartBtn: "Encontrar minha celebridade 🌟", celebMatchingLabel: "Buscando match", celebMatchingTitle: "Analisando seu DNA de investidor...", celebMatchingSubtitle: "Escaneando 4 portfólios de celebridades 🌟",
     vibeChip: "✨ Vibe de Hoje", vibeTitle: "Como você está se sentindo?", vibeSubtitle: "Sua energia hoje = sua energia em ações.",
     careerChip: "💼 Match de Carreira", careerCategoryTitle: "Qual é a sua profissão?", careerCategorySubtitle: "Escolha seu setor — 100 carreiras", careerCountSuffix: " carreiras →", careerPickLabel: "Selecione sua profissão específica", careerExpLabel: "Experiência", careerExpTitle: "Quanta experiência de investimento você tem?", careerGoalLabel: "Objetivo", careerGoalTitle: "Qual é o seu principal objetivo?", careerLoadingChip: "💼 Analisando Career Match", careerLoadingSubtitle: "Encontrando sua ação perfeita...",
+    faceChip: "🤳 Face Read", faceBack: "← Back", faceTitle: "Upload Your Photo", faceSubtitle: "AI reads your investment vibe from your photo", faceDropHint: "Drop photo here", faceTapHint: "or tap to browse", faceAnalyzeBtn: "Analyze My Stock Match 🔍", facePrivacyNote: "Photos are used for analysis only and never stored on our servers · For entertainment only",
   },
 
   hi: {
@@ -1255,6 +1272,7 @@ export const translations: Record<LangCode, Translations> = {
     celebChip: "🌟 सेलिब्रिटी मैच", celebIntroTitle: "आप किस तरह के निवेशक हैं?", celebIntroSubtitle: "3 सवालों के जवाब दें और अपने जैसी मशहूर निवेशक खोजें।", celebStartBtn: "मेरी सेलिब्रिटी खोजें 🌟", celebMatchingLabel: "मैच हो रहा है", celebMatchingTitle: "आपका निवेश DNA विश्लेषण हो रहा है...", celebMatchingSubtitle: "4 सेलिब्रिटी पोर्टफोलियो स्कैन हो रहे हैं 🌟",
     vibeChip: "✨ आज का वाइब", vibeTitle: "आज आप कैसा महसूस कर रहे हैं?", vibeSubtitle: "आपकी ऊर्जा = आज का शेयर बाज़ार एनर्जी।",
     careerChip: "💼 करियर मैच", careerCategoryTitle: "आपका पेशा क्या है?", careerCategorySubtitle: "अपना उद्योग चुनें — 100 करियर", careerCountSuffix: " करियर →", careerPickLabel: "अपना विशिष्ट काम चुनें", careerExpLabel: "अनुभव", careerExpTitle: "आपके पास कितना निवेश अनुभव है?", careerGoalLabel: "लक्ष्य", careerGoalTitle: "आपका मुख्य निवेश लक्ष्य क्या है?", careerLoadingChip: "💼 करियर मैच विश्लेषण हो रहा है", careerLoadingSubtitle: "आपके लिए सही स्टॉक खोज रहे हैं...",
+    faceChip: "🤳 Face Read", faceBack: "← Back", faceTitle: "Upload Your Photo", faceSubtitle: "AI reads your investment vibe from your photo", faceDropHint: "Drop photo here", faceTapHint: "or tap to browse", faceAnalyzeBtn: "Analyze My Stock Match 🔍", facePrivacyNote: "Photos are used for analysis only and never stored on our servers · For entertainment only",
   },
 
   ar: {
@@ -1374,6 +1392,7 @@ export const translations: Record<LangCode, Translations> = {
     celebChip: "🌟 مطابقة المشاهير", celebIntroTitle: "ما نوع المستثمر الذي أنت عليه؟", celebIntroSubtitle: "أجب على 3 أسئلة لتجد مشهورك الاستثماري المشابه لك.", celebStartBtn: "اعثر على مشهوري 🌟", celebMatchingLabel: "جارٍ المطابقة", celebMatchingTitle: "تحليل DNA الاستثماري...", celebMatchingSubtitle: "جارٍ مسح 4 محافظ للمشاهير 🌟",
     vibeChip: "✨ حال اليوم", vibeTitle: "كيف تشعر اليوم؟", vibeSubtitle: "طاقتك اليوم = طاقة بورصتك.",
     careerChip: "💼 مطابقة المهنة", careerCategoryTitle: "ما هي مهنتك؟", careerCategorySubtitle: "اختر مجالك — 100 مهنة", careerCountSuffix: " مهنة →", careerPickLabel: "اختر وظيفتك المحددة", careerExpLabel: "الخبرة", careerExpTitle: "ما مقدار خبرتك في الاستثمار؟", careerGoalLabel: "الهدف", careerGoalTitle: "ما هو هدفك الاستثماري الرئيسي؟", careerLoadingChip: "💼 جارٍ تحليل مطابقة المهنة", careerLoadingSubtitle: "جارٍ البحث عن أفضل سهم لك...",
+    faceChip: "🤳 Face Read", faceBack: "→ رجوع", faceTitle: "Upload Your Photo", faceSubtitle: "AI reads your investment vibe from your photo", faceDropHint: "Drop photo here", faceTapHint: "or tap to browse", faceAnalyzeBtn: "Analyze My Stock Match 🔍", facePrivacyNote: "Photos are used for analysis only and never stored on our servers · For entertainment only",
   },
 };
 

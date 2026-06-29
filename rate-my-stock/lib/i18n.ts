@@ -129,6 +129,16 @@ export interface Translations {
   modeLabelSalary: string; modeLabelCeleb: string; modeLabelCareer: string;
   resultShareBtn: string; resultSaveBtn: string; resultRetryBtn: string;
   resultDisclaimer: string;
+  // MBTI mode
+  mbtiChip: string;
+  mbtiBack: string;
+  mbtiRevealTitle: string;
+  mbtiRevealSubtitle: string;
+  mbtiRevealLoading: string;
+  mbtiAxisRisk: string;
+  mbtiAxisStyle: string;
+  mbtiAxisSector: string;
+  mbtiAxisTime: string;
 }
 
 export interface LangMeta {
@@ -273,6 +283,7 @@ export const translations: Record<LangCode, Translations> = {
     modeLabelSalary: "📝 성격 퀴즈", modeLabelCeleb: "⭐ 셀럽 매칭", modeLabelCareer: "💼 직업 매칭",
     resultShareBtn: "공유", resultSaveBtn: "이미지 저장", resultRetryBtn: "다시하기",
     resultDisclaimer: "엔터테인먼트 전용 · 투자 조언 아님",
+    mbtiChip: "🧬 주식 MBTI", mbtiBack: "← 뒤로", mbtiRevealTitle: "🧬 분석 완료", mbtiRevealSubtitle: "당신의 투자자 유형은", mbtiRevealLoading: "완벽한 주식 매칭 찾는 중...", mbtiAxisRisk: "위험성향", mbtiAxisStyle: "투자목표", mbtiAxisSector: "섹터선호", mbtiAxisTime: "투자기간",
   },
 
   en: {
@@ -388,6 +399,7 @@ export const translations: Record<LangCode, Translations> = {
     modeLabelSalary: "📝 Personality Quiz", modeLabelCeleb: "⭐ Celebrity Match", modeLabelCareer: "💼 Career Match",
     resultShareBtn: "Share", resultSaveBtn: "Save Image", resultRetryBtn: "Try Again",
     resultDisclaimer: "For entertainment only · Not financial advice",
+    mbtiChip: "🧬 Stock MBTI", mbtiBack: "← Back", mbtiRevealTitle: "🧬 Analysis Complete", mbtiRevealSubtitle: "Your investor type is", mbtiRevealLoading: "Finding your perfect stock match...", mbtiAxisRisk: "Risk", mbtiAxisStyle: "Style", mbtiAxisSector: "Sector", mbtiAxisTime: "Time",
   },
 
   zh: {
@@ -503,6 +515,7 @@ export const translations: Record<LangCode, Translations> = {
     modeLabelSalary: "📝 性格测验", modeLabelCeleb: "⭐ 明星匹配", modeLabelCareer: "💼 职业匹配",
     resultShareBtn: "分享", resultSaveBtn: "保存图片", resultRetryBtn: "再试一次",
     resultDisclaimer: "仅供娱乐 · 非投资建议",
+    mbtiChip: "🧬 股票MBTI", mbtiBack: "← 返回", mbtiRevealTitle: "🧬 分析完成", mbtiRevealSubtitle: "您的投资者类型是", mbtiRevealLoading: "正在寻找最佳匹配股票...", mbtiAxisRisk: "风险偏好", mbtiAxisStyle: "投资风格", mbtiAxisSector: "行业偏好", mbtiAxisTime: "投资期限",
   },
 
   ja: {
@@ -618,6 +631,7 @@ export const translations: Record<LangCode, Translations> = {
     modeLabelSalary: "📝 性格クイズ", modeLabelCeleb: "⭐ セレブマッチ", modeLabelCareer: "💼 キャリアマッチ",
     resultShareBtn: "シェア", resultSaveBtn: "画像を保存", resultRetryBtn: "もう一度",
     resultDisclaimer: "エンタメ専用 · 投資アドバイスではありません",
+    mbtiChip: "🧬 株式MBTI", mbtiBack: "← 戻る", mbtiRevealTitle: "🧬 分析完了", mbtiRevealSubtitle: "あなたの投資家タイプは", mbtiRevealLoading: "ベストな株を探しています...", mbtiAxisRisk: "リスク志向", mbtiAxisStyle: "投資スタイル", mbtiAxisSector: "セクター選好", mbtiAxisTime: "投資期間",
   },
 
   es: {
@@ -733,6 +747,7 @@ export const translations: Record<LangCode, Translations> = {
     modeLabelSalary: "📝 Quiz de Personalidad", modeLabelCeleb: "⭐ Match de Celebridad", modeLabelCareer: "💼 Match de Carrera",
     resultShareBtn: "Compartir", resultSaveBtn: "Guardar imagen", resultRetryBtn: "Intentar de nuevo",
     resultDisclaimer: "Solo entretenimiento · No es asesoramiento financiero",
+    mbtiChip: "🧬 MBTI de Acciones", mbtiBack: "← Atrás", mbtiRevealTitle: "🧬 Análisis Completo", mbtiRevealSubtitle: "Tu tipo de inversor es", mbtiRevealLoading: "Buscando tu acción perfecta...", mbtiAxisRisk: "Riesgo", mbtiAxisStyle: "Estilo", mbtiAxisSector: "Sector", mbtiAxisTime: "Plazo",
   },
 
   fr: {
@@ -848,6 +863,7 @@ export const translations: Record<LangCode, Translations> = {
     modeLabelSalary: "📝 Quiz Personnalité", modeLabelCeleb: "⭐ Match Célébrité", modeLabelCareer: "💼 Match Carrière",
     resultShareBtn: "Partager", resultSaveBtn: "Sauvegarder l'image", resultRetryBtn: "Réessayer",
     resultDisclaimer: "Divertissement uniquement · Pas de conseil financier",
+    mbtiChip: "🧬 MBTI Boursier", mbtiBack: "← Retour", mbtiRevealTitle: "🧬 Analyse Terminée", mbtiRevealSubtitle: "Votre profil d'investisseur est", mbtiRevealLoading: "Recherche de votre action idéale...", mbtiAxisRisk: "Risque", mbtiAxisStyle: "Style", mbtiAxisSector: "Secteur", mbtiAxisTime: "Durée",
   },
 
   de: {
@@ -963,6 +979,7 @@ export const translations: Record<LangCode, Translations> = {
     modeLabelSalary: "📝 Persönlichkeitsquiz", modeLabelCeleb: "⭐ Promi-Match", modeLabelCareer: "💼 Karriere-Match",
     resultShareBtn: "Teilen", resultSaveBtn: "Bild speichern", resultRetryBtn: "Nochmal versuchen",
     resultDisclaimer: "Nur zur Unterhaltung · Keine Anlageberatung",
+    mbtiChip: "🧬 Aktien MBTI", mbtiBack: "← Zurück", mbtiRevealTitle: "🧬 Analyse Abgeschlossen", mbtiRevealSubtitle: "Ihr Investorentyp ist", mbtiRevealLoading: "Suche Ihre perfekte Aktie...", mbtiAxisRisk: "Risiko", mbtiAxisStyle: "Stil", mbtiAxisSector: "Sektor", mbtiAxisTime: "Zeitraum",
   },
 
   pt: {
@@ -1078,6 +1095,7 @@ export const translations: Record<LangCode, Translations> = {
     modeLabelSalary: "📝 Quiz de Personalidade", modeLabelCeleb: "⭐ Match de Celebridade", modeLabelCareer: "💼 Match de Carreira",
     resultShareBtn: "Compartilhar", resultSaveBtn: "Salvar imagem", resultRetryBtn: "Tentar novamente",
     resultDisclaimer: "Apenas entretenimento · Não é conselho financeiro",
+    mbtiChip: "🧬 MBTI de Ações", mbtiBack: "← Voltar", mbtiRevealTitle: "🧬 Análise Concluída", mbtiRevealSubtitle: "Seu tipo de investidor é", mbtiRevealLoading: "Encontrando sua ação perfeita...", mbtiAxisRisk: "Risco", mbtiAxisStyle: "Estilo", mbtiAxisSector: "Setor", mbtiAxisTime: "Prazo",
   },
 
   hi: {
@@ -1193,6 +1211,7 @@ export const translations: Record<LangCode, Translations> = {
     modeLabelSalary: "📝 Personality Quiz", modeLabelCeleb: "⭐ Celebrity Match", modeLabelCareer: "💼 Career Match",
     resultShareBtn: "Share करें", resultSaveBtn: "Image Save करें", resultRetryBtn: "फिर से करें",
     resultDisclaimer: "सिर्फ मनोरंजन के लिए · वित्तीय सलाह नहीं",
+    mbtiChip: "🧬 स्टॉक MBTI", mbtiBack: "← वापस", mbtiRevealTitle: "🧬 विश्लेषण पूर्ण", mbtiRevealSubtitle: "आपका निवेशक प्रकार है", mbtiRevealLoading: "आपके लिए सही स्टॉक खोज रहे हैं...", mbtiAxisRisk: "जोखिम", mbtiAxisStyle: "शैली", mbtiAxisSector: "क्षेत्र", mbtiAxisTime: "अवधि",
   },
 
   ar: {
@@ -1308,6 +1327,7 @@ export const translations: Record<LangCode, Translations> = {
     modeLabelSalary: "📝 اختبار الشخصية", modeLabelCeleb: "⭐ مطابقة المشاهير", modeLabelCareer: "💼 مطابقة المهنة",
     resultShareBtn: "مشاركة", resultSaveBtn: "حفظ الصورة", resultRetryBtn: "المحاولة مجدداً",
     resultDisclaimer: "للترفيه فقط · ليس نصيحة مالية",
+    mbtiChip: "🧬 MBTI الأسهم", mbtiBack: "→ رجوع", mbtiRevealTitle: "🧬 اكتمل التحليل", mbtiRevealSubtitle: "نوع المستثمر لديك هو", mbtiRevealLoading: "جارٍ البحث عن أفضل سهم لك...", mbtiAxisRisk: "المخاطرة", mbtiAxisStyle: "الأسلوب", mbtiAxisSector: "القطاع", mbtiAxisTime: "المدة",
   },
 };
 
@@ -1454,6 +1474,180 @@ export const quizPool: Record<LangCode, QuizQ[]> = {
     { tag: "💡 مفهوم", q: "عائد الأرباح المرتفع يعني دائماً سهماً جيداً", answer: false, explain: "العوائد التي تتجاوز 10% قد تشير إلى ضائقة مالية — توخَّ الحذر ⚠️" },
     { tag: "💡 مفهوم", q: "يكون تأثير الفائدة المركبة أقوى كلما طال أفق الاستثمار", answer: true, explain: "بعائد 10%/سنة، تتحول $1 إلى $17 في 30 عاماً بفضل الفائدة المركبة ⏰" },
     { tag: "📊 أساسيات", q: "أسعار الأسهم تعكس دائماً بدقة القيمة الحقيقية للشركة", answer: false, explain: "الأسعار تعكس توقعات المستثمرين وعواطفهم، وليس فقط الأساسيات 📉" },
+  ],
+};
+
+// ── MBTI question pool (ko / en; others fall back to en) ──────────────────────
+export type MbtiQ = {
+  axis: "risk" | "style" | "sector" | "time";
+  q: string;
+  options: { text: string; trait: string }[];
+};
+
+export const mbtiQuestions: Partial<Record<LangCode, MbtiQ[]>> = {
+  ko: [
+    {
+      axis: "risk",
+      q: "포트폴리오가 하룻밤 사이에 -40% 폭락했어요. 어떻게 하시겠어요?",
+      options: [
+        { text: "몽땅 산다 — 연중 최대 할인이잖아요 🛒", trait: "A" },
+        { text: "버틴다. 변동성 알고 들어갔으니까", trait: "A" },
+        { text: "절반만 팔아서 현금 확보", trait: "S" },
+        { text: "전량 매도. 원금 보호가 최우선 👑", trait: "S" },
+      ],
+    },
+    {
+      axis: "risk",
+      q: "친구가 귀띔해요: '이 비상장 스타트업, 100배 간다'. 어떻게 하시겠어요?",
+      options: [
+        { text: "즉시 저축의 20%를 송금 🔥", trait: "A" },
+        { text: "피부로 느끼려고 50만원만 넣어봄", trait: "A" },
+        { text: "IR 자료 달라고. 공부 후 고려", trait: "S" },
+        { text: "패스. 진짜 좋으면 곧 상장되겠지", trait: "S" },
+      ],
+    },
+    {
+      axis: "style",
+      q: "투자의 최종 목표는 뭔가요?",
+      options: [
+        { text: "5년 안에 10배. 조기 은퇴 확정 🏖️", trait: "G" },
+        { text: "매년 S&P 500 수익률 초과 달성", trait: "G" },
+        { text: "꾸준한 8-10% 수익 + 배당 재투자", trait: "V" },
+        { text: "수동 소득 창출 + 자산 방어 💸", trait: "V" },
+      ],
+    },
+    {
+      axis: "style",
+      q: "주식 분석할 때 제일 먼저 보는 것은?",
+      options: [
+        { text: "시장 규모(TAM) + 성장률 📈", trait: "G" },
+        { text: "매출 추이와 고객·사용자 증가세", trait: "G" },
+        { text: "PER, 배당수익률, 잉여현금흐름", trait: "V" },
+        { text: "부채비율, 이익률, 경쟁 해자", trait: "V" },
+      ],
+    },
+    {
+      axis: "sector",
+      q: "어떤 헤드라인에 심장이 두근거리나요?",
+      options: [
+        { text: "AI 반도체 수요 사상 최고치 🤖", trait: "T" },
+        { text: "양자컴퓨팅 혁신 기술 발표", trait: "T" },
+        { text: "소비자 지출 모든 예측 초과 🛍️", trait: "B" },
+        { text: "금리 인하로 부동산 붐 시작", trait: "B" },
+      ],
+    },
+    {
+      axis: "sector",
+      q: "꿈의 포트폴리오는?",
+      options: [
+        { text: "FAANG + 반도체 + AI 순수주 💻", trait: "T" },
+        { text: "사이버보안, 클라우드, 칩 설계사", trait: "T" },
+        { text: "기술·금융·헬스케어·에너지 혼합 🌐", trait: "B" },
+        { text: "글로벌 ETF, 채권, 리츠, 배당주", trait: "B" },
+      ],
+    },
+    {
+      axis: "time",
+      q: "투자 결정은 어떻게 하나요?",
+      options: [
+        { text: "뉴스 + 직감. 속도가 알파 ⚡", trait: "R" },
+        { text: "트위터·레딧 심리 + 차트 패턴", trait: "R" },
+        { text: "6개월 이상 심층 연구 후 결정 📚", trait: "P" },
+        { text: "설정 후 방치. 1년에 한 번 리밸런싱", trait: "P" },
+      ],
+    },
+    {
+      axis: "time",
+      q: "투자 기간은 얼마나?",
+      options: [
+        { text: "1년 이하 — 지금 수익이 필요해 💰", trait: "R" },
+        { text: "1-3년. 중기 모멘텀 플레이", trait: "R" },
+        { text: "5-10년. 복리가 마법을 부리게", trait: "P" },
+        { text: "15년 이상. 자녀를 위한 나무 심기 🌳", trait: "P" },
+      ],
+    },
+  ],
+  en: [
+    {
+      axis: "risk",
+      q: "Your portfolio crashes -40% overnight. What's your move?",
+      options: [
+        { text: "Load up — biggest sale of the year 🛒", trait: "A" },
+        { text: "Hold firm. I knew it was volatile, staying in", trait: "A" },
+        { text: "Sell half to lock in some cash", trait: "S" },
+        { text: "Full exit. Capital preservation first 👑", trait: "S" },
+      ],
+    },
+    {
+      axis: "risk",
+      q: "A friend whispers: 'This pre-IPO startup is going 100x.' You:",
+      options: [
+        { text: "Wire 20% of my savings immediately 🔥", trait: "A" },
+        { text: "Throw in $500 to have skin in the game", trait: "A" },
+        { text: "Ask for the pitch deck. Maybe after research", trait: "S" },
+        { text: "Hard pass. If it's that good, it'll be public soon", trait: "S" },
+      ],
+    },
+    {
+      axis: "style",
+      q: "What's your investing endgame?",
+      options: [
+        { text: "10x in 5 years. Early retirement locked 🏖️", trait: "G" },
+        { text: "Beat the S&P 500 every single year", trait: "G" },
+        { text: "Steady 8-10% returns + dividends reinvested", trait: "V" },
+        { text: "Generate passive income and protect wealth 💸", trait: "V" },
+      ],
+    },
+    {
+      axis: "style",
+      q: "When analyzing a stock, you look at first:",
+      options: [
+        { text: "Total addressable market + growth rate 📈", trait: "G" },
+        { text: "Revenue trajectory and user/customer growth", trait: "G" },
+        { text: "P/E ratio, dividend yield, free cash flow", trait: "V" },
+        { text: "Debt levels, profit margins, and competitive moat", trait: "V" },
+      ],
+    },
+    {
+      axis: "sector",
+      q: "Which headline makes your heart race?",
+      options: [
+        { text: "AI chip demand hits all-time high 🤖", trait: "T" },
+        { text: "Quantum computing breakthrough announced", trait: "T" },
+        { text: "Consumer spending beats all forecasts 🛍️", trait: "B" },
+        { text: "Fed rate cut sparks a real estate boom", trait: "B" },
+      ],
+    },
+    {
+      axis: "sector",
+      q: "Your dream portfolio looks like:",
+      options: [
+        { text: "FAANG + semiconductors + AI pure plays 💻", trait: "T" },
+        { text: "Cybersecurity, cloud, and chip designers", trait: "T" },
+        { text: "Mix of tech, finance, healthcare, and energy 🌐", trait: "B" },
+        { text: "Global ETFs, bonds, REITs, and dividend stocks", trait: "B" },
+      ],
+    },
+    {
+      axis: "time",
+      q: "How do you make investment decisions?",
+      options: [
+        { text: "News + gut feeling. Speed is alpha ⚡", trait: "R" },
+        { text: "Twitter/Reddit sentiment + chart patterns", trait: "R" },
+        { text: "6+ months of deep research before I commit 📚", trait: "P" },
+        { text: "Set it and forget it. Rebalance once a year", trait: "P" },
+      ],
+    },
+    {
+      axis: "time",
+      q: "What's your investment time horizon?",
+      options: [
+        { text: "Under 1 year — I need to see returns now 💰", trait: "R" },
+        { text: "1-3 years. Medium-term momentum plays", trait: "R" },
+        { text: "5-10 years. Let compounding work its magic", trait: "P" },
+        { text: "15+ years. Planting trees for my kids 🌳", trait: "P" },
+      ],
+    },
   ],
 };
 

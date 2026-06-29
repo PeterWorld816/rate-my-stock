@@ -1,25 +1,75 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { useLanguage, quizPool, QuizQ } from "@/lib/i18n";
+import { useLanguage, quizPool, QuizQ, LangCode } from "@/lib/i18n";
 import { loadStats, applyXP } from "@/lib/gamification";
 
 const TOTAL = 5;
 const XP_PER_Q = 20;
+const STORAGE_KEY = "rms_solved_ids";
 
-function pickRandom(pool: QuizQ[]): QuizQ[] {
-  const arr = [...pool];
+// ── localStorage helpers ───────────────────────────────────────────────────────
+function getSolvedSet(): Set<number> {
+  if (typeof window === "undefined") return new Set();
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return new Set<number>(raw ? (JSON.parse(raw) as number[]) : []);
+  } catch {
+    return new Set();
+  }
+}
+
+function saveSolvedIndices(indices: number[]) {
+  try {
+    const solved = getSolvedSet();
+    indices.forEach((i) => solved.add(i));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(solved)));
+  } catch {}
+}
+
+function clearSolved() {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {}
+}
+
+// ── Question picker ────────────────────────────────────────────────────────────
+type PickResult =
+  | { allDone: true }
+  | { allDone: false; questions: QuizQ[]; indices: number[] };
+
+function pickUnsolved(lang: LangCode): PickResult {
+  const pool = quizPool[lang] ?? quizPool.ko;
+  const solved = getSolvedSet();
+  const unsolved = pool
+    .map((q, i) => ({ q, i }))
+    .filter(({ i }) => !solved.has(i));
+
+  if (unsolved.length === 0) return { allDone: true };
+
+  // Fisher-Yates shuffle
+  const arr = [...unsolved];
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-  return arr.slice(0, TOTAL);
+  const picked = arr.slice(0, TOTAL);
+  return {
+    allDone: false,
+    questions: picked.map((x) => x.q),
+    indices: picked.map((x) => x.i),
+  };
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export default function QuizPage() {
   const { t, lang } = useLanguage();
-  const [questions, setQuestions] = useState<QuizQ[]>(() => pickRandom(quizPool[lang] ?? quizPool.ko));
+
+  const [questions, setQuestions] = useState<QuizQ[]>([]);
+  const [questionIndices, setQuestionIndices] = useState<number[]>([]);
+  const [allSolved, setAllSolved] = useState(false);
+  const [ready, setReady] = useState(false); // true after first useEffect
+
   const [phase, setPhase] = useState<"quiz" | "result">("quiz");
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<boolean | null>(null);
@@ -28,16 +78,81 @@ export default function QuizPage() {
   const [copied, setCopied] = useState(false);
   const [leveledUp, setLeveledUp] = useState<number | null>(null);
 
-  useEffect(() => {
-    setQuestions(pickRandom(quizPool[lang] ?? quizPool.ko));
-    setPhase("quiz");
-    setCurrent(0);
-    setSelected(null);
-    setScore(0);
-    setAnswers([]);
-  }, [lang]);
+  // ── Load / reload questions ──────────────────────────────────────────────────
+  const loadQuiz = useCallback((currentLang: LangCode) => {
+    const result = pickUnsolved(currentLang);
+    if (result.allDone) {
+      setAllSolved(true);
+    } else {
+      setQuestions(result.questions);
+      setQuestionIndices(result.indices);
+      setAllSolved(false);
+      setPhase("quiz");
+      setCurrent(0);
+      setSelected(null);
+      setScore(0);
+      setAnswers([]);
+      setLeveledUp(null);
+    }
+    setReady(true);
+  }, []);
 
+  useEffect(() => {
+    loadQuiz(lang as LangCode);
+  }, [lang, loadQuiz]);
+
+  // ── Loading skeleton ─────────────────────────────────────────────────────────
+  if (!ready) {
+    return (
+      <main className="min-h-screen bg-[#F5F5F0] flex items-center justify-center">
+        <div className="text-[#9CA3AF] text-sm">Loading…</div>
+      </main>
+    );
+  }
+
+  // ── All-solved screen ────────────────────────────────────────────────────────
+  if (allSolved) {
+    const pool = quizPool[lang as LangCode] ?? quizPool.ko;
+    return (
+      <main className="min-h-screen bg-[#F5F5F0] font-sans flex items-center justify-center">
+        <div className="px-4 w-full max-w-sm py-8">
+          <div className="rounded-3xl bg-white shadow-md p-8 text-center fade-up">
+            <div className="text-7xl mb-4">🎓</div>
+            <h2 className="font-display font-bold text-2xl mb-2 text-[#0D0D0D]">
+              전부 완료!
+            </h2>
+            <p className="text-sm text-[#6B7280] mb-2">
+              {pool.length}개 문제를 모두 풀었어요.
+            </p>
+            <p className="text-sm text-[#6B7280] mb-8">
+              처음부터 다시 도전해볼까요?
+            </p>
+            <button
+              onClick={() => {
+                clearSolved();
+                loadQuiz(lang as LangCode);
+              }}
+              className="w-full rounded-2xl touch-target text-sm font-bold text-white mb-3"
+              style={{ background: "#7C3AED" }}
+            >
+              처음부터 다시
+            </button>
+            <Link
+              href="/"
+              className="block w-full rounded-2xl border border-[#E5E5E0] bg-white touch-target flex items-center justify-center text-sm font-medium text-[#6B7280]"
+            >
+              {t.goHome}
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  const sessionTotal = questions.length;
   const q = questions[current];
+  if (!q) return null;
+
   const isCorrect = selected !== null ? selected === q.answer : null;
   const revealed = selected !== null;
 
@@ -50,10 +165,12 @@ export default function QuizPage() {
   };
 
   const next = () => {
-    if (current < TOTAL - 1) {
+    if (current < sessionTotal - 1) {
       setCurrent((c) => c + 1);
       setSelected(null);
     } else {
+      // Mark this session's questions as solved
+      saveSolvedIndices(questionIndices);
       const prevLevel = loadStats().level;
       const updated = applyXP(score * XP_PER_Q);
       if (updated.level > prevLevel) setLeveledUp(updated.level);
@@ -62,20 +179,19 @@ export default function QuizPage() {
   };
 
   const restart = () => {
-    setQuestions(pickRandom(quizPool[lang] ?? quizPool.ko));
-    setPhase("quiz");
-    setCurrent(0);
-    setSelected(null);
-    setScore(0);
-    setAnswers([]);
-    setLeveledUp(null);
+    loadQuiz(lang as LangCode);
   };
 
   const handleShare = async () => {
     const emojis = answers.map((a) => (a ? "⭕" : "❌")).join("");
-    const text = `${t.stockQuiz} ${score}/${TOTAL}\n${emojis}\n📈 Rate My Stock`;
+    const text = `${t.stockQuiz} ${score}/${sessionTotal}\n${emojis}\n📈 Rate My Stock`;
     if (typeof navigator !== "undefined" && "share" in navigator) {
-      try { await (navigator as Navigator & { share: (d: object) => Promise<void> }).share({ title: t.stockQuiz, text }); return; } catch {}
+      try {
+        await (
+          navigator as Navigator & { share: (d: object) => Promise<void> }
+        ).share({ title: t.stockQuiz, text });
+        return;
+      } catch {}
     }
     try {
       await navigator.clipboard.writeText(text);
@@ -84,17 +200,24 @@ export default function QuizPage() {
     } catch {}
   };
 
-  const progress = ((current + (revealed ? 1 : 0)) / TOTAL) * 100;
+  const progress = ((current + (revealed ? 1 : 0)) / sessionTotal) * 100;
+
+  // solved count for badge
+  const solvedCount = getSolvedSet().size;
+  const poolTotal = (quizPool[lang as LangCode] ?? quizPool.ko).length;
 
   // ── Result ──────────────────────────────────────────────────────────────────
   if (phase === "result") {
-    const pct = score / TOTAL;
+    const pct = score / sessionTotal;
     const grade =
       pct >= 0.8
         ? { emoji: "🏆", msg: t.gradePerfectMsg, sub: t.gradePerfectSub, color: "#00D084" }
         : pct >= 0.6
         ? { emoji: "⭐", msg: t.gradeGoodMsg,    sub: t.gradeGoodSub,    color: "#F59E0B" }
         : { emoji: "📚", msg: t.gradeRetryMsg,   sub: t.gradeRetrySub,   color: "#7C3AED" };
+
+    const newSolvedCount = getSolvedSet().size;
+    const remaining = poolTotal - newSolvedCount;
 
     return (
       <main className="min-h-screen bg-[#F5F5F0] font-sans flex items-center justify-center">
@@ -107,7 +230,7 @@ export default function QuizPage() {
             {/* Score */}
             <div className="rounded-2xl p-5 mb-5" style={{ background: `${grade.color}12` }}>
               <p className="text-4xl font-display font-bold mb-1" style={{ color: grade.color }}>
-                {score} <span className="text-xl text-[#9CA3AF]">/ {TOTAL}</span>
+                {score} <span className="text-xl text-[#9CA3AF]">/ {sessionTotal}</span>
               </p>
               <p className="text-xs font-semibold" style={{ color: grade.color }}>{t.score}</p>
             </div>
@@ -135,9 +258,26 @@ export default function QuizPage() {
             )}
 
             {/* XP */}
-            <div className="rounded-2xl p-3 mb-6" style={{ background: "#00D08412" }}>
+            <div className="rounded-2xl p-3 mb-4" style={{ background: "#00D08412" }}>
               <p className="text-xs font-semibold mb-0.5" style={{ color: "#00D084" }}>{t.xpEarned}</p>
               <p className="text-2xl font-display font-bold text-[#0D0D0D]">+{score * XP_PER_Q} XP ⚡</p>
+            </div>
+
+            {/* Progress badge */}
+            <div className="rounded-2xl p-3 mb-5" style={{ background: "#F3F4F6" }}>
+              <p className="text-xs text-[#6B7280] mb-0.5">풀이 진행도</p>
+              <p className="text-sm font-bold text-[#0D0D0D]">
+                {newSolvedCount} / {poolTotal} 문제 완료
+                {remaining > 0 && (
+                  <span className="text-[#9CA3AF] font-normal ml-1">(남은 문제 {remaining}개)</span>
+                )}
+              </p>
+              <div className="mt-2 h-1.5 rounded-full bg-[#E5E5E0] overflow-hidden">
+                <div
+                  className="h-full rounded-full transition-all duration-700"
+                  style={{ width: `${(newSolvedCount / poolTotal) * 100}%`, background: "#00D084" }}
+                />
+              </div>
             </div>
 
             <button
@@ -152,7 +292,7 @@ export default function QuizPage() {
               className="w-full rounded-2xl touch-target text-sm font-bold text-white mb-3"
               style={{ background: "#7C3AED" }}
             >
-              {t.retry}
+              {remaining > 0 ? `다음 ${Math.min(TOTAL, remaining)}문제 풀기` : t.retry}
             </button>
             <Link
               href="/"
@@ -217,7 +357,14 @@ export default function QuizPage() {
               />
             </div>
             <span className="text-xs font-bold tabular-nums shrink-0" style={{ color: "#00D084" }}>
-              {current + 1}/{TOTAL}
+              {current + 1}/{sessionTotal}
+            </span>
+          </div>
+
+          {/* Solved progress mini-badge */}
+          <div className="flex justify-end mt-2">
+            <span className="text-[10px] text-[#9CA3AF] tabular-nums">
+              전체 {solvedCount}/{poolTotal} 완료
             </span>
           </div>
         </div>
@@ -232,10 +379,8 @@ export default function QuizPage() {
               border: `2px solid ${revealed ? (isCorrect ? "#00D084" : "#EF4444") : "transparent"}`,
             }}
           >
-            {/* Big emoji */}
             <div className="text-[64px] text-center leading-none mb-4">{tagEmoji}</div>
 
-            {/* Category badge */}
             <div className="flex justify-center mb-5">
               <span
                 className="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold"
@@ -245,7 +390,6 @@ export default function QuizPage() {
               </span>
             </div>
 
-            {/* Question text */}
             <h2 className="text-[22px] font-bold text-center text-[#0D0D0D] leading-snug">
               &ldquo;{q.q}&rdquo;
             </h2>
@@ -301,7 +445,7 @@ export default function QuizPage() {
                 className="w-full rounded-2xl py-4 text-sm font-bold text-white transition-transform active:scale-95"
                 style={{ background: "#0D0D0D" }}
               >
-                {current < TOTAL - 1 ? t.nextQuestion : t.viewResult}
+                {current < sessionTotal - 1 ? t.nextQuestion : t.viewResult}
               </button>
             </div>
           )}

@@ -361,12 +361,12 @@ export default function QuizPage() {
                 className="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold"
                 style={{ background: "#F3F4F6", color: "#6B7280" }}
               >
-                {q.tag}
+                {getText(q.tag, lang)}
               </span>
             </div>
 
             <h2 className="text-[22px] font-bold text-center text-[#0D0D0D] leading-snug">
-              &ldquo;{q.q}&rdquo;
+              &ldquo;{getText(q.q, lang)}&rdquo;
             </h2>
           </div>
 
@@ -412,7 +412,7 @@ export default function QuizPage() {
                   >
                     {isCorrect ? t.answerCorrect : t.answerWrong}
                   </p>
-                  <p className="text-sm text-[#374151] leading-relaxed">{q.explain}</p>
+                  <p className="text-sm text-[#374151] leading-relaxed">{getText(q.explain, lang)}</p>
                 </div>
               </div>
               <button

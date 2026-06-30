@@ -139,7 +139,7 @@ export default function QuizPage() {
   if (allSolved) {
     return (
       <main className="min-h-screen bg-[#F5F5F0] font-sans flex items-center justify-center">
-        <div className="px-4 w-full max-w-sm py-8">
+        <div className="px-4 w-full max-w-sm sm:max-w-lg md:max-w-xl py-8">
           <div className="rounded-3xl bg-white shadow-sm border border-[#E5E5E0] p-8 text-center fade-up">
             <div className="text-7xl mb-4">🎓</div>
             <h2 className="font-display font-bold text-2xl mb-2 text-[#0D0D0D]">
@@ -240,15 +240,15 @@ export default function QuizPage() {
 
     return (
       <main className="min-h-screen bg-[#F5F5F0] font-sans flex items-center justify-center">
-        <div className="px-4 w-full max-w-sm py-8">
+        <div className="px-4 w-full max-w-sm sm:max-w-lg md:max-w-xl py-8">
           <div className="rounded-3xl bg-white shadow-sm border border-[#E5E5E0] p-8 text-center fade-up">
             <div className="text-7xl mb-4">{grade.emoji}</div>
-            <h2 className="font-display font-bold text-2xl mb-1 text-[#0D0D0D]">{grade.msg}</h2>
-            <p className="text-sm text-[#6B7280] mb-6">{grade.sub}</p>
+            <h2 className="font-display font-bold text-2xl md:text-3xl mb-1 text-[#0D0D0D]">{grade.msg}</h2>
+            <p className="text-sm md:text-base text-[#6B7280] mb-6">{grade.sub}</p>
 
             {/* Score */}
             <div className="rounded-2xl p-5 mb-5" style={{ background: `${grade.color}12` }}>
-              <p className="text-4xl font-display font-bold mb-1" style={{ color: grade.color }}>
+              <p className="text-4xl md:text-5xl font-display font-bold mb-1" style={{ color: grade.color }}>
                 {score} <span className="text-xl text-[#9CA3AF]">/ {sessionTotal}</span>
               </p>
               <p className="text-xs font-semibold" style={{ color: grade.color }}>{t.score}</p>
@@ -312,7 +312,11 @@ export default function QuizPage() {
   const tagEmoji = [...getText(q.tag, lang)][0] ?? "📊";
   const qText = getText(q.q, lang);
   const qLen = qText.length;
-  const qFontSize = qLen > 60 ? "13px" : qLen > 45 ? "15px" : qLen > 32 ? "18px" : "22px";
+  const qSizeClass =
+    qLen > 60 ? "text-[13px] md:text-base lg:text-lg" :
+    qLen > 45 ? "text-[15px] md:text-lg lg:text-xl" :
+    qLen > 32 ? "text-[18px] md:text-xl lg:text-2xl" :
+               "text-[22px] md:text-2xl lg:text-3xl";
 
   const getBtn = (val: boolean) => {
     const isChosen = selected === val;
@@ -342,7 +346,7 @@ export default function QuizPage() {
 
       <main className="min-h-screen bg-[#F5F5F0] font-sans flex flex-col items-center">
         {/* ── Top bar ── */}
-        <div className="w-full max-w-[420px] px-4 pt-8 pb-4">
+        <div className="w-full max-w-[420px] sm:max-w-lg md:max-w-2xl lg:max-w-3xl px-4 pt-8 pb-4">
           <div className="flex items-center gap-3">
             <Link
               href="/"
@@ -373,7 +377,7 @@ export default function QuizPage() {
         >
           {/* Question card */}
           <div
-            className="bg-white rounded-3xl shadow-md w-full max-w-[420px] p-6 transition-all duration-300"
+            className="bg-white rounded-3xl shadow-md w-full max-w-[420px] sm:max-w-lg md:max-w-2xl lg:max-w-3xl p-6 transition-all duration-300"
             style={{
               border: `2px solid ${revealed ? (isCorrect ? "#00C805" : "#EF4444") : "transparent"}`,
             }}
@@ -389,16 +393,13 @@ export default function QuizPage() {
               </span>
             </div>
 
-            <h2
-              className="text-balance font-bold text-center text-[#0D0D0D] leading-snug"
-              style={{ fontSize: qFontSize }}
-            >
+            <h2 className={`text-balance font-bold text-center text-[#0D0D0D] leading-snug ${qSizeClass}`}>
               &ldquo;{qText}&rdquo;
             </h2>
           </div>
 
           {/* O/X buttons */}
-          <div className="grid grid-cols-2 gap-3 w-full max-w-[420px]">
+          <div className="grid grid-cols-2 gap-3 w-full max-w-[420px] sm:max-w-lg md:max-w-2xl lg:max-w-3xl">
             {([
               { val: true as boolean, symbol: "⭕", label: t.oLabel },
               { val: false as boolean, symbol: "❌", label: t.xLabel },
@@ -426,7 +427,7 @@ export default function QuizPage() {
 
           {/* Feedback + Next */}
           {revealed && (
-            <div className="w-full max-w-[420px] anim-feedback">
+            <div className="w-full max-w-[420px] sm:max-w-lg md:max-w-2xl lg:max-w-3xl anim-feedback">
               <div
                 className="rounded-2xl p-4 mb-3 flex items-start gap-3"
                 style={{ background: isCorrect ? "#DCFCE7" : "#FEE2E2" }}
@@ -439,7 +440,7 @@ export default function QuizPage() {
                   >
                     {isCorrect ? t.answerCorrect : t.answerWrong}
                   </p>
-                  <p className="text-sm text-[#374151] leading-relaxed">{getText(q.explain, lang)}</p>
+                  <p className="text-sm md:text-base text-[#374151] leading-relaxed">{getText(q.explain, lang)}</p>
                 </div>
               </div>
               <button

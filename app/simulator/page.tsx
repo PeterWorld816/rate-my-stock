@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useMemo, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -11,7 +11,7 @@ const DEFAULT_STOCKS = [
   { ticker: "AAPL", name: "Apple",      emoji: "🍎", accent: "#555555" },
   { ticker: "META", name: "Meta",       emoji: "👍", accent: "#0082FB" },
   { ticker: "MSFT", name: "Microsoft",  emoji: "💻", accent: "#00A4EF" },
-  { ticker: "SPY",  name: "S&P500 ETF", emoji: "📊", accent: "#00D084" },
+  { ticker: "SPY",  name: "S&P500 ETF", emoji: "📊", accent: "#00C805" },
   { ticker: "AMZN", name: "Amazon",     emoji: "📦", accent: "#FF9900" },
 ];
 
@@ -48,7 +48,7 @@ function MiniChart({ closes, isUp }: { closes: number[]; isUp: boolean }) {
 
   const linePath = pts.map((p, i) => `${i === 0 ? "M" : "L"}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
   const areaPath = `${linePath} L${W - PAD},${H} L${PAD},${H} Z`;
-  const color = isUp ? "#00D084" : "#EF4444";
+  const color = isUp ? "#00C805" : "#EF4444";
   const lastPt = pts[pts.length - 1];
   const firstPt = pts[0];
 
@@ -99,7 +99,7 @@ function SimulatorContent() {
     if (!paramTicker) return DEFAULT_STOCKS;
     if (DEFAULT_STOCKS.some((s) => s.ticker === paramTicker)) return DEFAULT_STOCKS;
     return [
-      { ticker: paramTicker, name: paramName, emoji: paramEmoji, accent: "#00D084" },
+      { ticker: paramTicker, name: paramName, emoji: paramEmoji, accent: "#00C805" },
       ...DEFAULT_STOCKS,
     ];
   }, [paramTicker, paramEmoji, paramName]);
@@ -122,10 +122,10 @@ function SimulatorContent() {
   const activeMeta   = PERIOD_META[period];
 
   function getReaction(pct: number) {
-    if (pct >= 150) return { emoji: "🚀", label: t.reactionRocket,  color: "#00D084" };
-    if (pct >= 50)  return { emoji: "💰", label: t.reactionBig,     color: "#00D084" };
-    if (pct >= 10)  return { emoji: "😊", label: t.reactionProfit,  color: "#00D084" };
-    if (pct >= 0)   return { emoji: "🙂", label: t.reactionSmall,   color: "#00D084" };
+    if (pct >= 150) return { emoji: "🚀", label: t.reactionRocket,  color: "#00C805" };
+    if (pct >= 50)  return { emoji: "💰", label: t.reactionBig,     color: "#00C805" };
+    if (pct >= 10)  return { emoji: "😊", label: t.reactionProfit,  color: "#00C805" };
+    if (pct >= 0)   return { emoji: "🙂", label: t.reactionSmall,   color: "#00C805" };
     if (pct >= -20) return { emoji: "😅", label: t.reactionLoss,    color: "#F59E0B" };
     return                  { emoji: "😢", label: t.reactionBigLoss, color: "#EF4444" };
   }
@@ -202,30 +202,30 @@ function SimulatorContent() {
         input[type='range'].sim-slider::-webkit-slider-thumb {
           -webkit-appearance: none; appearance: none;
           width: 28px; height: 28px; border-radius: 50%;
-          background: #fff; border: 3px solid #00D084;
-          box-shadow: 0 2px 10px rgba(0,208,132,0.45); cursor: pointer;
+          background: #fff; border: 3px solid #00C805;
+          box-shadow: 0 2px 10px rgba(0,200,5,0.45); cursor: pointer;
         }
         input[type='range'].sim-slider::-moz-range-thumb {
           width: 28px; height: 28px; border-radius: 50%;
-          background: #fff; border: 3px solid #00D084;
-          box-shadow: 0 2px 10px rgba(0,208,132,0.45); cursor: pointer; border-style: solid;
+          background: #fff; border: 3px solid #00C805;
+          box-shadow: 0 2px 10px rgba(0,200,5,0.45); cursor: pointer; border-style: solid;
         }
         @keyframes fadeSlideUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
         .result-enter { animation: fadeSlideUp 0.45s ease both; }
       `}</style>
 
       <main className="min-h-screen bg-[#F5F5F0] font-sans">
-        <div className="max-w-sm mx-auto px-4 pt-12 pb-8">
+        <div className="max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto px-4 pt-12 pb-8">
 
           {/* ── Header ── */}
           <div className="mb-6">
             <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-3" style={{ background: "#F59E0B18", color: "#F59E0B" }}>
               💸 {t.simulator}
             </div>
-            <h1 className="font-display font-bold text-2xl text-[#0D0D0D] leading-tight mb-1">
+            <h1 className="font-display font-bold text-2xl md:text-3xl lg:text-4xl text-[#0D0D0D] leading-tight mb-1">
               {t.simulatorTitle.replace("{period}", periodLabel(period))}
             </h1>
-            <p className="text-sm text-[#6B7280]">
+            <p className="text-sm md:text-base text-[#6B7280]">
               {t.stockSelect} · {t.investPeriod} · {t.investAmount} 🔮
             </p>
           </div>
@@ -233,14 +233,14 @@ function SimulatorContent() {
           {/* ── Stock selector ── */}
           <div className="mb-5">
             <p className="text-[11px] font-bold uppercase tracking-widest text-[#9CA3AF] mb-3">{t.stockSelect}</p>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-4 md:grid-cols-7 gap-2">
               {allStocks.map((s) => {
                 const active = ticker === s.ticker;
                 return (
                   <button
                     key={s.ticker}
                     onClick={() => { setTicker(s.ticker); fetchData(s.ticker, period); }}
-                    className="flex flex-col items-center rounded-2xl py-3 px-1 transition-all border-2 text-center"
+                    className="flex flex-col items-center rounded-xl py-3 px-1 transition-all border-2 text-center"
                     style={{
                       background: active ? "#0D0D0D" : "#FFFFFF",
                       borderColor: active ? "#0D0D0D" : "#E5E5E0",
@@ -270,7 +270,7 @@ function SimulatorContent() {
                   <button
                     key={r}
                     onClick={() => { setPeriod(r); fetchData(ticker, r); }}
-                    className="flex-1 rounded-2xl py-2.5 text-sm font-bold transition-all border-2 active:scale-95"
+                    className="flex-1 rounded-xl py-2.5 text-sm font-bold transition-all border-2 active:scale-95"
                     style={{
                       background:   active ? "#0D0D0D" : "#FFFFFF",
                       borderColor:  active ? "#0D0D0D" : "#E5E5E0",
@@ -285,17 +285,17 @@ function SimulatorContent() {
           </div>
 
           {/* ── Amount selector ── */}
-          <div className="rounded-2xl bg-white p-5 shadow-sm mb-4">
+          <div className="rounded-2xl bg-white p-5 shadow-sm border border-[#E5E5E0] mb-4">
             <p className="text-[11px] font-bold uppercase tracking-widest text-[#9CA3AF] mb-4">{t.investAmount}</p>
             <div className="flex items-baseline gap-1 mb-5">
-              <span className="text-3xl font-display font-bold text-[#0D0D0D]">{fmtCompact(amount)}</span>
+              <span className="text-3xl md:text-4xl font-display font-bold text-[#0D0D0D]">{fmtCompact(amount)}</span>
               <span className="text-sm text-[#9CA3AF]">{t.invested}</span>
             </div>
             <input
               type="range" className="sim-slider mb-4"
               min={MIN} max={MAX} step={100} value={amount}
               onChange={(e) => setAmount(Number(e.target.value))}
-              style={{ background: `linear-gradient(to right, #00D084 0%, #00D084 ${sliderPct}%, #E5E5E0 ${sliderPct}%, #E5E5E0 100%)` }}
+              style={{ background: `linear-gradient(to right, #00C805 0%, #00C805 ${sliderPct}%, #E5E5E0 ${sliderPct}%, #E5E5E0 100%)` }}
             />
             <div className="flex gap-1.5 flex-wrap">
               {PRESETS.map((p) => (
@@ -304,8 +304,8 @@ function SimulatorContent() {
                   onClick={() => setAmount(p)}
                   className="rounded-full px-2.5 py-1 text-[10px] font-bold border transition-all"
                   style={{
-                    background:  amount === p ? "#00D084" : "#F5F5F0",
-                    borderColor: amount === p ? "#00D084" : "#E5E5E0",
+                    background:  amount === p ? "#00C805" : "#F5F5F0",
+                    borderColor: amount === p ? "#00C805" : "#E5E5E0",
                     color:       amount === p ? "#ffffff" : "#374151",
                   }}
                 >
@@ -319,7 +319,7 @@ function SimulatorContent() {
           {!hasCalculated && !loading && (
             <button
               onClick={() => fetchData(ticker)}
-              className="w-full rounded-2xl touch-target text-sm font-bold text-white mb-4"
+              className="w-full rounded-xl touch-target text-sm font-bold text-white mb-4"
               style={{ background: "#F59E0B" }}
             >
               💰 {t.calculate}
@@ -342,7 +342,7 @@ function SimulatorContent() {
               <p className="text-xs text-[#6B7280] mb-4">{t.loadErrorSub}</p>
               <button
                 onClick={() => fetchData(ticker)}
-                className="rounded-2xl touch-target px-6 text-sm font-bold text-white"
+                className="rounded-xl touch-target px-6 text-sm font-bold text-white"
                 style={{ background: "#EF4444" }}
               >
                 {t.retryBtn}
@@ -354,11 +354,11 @@ function SimulatorContent() {
           {!loading && !fetchError && result && cache && (
             <div className="result-enter">
               <div className="rounded-3xl bg-[#0D0D0D] p-5 mb-3 shadow-xl overflow-hidden relative">
-                <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full opacity-20 blur-2xl" style={{ background: isUp ? "#00D084" : "#EF4444" }} />
+                <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full opacity-20 blur-2xl" style={{ background: isUp ? "#00C805" : "#EF4444" }} />
                 <div className="flex items-center gap-2 mb-4 relative">
                   <span className="text-2xl">{stock.emoji}</span>
                   <div>
-                    <p className="text-white font-bold text-base leading-tight">${cache.ticker}</p>
+                    <p className="text-white font-bold text-base md:text-xl leading-tight">${cache.ticker}</p>
                     <p className="text-gray-400 text-xs">{fmtCompact(amount)} {t.invested} · {periodLabel(period)}</p>
                   </div>
                   {reaction && (
@@ -376,27 +376,27 @@ function SimulatorContent() {
                     <p className="text-white font-bold text-sm">{fmtUSD(cache.buyPrice)}</p>
                   </div>
                   <div className="text-gray-500 text-sm font-bold">→</div>
-                  <div className="flex-1 rounded-xl p-2.5" style={{ background: isUp ? "#00D08420" : "#EF444420" }}>
+                  <div className="flex-1 rounded-xl p-2.5" style={{ background: isUp ? "#00C80520" : "#EF444420" }}>
                     <p className="text-[9px] text-gray-400 uppercase tracking-widest mb-0.5">{t.currentPrice}</p>
-                    <p className="font-bold text-sm" style={{ color: isUp ? "#00D084" : "#EF4444" }}>{fmtUSD(cache.currentPrice)}</p>
+                    <p className="font-bold text-sm" style={{ color: isUp ? "#00C805" : "#EF4444" }}>{fmtUSD(cache.currentPrice)}</p>
                   </div>
                 </div>
                 <div className="mb-4 -mx-1">
                   <MiniChart closes={cache.closes} isUp={isUp} />
                 </div>
-                <div className="rounded-2xl p-4" style={{ background: isUp ? "rgba(0,208,132,0.12)" : "rgba(239,68,68,0.12)" }}>
+                <div className="rounded-2xl p-4" style={{ background: isUp ? "rgba(0,200,5,0.12)" : "rgba(239,68,68,0.12)" }}>
                   <div className="flex items-end justify-between">
                     <div>
                       <p className="text-gray-400 text-[10px] uppercase tracking-widest mb-0.5">{t.resultText}</p>
-                      <p className="font-display font-bold text-3xl leading-none" style={{ color: isUp ? "#00D084" : "#EF4444" }}>
+                      <p className="font-display font-bold text-3xl md:text-4xl leading-none" style={{ color: isUp ? "#00C805" : "#EF4444" }}>
                         {fmtCompact(result.currentValue)}
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="font-bold text-lg leading-none" style={{ color: isUp ? "#00D084" : "#EF4444" }}>
+                      <p className="font-bold text-lg leading-none" style={{ color: isUp ? "#00C805" : "#EF4444" }}>
                         {isUp ? "+" : ""}{fmtCompact(result.profit)}
                       </p>
-                      <p className="text-sm font-semibold" style={{ color: isUp ? "#00D084" : "#EF4444" }}>
+                      <p className="text-sm font-semibold" style={{ color: isUp ? "#00C805" : "#EF4444" }}>
                         ({isUp ? "+" : ""}{result.returnPct.toFixed(1)}%)
                       </p>
                     </div>
@@ -410,9 +410,9 @@ function SimulatorContent() {
                   { label: t.principal,   value: fmtCompact(amount) },
                   { label: t.returnRate,  value: `${isUp ? "+" : ""}${result.returnPct.toFixed(1)}%`, highlight: true },
                 ].map((s) => (
-                  <div key={s.label} className="rounded-2xl bg-white p-3 text-center shadow-sm">
+                  <div key={s.label} className="rounded-xl bg-white p-3 text-center shadow-sm border border-[#E5E5E0]">
                     <p className="text-[9px] text-[#9CA3AF] uppercase tracking-widest mb-1">{s.label}</p>
-                    <p className="text-sm font-bold leading-tight" style={{ color: s.highlight ? (isUp ? "#00D084" : "#EF4444") : "#0D0D0D" }}>
+                    <p className="text-sm font-bold leading-tight" style={{ color: s.highlight ? (isUp ? "#00C805" : "#EF4444") : "#0D0D0D" }}>
                       {s.value}
                     </p>
                   </div>
@@ -439,8 +439,8 @@ function SimulatorContent() {
                     <div key={i} className="flex items-center justify-between gap-2">
                       <span className="text-xs text-[#374151]">{c.label}</span>
                       <div className="text-right shrink-0">
-                        <span className="text-xs font-bold" style={{ color: c.good ? "#00D084" : "#9CA3AF" }}>{c.value}</span>
-                        <span className="text-[9px] ml-1" style={{ color: c.good ? "#00D084" : "#9CA3AF" }}>
+                        <span className="text-xs font-bold" style={{ color: c.good ? "#00C805" : "#9CA3AF" }}>{c.value}</span>
+                        <span className="text-[9px] ml-1" style={{ color: c.good ? "#00C805" : "#9CA3AF" }}>
                           ({c.diff >= 0 ? "+" : ""}{fmtCompact(c.diff)})
                         </span>
                       </div>
@@ -451,7 +451,7 @@ function SimulatorContent() {
 
               <button
                 onClick={handleShare}
-                className="w-full rounded-2xl touch-target text-sm font-bold text-white mb-3 flex items-center justify-center gap-2"
+                className="w-full rounded-xl touch-target text-sm font-bold text-white mb-3 flex items-center justify-center gap-2"
                 style={{ background: "#0D0D0D" }}
               >
                 {copied ? t.copied : t.shareResult}
@@ -462,7 +462,7 @@ function SimulatorContent() {
           {/* ── Footer CTA ── */}
           <Link
             href="/today"
-            className="block w-full rounded-2xl border border-[#E5E5E0] bg-white touch-target flex items-center justify-center gap-2 text-sm font-medium text-[#374151]"
+            className="block w-full rounded-xl border border-[#E5E5E0] bg-white touch-target flex items-center justify-center gap-2 text-sm font-medium text-[#374151]"
           >
             <span>📈</span><span>{t.checkTodayPrice}</span><span className="text-[#9CA3AF]">→</span>
           </Link>

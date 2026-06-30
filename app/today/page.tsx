@@ -675,7 +675,7 @@ export default function TodayPage() {
 
   return (
     <main className="min-h-screen bg-[#F5F5F0] font-sans">
-      <div className="max-w-xl mx-auto px-4 pt-12 pb-8">
+      <div className="max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto px-4 pt-12 pb-8">
 
         {/* ── Header row ── */}
         <div className="flex items-center justify-between mb-6">
@@ -683,7 +683,7 @@ export default function TodayPage() {
             <p className="text-[11px] font-semibold text-[#6B7280] uppercase tracking-widest mb-0.5">
               📅 {t.todayStock} · {stock.sector}
             </p>
-            <h1 className="font-display font-bold text-2xl text-[#0D0D0D]">{dateStr}</h1>
+            <h1 className="font-display font-bold text-2xl md:text-3xl text-[#0D0D0D]">{dateStr}</h1>
           </div>
           <button
             onClick={() => setSaved((v) => !v)}
@@ -703,7 +703,7 @@ export default function TodayPage() {
                 </span>
               </div>
               <p className="font-display font-bold tracking-tight" style={{ fontSize: "clamp(24px, 7vw, 36px)" }}>${stock.ticker}</p>
-              <p className="text-sm text-gray-400">{loading ? stock.name : (live?.longName ?? stock.name)}</p>
+              <p className="text-sm md:text-base text-gray-400">{loading ? stock.name : (live?.longName ?? stock.name)}</p>
             </div>
             <div className="text-center">
               <div className="text-5xl mb-2">{stock.emoji}</div>
@@ -752,7 +752,7 @@ export default function TodayPage() {
           )}
 
           {/* Description */}
-          <p className="text-sm text-white/90 leading-relaxed border-t border-white/10 pt-4">
+          <p className="text-sm md:text-base text-white/90 leading-relaxed border-t border-white/10 pt-4">
             {stock.desc[lang]}
           </p>
         </div>
@@ -781,7 +781,7 @@ export default function TodayPage() {
             </p>
             <ul className="space-y-2">
               {(en?.pros ?? stock.pros).map((p) => (
-                <li key={p} className="text-xs text-[#374151] leading-relaxed flex items-start gap-1.5">
+                <li key={p} className="text-xs md:text-sm text-[#374151] leading-relaxed flex items-start gap-1.5">
                   <span style={{ color: "#00C805" }} className="shrink-0 font-bold">✓</span>
                   {p}
                 </li>
@@ -794,7 +794,7 @@ export default function TodayPage() {
             </p>
             <ul className="space-y-2">
               {(en?.cons ?? stock.cons).map((c) => (
-                <li key={c} className="text-xs text-[#374151] leading-relaxed flex items-start gap-1.5">
+                <li key={c} className="text-xs md:text-sm text-[#374151] leading-relaxed flex items-start gap-1.5">
                   <span className="text-red-400 shrink-0 font-bold">×</span>
                   {c}
                 </li>
@@ -808,8 +808,8 @@ export default function TodayPage() {
           <p className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: "#7C3AED" }}>
             📚 {t.todayConcept}
           </p>
-          <p className="font-bold text-[#0D0D0D] mb-1">{concept.term}</p>
-          <p className="text-sm text-[#6B7280] mb-2 leading-relaxed">{concept.def}</p>
+          <p className="font-bold md:text-lg text-[#0D0D0D] mb-1">{concept.term}</p>
+          <p className="text-sm md:text-base text-[#6B7280] mb-2 leading-relaxed">{concept.def}</p>
           <div className="rounded-xl p-2.5" style={{ background: "#7C3AED12" }}>
             <p className="text-xs text-[#7C3AED] leading-relaxed">💡 {concept.tip}</p>
           </div>

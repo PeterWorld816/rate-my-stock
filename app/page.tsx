@@ -42,7 +42,7 @@ export default function Home() {
     <main className="min-h-screen bg-[#F5F5F0] font-sans">
 
       {/* ── Hero ── */}
-      <section className="px-5 pt-14 pb-5 text-center">
+      <section className="px-5 pt-14 pb-5 text-center max-w-3xl mx-auto">
         <div className="inline-flex items-center gap-2 rounded-full bg-[#0D0D0D] px-4 py-1.5 text-xs font-semibold text-white mb-5">
           <span className="h-1.5 w-1.5 rounded-full bg-[#00C805] animate-pulse" />
           {t.freeBadge}
@@ -56,11 +56,11 @@ export default function Home() {
           <span style={{ color: "#00C805" }}>{t.appSubtitle} 📈</span>
         </h1>
 
-        <p className="text-sm text-[#6B7280]">{t.tagline}</p>
+        <p className="text-sm md:text-base text-[#6B7280]">{t.tagline}</p>
       </section>
 
       {/* ── Gamification Card (강조) ── */}
-      <section className="px-4 pb-4 max-w-2xl mx-auto">
+      <section className="px-4 pb-4 max-w-2xl md:max-w-3xl mx-auto">
         <div className="rounded-3xl bg-white shadow-sm border border-[#E5E5E0] overflow-hidden">
           <div className="grid grid-cols-3 divide-x divide-[#E5E5E0]">
             {[
@@ -70,7 +70,7 @@ export default function Home() {
             ].map((stat, i) => (
               <div key={i} className="flex flex-col items-center gap-2 py-6">
                 <span className="text-4xl">{stat.icon}</span>
-                <p className="text-lg font-bold text-[#0D0D0D] leading-none">{stat.value}</p>
+                <p className="text-lg md:text-xl font-bold text-[#0D0D0D] leading-none">{stat.value}</p>
                 <p className="text-xs text-[#9CA3AF] leading-none">{stat.label}</p>
               </div>
             ))}
@@ -79,7 +79,7 @@ export default function Home() {
       </section>
 
       {/* ── Section Cards ── */}
-      <section className="px-4 pb-6 space-y-4 max-w-2xl mx-auto">
+      <section className="px-4 pb-6 space-y-4 max-w-2xl md:max-w-3xl mx-auto">
 
         {/* 오늘의 주식 */}
         <Link href="/today" className="block">
@@ -89,7 +89,7 @@ export default function Home() {
                 <span className="inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full mb-2 bg-[#00C80518] text-[#00C805]">
                   📅 {t.dailyUpdate}
                 </span>
-                <h2 className="font-display font-bold text-xl text-[#0D0D0D]">{t.todayStock}</h2>
+                <h2 className="font-display font-bold text-xl md:text-2xl text-[#0D0D0D]">{t.todayStock}</h2>
                 <p className="text-sm text-[#6B7280]">{t.todayDesc}</p>
               </div>
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl" style={{ background: "#00C80512" }}>
@@ -124,7 +124,7 @@ export default function Home() {
                 <span className="inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full mb-2 bg-[#7C3AED18] text-[#7C3AED]">
                   🎮 {t.quizCount}
                 </span>
-                <h2 className="font-display font-bold text-xl text-[#0D0D0D]">{t.stockQuiz}</h2>
+                <h2 className="font-display font-bold text-xl md:text-2xl text-[#0D0D0D]">{t.stockQuiz}</h2>
                 <p className="text-sm text-[#6B7280]">{t.quizDesc}</p>
               </div>
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl" style={{ background: "#7C3AED12" }}>
@@ -157,7 +157,7 @@ export default function Home() {
                 <span className="inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full mb-2 bg-[#F59E0B18] text-[#F59E0B]">
                   🚧 {t.comingSoon}
                 </span>
-                <h2 className="font-display font-bold text-xl text-[#0D0D0D]">{t.simulator}</h2>
+                <h2 className="font-display font-bold text-xl md:text-2xl text-[#0D0D0D]">{t.simulator}</h2>
                 <p className="text-sm text-[#6B7280]">{t.investAmount} · {t.investPeriod} · {t.calculate}</p>
               </div>
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl" style={{ background: "#F59E0B12" }}>
@@ -187,7 +187,7 @@ export default function Home() {
                 <span className="inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full mb-2 bg-[#00C80518] text-[#00C805]">
                   ✨ {t.navMatch}
                 </span>
-                <h2 className="font-display font-bold text-xl text-[#0D0D0D]">{t.matchTitle}</h2>
+                <h2 className="font-display font-bold text-xl md:text-2xl text-[#0D0D0D]">{t.matchTitle}</h2>
                 <p className="text-sm text-[#6B7280]">{t.matchSubtitle}</p>
               </div>
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl" style={{ background: "#00C80512" }}>

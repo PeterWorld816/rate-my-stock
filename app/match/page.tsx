@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -63,7 +63,7 @@ export default function MatchPage() {
           <Link href="/" className="inline-flex items-center gap-2 text-sm text-[#6B7280] mb-5 touch-target">
             ← {t.goHome}
           </Link>
-          <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-3 bg-[#00D08418] text-[#00D084]">
+          <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-3 bg-[#00C80518] text-[#00C805]">
             ✨ AI {t.navMatch}
           </div>
           <h1 className="font-display font-bold text-3xl text-[#0D0D0D] mb-1">{t.matchTitle}</h1>

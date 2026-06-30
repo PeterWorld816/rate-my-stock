@@ -1,4 +1,4 @@
-import { ImageResponse } from "next/og";
+﻿import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
 
 export const runtime = "edge";
@@ -45,15 +45,15 @@ export async function GET(req: NextRequest) {
         <div style={{
           position: "absolute", width: "600px", height: "600px",
           top: "15px", left: "300px",
-          background: "radial-gradient(circle, rgba(0,208,132,0.08) 0%, transparent 65%)",
+          background: "radial-gradient(circle, rgba(0,200,5,0.08) 0%, transparent 65%)",
           borderRadius: "50%", display: "flex",
         }} />
 
         {/* Mode chip — top left */}
         <div style={{
           position: "absolute", top: 42, left: 56, display: "flex",
-          background: "rgba(0,208,132,0.15)", borderRadius: 999,
-          padding: "6px 18px", color: "#00D084",
+          background: "rgba(0,200,5,0.15)", borderRadius: 999,
+          padding: "6px 18px", color: "#00C805",
           fontSize: 15, fontWeight: 700, letterSpacing: "0.12em",
           textTransform: "uppercase",
         }}>
@@ -63,7 +63,7 @@ export async function GET(req: NextRequest) {
         {/* Domain — top right */}
         <div style={{
           position: "absolute", top: 42, right: 56, display: "flex",
-          color: "#00D084", fontSize: 16, fontWeight: 700, letterSpacing: "0.05em",
+          color: "#00C805", fontSize: 16, fontWeight: 700, letterSpacing: "0.05em",
         }}>
           ratemystock.app
         </div>
@@ -75,7 +75,7 @@ export async function GET(req: NextRequest) {
 
         {/* Ticker */}
         <div style={{
-          color: "#00D084", fontSize: 100, fontWeight: 900,
+          color: "#00C805", fontSize: 100, fontWeight: 900,
           letterSpacing: "-0.04em", lineHeight: 1, marginBottom: 12, display: "flex",
         }}>
           ${t}
@@ -93,11 +93,11 @@ export async function GET(req: NextRequest) {
         {/* Score + Risk pills */}
         <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
           <div style={{
-            background: "rgba(0,208,132,0.12)", borderRadius: 999,
+            background: "rgba(0,200,5,0.12)", borderRadius: 999,
             padding: "12px 32px", display: "flex", alignItems: "center", gap: 8,
           }}>
-            <span style={{ color: "#00D084", fontSize: 34, fontWeight: 800 }}>{s}</span>
-            <span style={{ color: "rgba(0,208,132,0.45)", fontSize: 24, fontWeight: 700 }}>/100</span>
+            <span style={{ color: "#00C805", fontSize: 34, fontWeight: 800 }}>{s}</span>
+            <span style={{ color: "rgba(0,200,5,0.45)", fontSize: 24, fontWeight: 700 }}>/100</span>
           </div>
           <div style={{
             background: risk.bg, borderRadius: 999,

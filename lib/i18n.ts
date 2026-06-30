@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, createContext, useContext, createElement } from "react";
 import type { ReactNode } from "react";
@@ -164,6 +164,17 @@ export interface Translations {
   faceTapHint: string;
   faceAnalyzeBtn: string;
   facePrivacyNote: string;
+  // Salary / Friend (couple) mode
+  somethingWrongAlert: string;
+  playerFmt: string;
+  couplePlayer1Done: string;
+  couplePassPhone: string;
+  coupleHandoffMsg: string;
+  coupleStartMyQuiz: string;
+  coupleCancel: string;
+  coupleCalculatingLabel: string;
+  coupleCalculatingTitle: string;
+  coupleCalculatingSub: string;
 }
 
 export interface LangMeta {
@@ -197,7 +208,7 @@ export const LANGUAGES: LangMeta[] = [
 export const translations: Record<LangCode, Translations> = {
   ko: {
     appTitle: "Rate My Stock",
-    appSubtitle: "주식 공부, 게임처럼",
+    appSubtitle: "투자, 게임처럼 쉽게",
     freeBadge: "무료 주식 교육",
     tagline: "하루 5분 · 게임처럼 · 완전 무료",
     streak: "스트릭",
@@ -313,11 +324,12 @@ export const translations: Record<LangCode, Translations> = {
     vibeChip: "✨ 오늘의 바이브", vibeTitle: "오늘 기분이 어때요?", vibeSubtitle: "지금 내 기분 = 오늘의 주식 에너지",
     careerChip: "💼 커리어 매치", careerCategoryTitle: "당신의 직업은?", careerCategorySubtitle: "직업 분야를 선택하세요 — 100가지 직업", careerCountSuffix: "가지 직업 →", careerPickLabel: "정확한 직업을 선택하세요", careerExpLabel: "투자 경험", careerExpTitle: "투자 경험이 얼마나 되나요?", careerGoalLabel: "투자 목표", careerGoalTitle: "투자의 주요 목표는 무엇인가요?", careerLoadingChip: "💼 커리어 매치 분석 중", careerLoadingSubtitle: "딱 맞는 주식 찾는 중...",
     faceChip: "🤳 페이스 리드", faceBack: "← 뒤로", faceTitle: "사진 업로드", faceSubtitle: "AI가 당신의 투자 바이브를 읽어드려요", faceDropHint: "여기에 사진을 드래그하거나", faceTapHint: "탭해서 선택하기", faceAnalyzeBtn: "주식 매칭 분석하기 🔍", facePrivacyNote: "사진은 분석에만 쓰이며 서버에 저장되지 않습니다 · 엔터테인먼트 전용입니다",
+    somethingWrongAlert: "문제가 발생했어요! 다시 시도해주세요.", playerFmt: "플레이어 {n}", couplePlayer1Done: "플레이어 1 완료 ✓", couplePassPhone: "친구에게 전달하세요!", coupleHandoffMsg: "플레이어 1 잘했어요 🎉\n폰을 건네주세요 — 이제 플레이어 2 차례예요.", coupleStartMyQuiz: "준비됐어요 — 퀴즈 시작 🚀", coupleCancel: "취소", coupleCalculatingLabel: "케미 분석 중", coupleCalculatingTitle: "투자 궁합을 분석하는 중...", coupleCalculatingSub: "조금 매콤할 수도 있어요 🌶️",
   },
 
   en: {
     appTitle: "Rate My Stock",
-    appSubtitle: "Learn stocks, like a game",
+    appSubtitle: "Stocks, but make it fun",
     freeBadge: "Free Stock Education",
     tagline: "5 min/day · Game-like · Totally Free",
     streak: "Streak",
@@ -433,11 +445,12 @@ export const translations: Record<LangCode, Translations> = {
     vibeChip: "✨ Today's Vibe", vibeTitle: "How are you feeling?", vibeSubtitle: "Your vibe energy = your stock energy today.",
     careerChip: "💼 Career Match", careerCategoryTitle: "What's your job?", careerCategorySubtitle: "Pick your industry — 100 careers", careerCountSuffix: " careers →", careerPickLabel: "Select your specific job", careerExpLabel: "Experience", careerExpTitle: "How much investment experience do you have?", careerGoalLabel: "Investment Goal", careerGoalTitle: "What's your main investment goal?", careerLoadingChip: "💼 Analyzing Career Match", careerLoadingSubtitle: "Finding your perfect stock...",
     faceChip: "🤳 Face Read", faceBack: "← Back", faceTitle: "Upload Your Photo", faceSubtitle: "AI reads your investment vibe from your photo", faceDropHint: "Drop photo here", faceTapHint: "or tap to browse", faceAnalyzeBtn: "Analyze My Stock Match 🔍", facePrivacyNote: "Photos are used for analysis only and never stored on our servers · For entertainment only",
+    somethingWrongAlert: "Something went wrong. Try again!", playerFmt: "Player {n}", couplePlayer1Done: "Player 1 Done ✓", couplePassPhone: "Pass it to your friend!", coupleHandoffMsg: "Great job Player 1 🎉\nHand the phone over — it's Player 2's turn.", coupleStartMyQuiz: "I'm ready — start my quiz 🚀", coupleCancel: "Cancel", coupleCalculatingLabel: "Calculating Chemistry", coupleCalculatingTitle: "Analyzing your investment compatibility...", coupleCalculatingSub: "This might get spicy 🌶️",
   },
 
   zh: {
     appTitle: "Rate My Stock",
-    appSubtitle: "像游戏一样学股票",
+    appSubtitle: "投资，玩着来",
     freeBadge: "免费股票教育",
     tagline: "每天5分钟 · 游戏化 · 完全免费",
     streak: "连续天数",
@@ -553,11 +566,12 @@ export const translations: Record<LangCode, Translations> = {
     vibeChip: "✨ 今日状态", vibeTitle: "今天感觉如何？", vibeSubtitle: "你的状态 = 今天的股票能量。",
     careerChip: "💼 职业匹配", careerCategoryTitle: "你的职业是什么？", careerCategorySubtitle: "选择你的行业 — 100种职业", careerCountSuffix: "种职业 →", careerPickLabel: "选择你的具体职业", careerExpLabel: "投资经验", careerExpTitle: "你有多少投资经验？", careerGoalLabel: "投资目标", careerGoalTitle: "你的主要投资目标是什么？", careerLoadingChip: "💼 职业匹配分析中", careerLoadingSubtitle: "正在寻找最适合的股票...",
     faceChip: "🤳 Face Read", faceBack: "← Back", faceTitle: "Upload Your Photo", faceSubtitle: "AI reads your investment vibe from your photo", faceDropHint: "Drop photo here", faceTapHint: "or tap to browse", faceAnalyzeBtn: "Analyze My Stock Match 🔍", facePrivacyNote: "Photos are used for analysis only and never stored on our servers · For entertainment only",
+    somethingWrongAlert: "Something went wrong. Try again!", playerFmt: "Player {n}", couplePlayer1Done: "Player 1 Done ✓", couplePassPhone: "Pass it to your friend!", coupleHandoffMsg: "Great job Player 1 🎉\nHand the phone over — it's Player 2's turn.", coupleStartMyQuiz: "I'm ready — start my quiz 🚀", coupleCancel: "Cancel", coupleCalculatingLabel: "Calculating Chemistry", coupleCalculatingTitle: "Analyzing your investment compatibility...", coupleCalculatingSub: "This might get spicy 🌶️",
   },
 
   ja: {
     appTitle: "Rate My Stock",
-    appSubtitle: "株を、ゲームのように学ぼう",
+    appSubtitle: "投資を、楽しく",
     freeBadge: "無料株式教育",
     tagline: "1日5分 · ゲーム感覚 · 完全無料",
     streak: "ストリーク",
@@ -673,11 +687,12 @@ export const translations: Record<LangCode, Translations> = {
     vibeChip: "✨ 今日のバイブ", vibeTitle: "今日の気分は？", vibeSubtitle: "今の気分 = 今日の株エネルギー",
     careerChip: "💼 職業マッチ", careerCategoryTitle: "あなたの職業は？", careerCategorySubtitle: "業界を選択 — 100職種", careerCountSuffix: "職種 →", careerPickLabel: "具体的な職業を選択", careerExpLabel: "投資経験", careerExpTitle: "投資経験はどのくらいですか？", careerGoalLabel: "投資目標", careerGoalTitle: "主な投資目標は何ですか？", careerLoadingChip: "💼 職業マッチ分析中", careerLoadingSubtitle: "最適な株を探しています...",
     faceChip: "🤳 Face Read", faceBack: "← Back", faceTitle: "Upload Your Photo", faceSubtitle: "AI reads your investment vibe from your photo", faceDropHint: "Drop photo here", faceTapHint: "or tap to browse", faceAnalyzeBtn: "Analyze My Stock Match 🔍", facePrivacyNote: "Photos are used for analysis only and never stored on our servers · For entertainment only",
+    somethingWrongAlert: "Something went wrong. Try again!", playerFmt: "Player {n}", couplePlayer1Done: "Player 1 Done ✓", couplePassPhone: "Pass it to your friend!", coupleHandoffMsg: "Great job Player 1 🎉\nHand the phone over — it's Player 2's turn.", coupleStartMyQuiz: "I'm ready — start my quiz 🚀", coupleCancel: "Cancel", coupleCalculatingLabel: "Calculating Chemistry", coupleCalculatingTitle: "Analyzing your investment compatibility...", coupleCalculatingSub: "This might get spicy 🌶️",
   },
 
   es: {
     appTitle: "Rate My Stock",
-    appSubtitle: "Aprende bolsa como un juego",
+    appSubtitle: "Acciones, pero diviértete",
     freeBadge: "Educación bursátil gratis",
     tagline: "5 min/día · Como un juego · Totalmente gratis",
     streak: "Racha",
@@ -793,11 +808,12 @@ export const translations: Record<LangCode, Translations> = {
     vibeChip: "✨ Vibe de Hoy", vibeTitle: "¿Cómo te sientes?", vibeSubtitle: "Tu energía hoy = tu energía bursátil.",
     careerChip: "💼 Match de Carrera", careerCategoryTitle: "¿Cuál es tu profesión?", careerCategorySubtitle: "Elige tu industria — 100 carreras", careerCountSuffix: " carreras →", careerPickLabel: "Selecciona tu trabajo específico", careerExpLabel: "Experiencia", careerExpTitle: "¿Cuánta experiencia inversora tienes?", careerGoalLabel: "Meta de Inversión", careerGoalTitle: "¿Cuál es tu principal objetivo?", careerLoadingChip: "💼 Analizando Career Match", careerLoadingSubtitle: "Buscando tu acción perfecta...",
     faceChip: "🤳 Face Read", faceBack: "← Back", faceTitle: "Upload Your Photo", faceSubtitle: "AI reads your investment vibe from your photo", faceDropHint: "Drop photo here", faceTapHint: "or tap to browse", faceAnalyzeBtn: "Analyze My Stock Match 🔍", facePrivacyNote: "Photos are used for analysis only and never stored on our servers · For entertainment only",
+    somethingWrongAlert: "Something went wrong. Try again!", playerFmt: "Player {n}", couplePlayer1Done: "Player 1 Done ✓", couplePassPhone: "Pass it to your friend!", coupleHandoffMsg: "Great job Player 1 🎉\nHand the phone over — it's Player 2's turn.", coupleStartMyQuiz: "I'm ready — start my quiz 🚀", coupleCancel: "Cancel", coupleCalculatingLabel: "Calculating Chemistry", coupleCalculatingTitle: "Analyzing your investment compatibility...", coupleCalculatingSub: "This might get spicy 🌶️",
   },
 
   fr: {
     appTitle: "Rate My Stock",
-    appSubtitle: "Apprenez la bourse comme un jeu",
+    appSubtitle: "Bourse, mais en s'amusant",
     freeBadge: "Éducation boursière gratuite",
     tagline: "5 min/jour · Comme un jeu · Totalement gratuit",
     streak: "Série",
@@ -913,11 +929,12 @@ export const translations: Record<LangCode, Translations> = {
     vibeChip: "✨ Vibe du Jour", vibeTitle: "Comment vous sentez-vous ?", vibeSubtitle: "Votre énergie du jour = votre énergie boursière.",
     careerChip: "💼 Match Carrière", careerCategoryTitle: "Quelle est votre profession ?", careerCategorySubtitle: "Choisissez votre secteur — 100 métiers", careerCountSuffix: " métiers →", careerPickLabel: "Sélectionnez votre métier précis", careerExpLabel: "Expérience", careerExpTitle: "Quelle est votre expérience en investissement ?", careerGoalLabel: "Objectif", careerGoalTitle: "Quel est votre principal objectif ?", careerLoadingChip: "💼 Analyse Career Match", careerLoadingSubtitle: "Recherche de votre action idéale...",
     faceChip: "🤳 Face Read", faceBack: "← Back", faceTitle: "Upload Your Photo", faceSubtitle: "AI reads your investment vibe from your photo", faceDropHint: "Drop photo here", faceTapHint: "or tap to browse", faceAnalyzeBtn: "Analyze My Stock Match 🔍", facePrivacyNote: "Photos are used for analysis only and never stored on our servers · For entertainment only",
+    somethingWrongAlert: "Something went wrong. Try again!", playerFmt: "Player {n}", couplePlayer1Done: "Player 1 Done ✓", couplePassPhone: "Pass it to your friend!", coupleHandoffMsg: "Great job Player 1 🎉\nHand the phone over — it's Player 2's turn.", coupleStartMyQuiz: "I'm ready — start my quiz 🚀", coupleCancel: "Cancel", coupleCalculatingLabel: "Calculating Chemistry", coupleCalculatingTitle: "Analyzing your investment compatibility...", coupleCalculatingSub: "This might get spicy 🌶️",
   },
 
   de: {
     appTitle: "Rate My Stock",
-    appSubtitle: "Aktien lernen wie ein Spiel",
+    appSubtitle: "Aktien, aber mit Spaß",
     freeBadge: "Kostenlose Börsenbildung",
     tagline: "5 Min/Tag · Spielerisch · Kostenlos",
     streak: "Serie",
@@ -1033,11 +1050,12 @@ export const translations: Record<LangCode, Translations> = {
     vibeChip: "✨ Heutiger Vibe", vibeTitle: "Wie fühlst du dich?", vibeSubtitle: "Deine Energie heute = deine Aktienenergie.",
     careerChip: "💼 Karriere-Match", careerCategoryTitle: "Was ist dein Beruf?", careerCategorySubtitle: "Wähle deine Branche — 100 Berufe", careerCountSuffix: " Berufe →", careerPickLabel: "Wähle deinen spezifischen Beruf", careerExpLabel: "Erfahrung", careerExpTitle: "Wie viel Investitionserfahrung hast du?", careerGoalLabel: "Anlageziel", careerGoalTitle: "Was ist dein wichtigstes Anlageziel?", careerLoadingChip: "💼 Karriere-Match wird analysiert", careerLoadingSubtitle: "Suche deine perfekte Aktie...",
     faceChip: "🤳 Face Read", faceBack: "← Back", faceTitle: "Upload Your Photo", faceSubtitle: "AI reads your investment vibe from your photo", faceDropHint: "Drop photo here", faceTapHint: "or tap to browse", faceAnalyzeBtn: "Analyze My Stock Match 🔍", facePrivacyNote: "Photos are used for analysis only and never stored on our servers · For entertainment only",
+    somethingWrongAlert: "Something went wrong. Try again!", playerFmt: "Player {n}", couplePlayer1Done: "Player 1 Done ✓", couplePassPhone: "Pass it to your friend!", coupleHandoffMsg: "Great job Player 1 🎉\nHand the phone over — it's Player 2's turn.", coupleStartMyQuiz: "I'm ready — start my quiz 🚀", coupleCancel: "Cancel", coupleCalculatingLabel: "Calculating Chemistry", coupleCalculatingTitle: "Analyzing your investment compatibility...", coupleCalculatingSub: "This might get spicy 🌶️",
   },
 
   pt: {
     appTitle: "Rate My Stock",
-    appSubtitle: "Aprenda ações como um jogo",
+    appSubtitle: "Ações, mas com diversão",
     freeBadge: "Educação financeira gratuita",
     tagline: "5 min/dia · Como um jogo · Totalmente grátis",
     streak: "Sequência",
@@ -1153,11 +1171,12 @@ export const translations: Record<LangCode, Translations> = {
     vibeChip: "✨ Vibe de Hoje", vibeTitle: "Como você está se sentindo?", vibeSubtitle: "Sua energia hoje = sua energia em ações.",
     careerChip: "💼 Match de Carreira", careerCategoryTitle: "Qual é a sua profissão?", careerCategorySubtitle: "Escolha seu setor — 100 carreiras", careerCountSuffix: " carreiras →", careerPickLabel: "Selecione sua profissão específica", careerExpLabel: "Experiência", careerExpTitle: "Quanta experiência de investimento você tem?", careerGoalLabel: "Objetivo", careerGoalTitle: "Qual é o seu principal objetivo?", careerLoadingChip: "💼 Analisando Career Match", careerLoadingSubtitle: "Encontrando sua ação perfeita...",
     faceChip: "🤳 Face Read", faceBack: "← Back", faceTitle: "Upload Your Photo", faceSubtitle: "AI reads your investment vibe from your photo", faceDropHint: "Drop photo here", faceTapHint: "or tap to browse", faceAnalyzeBtn: "Analyze My Stock Match 🔍", facePrivacyNote: "Photos are used for analysis only and never stored on our servers · For entertainment only",
+    somethingWrongAlert: "Something went wrong. Try again!", playerFmt: "Player {n}", couplePlayer1Done: "Player 1 Done ✓", couplePassPhone: "Pass it to your friend!", coupleHandoffMsg: "Great job Player 1 🎉\nHand the phone over — it's Player 2's turn.", coupleStartMyQuiz: "I'm ready — start my quiz 🚀", coupleCancel: "Cancel", coupleCalculatingLabel: "Calculating Chemistry", coupleCalculatingTitle: "Analyzing your investment compatibility...", coupleCalculatingSub: "This might get spicy 🌶️",
   },
 
   hi: {
     appTitle: "Rate My Stock",
-    appSubtitle: "शेयर बाज़ार, खेल की तरह सीखें",
+    appSubtitle: "निवेश करें, खेल की तरह",
     freeBadge: "मुफ़्त Stock शिक्षा",
     tagline: "5 मिनट/दिन · खेल जैसा · बिल्कुल मुफ्त",
     streak: "स्ट्रीक",
@@ -1273,11 +1292,12 @@ export const translations: Record<LangCode, Translations> = {
     vibeChip: "✨ आज का वाइब", vibeTitle: "आज आप कैसा महसूस कर रहे हैं?", vibeSubtitle: "आपकी ऊर्जा = आज का शेयर बाज़ार एनर्जी।",
     careerChip: "💼 करियर मैच", careerCategoryTitle: "आपका पेशा क्या है?", careerCategorySubtitle: "अपना उद्योग चुनें — 100 करियर", careerCountSuffix: " करियर →", careerPickLabel: "अपना विशिष्ट काम चुनें", careerExpLabel: "अनुभव", careerExpTitle: "आपके पास कितना निवेश अनुभव है?", careerGoalLabel: "लक्ष्य", careerGoalTitle: "आपका मुख्य निवेश लक्ष्य क्या है?", careerLoadingChip: "💼 करियर मैच विश्लेषण हो रहा है", careerLoadingSubtitle: "आपके लिए सही स्टॉक खोज रहे हैं...",
     faceChip: "🤳 Face Read", faceBack: "← Back", faceTitle: "Upload Your Photo", faceSubtitle: "AI reads your investment vibe from your photo", faceDropHint: "Drop photo here", faceTapHint: "or tap to browse", faceAnalyzeBtn: "Analyze My Stock Match 🔍", facePrivacyNote: "Photos are used for analysis only and never stored on our servers · For entertainment only",
+    somethingWrongAlert: "Something went wrong. Try again!", playerFmt: "Player {n}", couplePlayer1Done: "Player 1 Done ✓", couplePassPhone: "Pass it to your friend!", coupleHandoffMsg: "Great job Player 1 🎉\nHand the phone over — it's Player 2's turn.", coupleStartMyQuiz: "I'm ready — start my quiz 🚀", coupleCancel: "Cancel", coupleCalculatingLabel: "Calculating Chemistry", coupleCalculatingTitle: "Analyzing your investment compatibility...", coupleCalculatingSub: "This might get spicy 🌶️",
   },
 
   ar: {
     appTitle: "Rate My Stock",
-    appSubtitle: "تعلم الأسهم كلعبة",
+    appSubtitle: "الأسهم، لكن بمتعة",
     freeBadge: "تعليم مجاني للأسهم",
     tagline: "5 دقائق/يوم · كاللعبة · مجاني تماماً",
     streak: "سلسلة",
@@ -1393,6 +1413,7 @@ export const translations: Record<LangCode, Translations> = {
     vibeChip: "✨ حال اليوم", vibeTitle: "كيف تشعر اليوم؟", vibeSubtitle: "طاقتك اليوم = طاقة بورصتك.",
     careerChip: "💼 مطابقة المهنة", careerCategoryTitle: "ما هي مهنتك؟", careerCategorySubtitle: "اختر مجالك — 100 مهنة", careerCountSuffix: " مهنة →", careerPickLabel: "اختر وظيفتك المحددة", careerExpLabel: "الخبرة", careerExpTitle: "ما مقدار خبرتك في الاستثمار؟", careerGoalLabel: "الهدف", careerGoalTitle: "ما هو هدفك الاستثماري الرئيسي؟", careerLoadingChip: "💼 جارٍ تحليل مطابقة المهنة", careerLoadingSubtitle: "جارٍ البحث عن أفضل سهم لك...",
     faceChip: "🤳 Face Read", faceBack: "→ رجوع", faceTitle: "Upload Your Photo", faceSubtitle: "AI reads your investment vibe from your photo", faceDropHint: "Drop photo here", faceTapHint: "or tap to browse", faceAnalyzeBtn: "Analyze My Stock Match 🔍", facePrivacyNote: "Photos are used for analysis only and never stored on our servers · For entertainment only",
+    somethingWrongAlert: "Something went wrong. Try again!", playerFmt: "Player {n}", couplePlayer1Done: "Player 1 Done ✓", couplePassPhone: "Pass it to your friend!", coupleHandoffMsg: "Great job Player 1 🎉\nHand the phone over — it's Player 2's turn.", coupleStartMyQuiz: "I'm ready — start my quiz 🚀", coupleCancel: "Cancel", coupleCalculatingLabel: "Calculating Chemistry", coupleCalculatingTitle: "Analyzing your investment compatibility...", coupleCalculatingSub: "This might get spicy 🌶️",
   },
 };
 
@@ -1715,6 +1736,106 @@ export const mbtiQuestions: Partial<Record<LangCode, MbtiQ[]>> = {
     },
   ],
 };
+
+// ── Bilingual ko/en question pools (Salary + Friend/Couple modes) ─────────────
+export type BilingualText = { ko: string; en: string };
+export type SalaryQ = { key: string; q: BilingualText; options: BilingualText[] };
+export type CoupleQ = { q: BilingualText; options: BilingualText[] };
+
+export const salaryQuestions: SalaryQ[] = [
+  {
+    key: "salary",
+    q: { ko: "연봉(또는 소득) 구간이 어떻게 되나요?", en: "What's your annual income range?" },
+    options: [
+      { ko: "3천만원 이하", en: "Under $30K" },
+      { ko: "3천만원 – 6천만원", en: "$30K–$60K" },
+      { ko: "6천만원 – 1억원", en: "$60K–$100K" },
+      { ko: "1억원 – 2억원", en: "$100K–$200K" },
+      { ko: "2억원 이상", en: "$200K+" },
+    ],
+  },
+  {
+    key: "savings",
+    q: { ko: "소득의 몇 %를 저축하나요?", en: "What % of your income do you save?" },
+    options: [
+      { ko: "저축 안 해요", en: "I don't save" },
+      { ko: "1–5%", en: "1–5%" },
+      { ko: "5–15%", en: "5–15%" },
+      { ko: "15–30%", en: "15–30%" },
+      { ko: "30% 이상", en: "30%+" },
+    ],
+  },
+  {
+    key: "spend",
+    q: { ko: "가장 큰 월 지출은?", en: "Biggest monthly expense?" },
+    options: [
+      { ko: "월세/대출 상환", en: "Rent/mortgage" },
+      { ko: "식비/외식", en: "Food & dining" },
+      { ko: "쇼핑/패션", en: "Shopping/fashion" },
+      { ko: "여행", en: "Travel" },
+      { ko: "구독/테크", en: "Subscriptions & tech" },
+    ],
+  },
+  {
+    key: "horizon",
+    q: { ko: "투자 기간은 얼마나 보시나요?", en: "Investment time horizon?" },
+    options: [
+      { ko: "이번 달에 수익 내고 싶어요", en: "I want gains this month" },
+      { ko: "1–2년", en: "1–2 years" },
+      { ko: "3–5년", en: "3–5 years" },
+      { ko: "10년 이상", en: "10+ years" },
+      { ko: "은퇴 대비", en: "Retirement" },
+    ],
+  },
+];
+
+export const coupleQuestions: CoupleQ[] = [
+  {
+    q: { ko: "지금 100만원이 생겼어요. 투자한다면?", en: "You have $1,000 to invest right now. You:" },
+    options: [
+      { ko: "확신 있는 종목 하나에 몰빵 🎯", en: "All in on one high-conviction stock 🎯" },
+      { ko: "3–5개 종목에 분산", en: "Split between 3-5 different plays" },
+      { ko: "ETF 사고 끝 — 심플하게", en: "ETF and done — keep it simple" },
+      { ko: "완벽한 하락 타이밍 기다림 📉", en: "Wait for the perfect dip 📉" },
+    ],
+  },
+  {
+    q: { ko: "보유 종목이 하룻밤에 -30% 빠졌어요. 당신은?", en: "Your stock drops -30% overnight. You:" },
+    options: [
+      { ko: "더 산다 — 세일 중이잖아요 🛒", en: "Buy more — it's on sale 🛒" },
+      { ko: "버틴다, 패닉셀 안 해요", en: "Hold steady, no panic selling" },
+      { ko: "절반 팔아서 리스크 관리", en: "Sell half, manage the risk" },
+      { ko: "전량 매도. 현금이 제일 안전해요 🏃", en: "Exit completely. Cash is safe 🏃" },
+    ],
+  },
+  {
+    q: { ko: "당신의 투자 목표 1순위는?", en: "Your #1 investing goal is:" },
+    options: [
+      { ko: "10배 수익 — 부자 되거나 시도하거나 🚀", en: "10x returns — get rich or trying 🚀" },
+      { ko: "시장 수익률을 꾸준히 이기기", en: "Beat the market consistently" },
+      { ko: "배당으로 패시브 인컴 만들기 💸", en: "Passive income via dividends 💸" },
+      { ko: "지금 가진 걸 지키기", en: "Protect what I already have" },
+    ],
+  },
+  {
+    q: { ko: "당신의 투자 바이브에 가장 가까운 건?", en: "Your vibe is closest to:" },
+    options: [
+      { ko: "새벽 2시 코인 트위터 🌙", en: "Crypto Twitter at 2am 🌙" },
+      { ko: "테크크런치 & 실적발표 💻", en: "TechCrunch & earnings reports 💻" },
+      { ko: "경제뉴스 & 배당 재투자 📺", en: "CNBC & dividend reinvestment 📺" },
+      { ko: "워런 버핏 주주서한 📚", en: "Warren Buffett annual letters 📚" },
+    ],
+  },
+  {
+    q: { ko: "당신의 투자 기간은?", en: "Your investment horizon is:" },
+    options: [
+      { ko: "며칠~몇 달 ⚡", en: "Days to months ⚡" },
+      { ko: "1–2년, 중기", en: "1-2 years, medium term" },
+      { ko: "5–10년, 장기전", en: "5-10 years, long game" },
+      { ko: "설정 후 신경 안 써요 🧘", en: "Set it and never check again 🧘" },
+    ],
+  },
+];
 
 // ── Celebrity Match data pool (ko / en; others fall back to en) ───────────────
 export type CelebQuestion = {

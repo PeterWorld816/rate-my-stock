@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { Mode } from "@/app/page";
 import { useLanguage } from "@/lib/i18n";
 
@@ -11,13 +11,13 @@ function ModeCard({ m, onSelect }: { m: ModeEntry; onSelect: (id: Mode) => void 
       onClick={() => onSelect(m.id)}
       className="card-hover text-left rounded-3xl bg-white p-6 shadow-md flex flex-col"
     >
-      <span className="inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full mb-4 bg-[#00D08418] text-[#00D084]">
+      <span className="inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full mb-4 bg-[#00C80518] text-[#00C805]">
         {m.tag}
       </span>
       <div className="text-3xl mb-3">{m.icon}</div>
       <h3 className="font-display font-bold text-xl text-[#0D0D0D] mb-1.5">{m.title}</h3>
       <p className="text-sm text-[#6B7280] leading-snug flex-1">{m.desc}</p>
-      <div className="mt-5 text-xs font-semibold text-[#00D084]">{t.startQuiz}</div>
+      <div className="mt-5 text-xs font-semibold text-[#00C805]">{t.startQuiz}</div>
     </button>
   );
 }
@@ -26,16 +26,12 @@ export default function ModeSelector({ onSelect }: { onSelect: (m: Mode) => void
   const { t } = useLanguage();
 
   const primaryModes: ModeEntry[] = [
-    { id: "face", icon: "🤳", title: t.modeCardFaceTitle, desc: t.modeCardFaceDesc, tag: t.modeCardFaceTag },
-    { id: "mbti", icon: "🧠", title: t.modeCardMbtiTitle, desc: t.modeCardMbtiDesc, tag: t.modeCardMbtiTag },
+    { id: "face",   icon: "🤳", title: t.modeCardFaceTitle,   desc: t.modeCardFaceDesc,   tag: t.modeCardFaceTag },
+    { id: "salary", icon: "📝", title: t.modeCardSalaryTitle, desc: t.modeCardSalaryDesc, tag: t.modeCardSalaryTag },
   ];
 
   const secondaryModes: ModeEntry[] = [
-    { id: "salary", icon: "📝", title: t.modeCardSalaryTitle, desc: t.modeCardSalaryDesc, tag: t.modeCardSalaryTag },
     { id: "couple", icon: "🤝", title: t.modeCardCoupleTitle, desc: t.modeCardCoupleDesc, tag: t.modeCardCoupleTag },
-    { id: "celebrity", icon: "⭐", title: t.modeCardCelebTitle, desc: t.modeCardCelebDesc, tag: t.modeCardCelebTag },
-    { id: "career", icon: "💼", title: t.modeCardCareerTitle, desc: t.modeCardCareerDesc, tag: t.modeCardCareerTag },
-    { id: "vibe", icon: "✨", title: t.modeCardVibeTitle, desc: t.modeCardVibeDesc, tag: t.modeCardVibeTag },
   ];
 
   const allModes = [...primaryModes, ...secondaryModes];
@@ -55,13 +51,13 @@ export default function ModeSelector({ onSelect }: { onSelect: (m: Mode) => void
               onClick={() => onSelect(m.id)}
               className="card-hover text-left rounded-3xl bg-white p-6 shadow-md"
             >
-              <span className="inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full mb-4 bg-[#00D08418] text-[#00D084]">
+              <span className="inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full mb-4 bg-[#00C80518] text-[#00C805]">
                 {m.tag}
               </span>
               <div className="text-3xl mb-3">{m.icon}</div>
               <h3 className="font-display font-bold text-xl text-[#0D0D0D] mb-1.5">{m.title}</h3>
               <p className="text-sm text-[#6B7280] leading-snug">{m.desc}</p>
-              <div className="mt-5 text-xs font-semibold text-[#00D084]">{t.startQuiz}</div>
+              <div className="mt-5 text-xs font-semibold text-[#00C805]">{t.startQuiz}</div>
             </button>
           ))}
         </div>

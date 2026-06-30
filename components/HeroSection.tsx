@@ -1,11 +1,11 @@
-"use client";
+﻿"use client";
 
 export default function HeroSection() {
   return (
     <section className="px-6 sm:px-12 lg:px-0 pt-16 sm:pt-20 lg:pt-28 pb-10 sm:pb-14 lg:pb-24 text-center bg-[#F5F5F0]">
       {/* Top pill badge */}
       <div className="inline-flex items-center gap-2 rounded-full bg-[#0D0D0D] px-4 py-1.5 text-xs font-semibold text-white mb-8">
-        <span className="h-1.5 w-1.5 rounded-full bg-[#00D084] animate-pulse" />
+        <span className="h-1.5 w-1.5 rounded-full bg-[#00C805] animate-pulse" />
         Not financial advice 😅
       </div>
 

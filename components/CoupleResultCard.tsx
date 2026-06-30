@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { CoupleResult } from "@/app/page";
 
 const riskColors: Record<string, { bg: string; text: string }> = {
@@ -8,7 +8,7 @@ const riskColors: Record<string, { bg: string; text: string }> = {
 };
 
 function scoreColor(score: number) {
-  if (score >= 90) return "#00D084";
+  if (score >= 90) return "#00C805";
   if (score >= 80) return "#A855F7";
   if (score >= 70) return "#06B6D4";
   return "#F59E0B";
@@ -26,7 +26,7 @@ function PersonCard({
     <div className="flex-1 rounded-2xl bg-white/10 p-4 flex flex-col items-center text-center">
       <p className="text-[9px] font-semibold uppercase tracking-widest text-gray-400 mb-2">{label}</p>
       <div className="text-3xl mb-2">{person.emoji}</div>
-      <p className="font-display font-bold text-xl" style={{ color: "#00D084" }}>
+      <p className="font-display font-bold text-xl" style={{ color: "#00C805" }}>
         ${person.ticker}
       </p>
       <p className="text-xs text-gray-400 mb-3 leading-tight">{person.name}</p>
@@ -107,7 +107,7 @@ export default function CoupleResultCard({
       </div>
 
       {/* Recommended sectors */}
-      <div className="rounded-2xl bg-white p-5 mb-4 shadow-md">
+      <div className="rounded-2xl bg-white p-5 mb-4 shadow-sm border border-[#E5E5E0]">
         <p className="text-xs font-semibold text-[#6B7280] uppercase tracking-widest mb-3">
           함께 투자하면 좋은 섹터
         </p>
@@ -127,12 +127,12 @@ export default function CoupleResultCard({
 
       <div className="flex gap-3">
         <button onClick={share}
-          className="flex-1 rounded-2xl touch-target text-sm font-semibold text-white"
+          className="flex-1 rounded-xl touch-target text-sm font-semibold text-white"
           style={{ background: "#06B6D4" }}>
           Share Result 📤
         </button>
         <button onClick={onReset}
-          className="rounded-2xl border border-[#E5E5E0] bg-white px-5 touch-target text-sm font-semibold text-[#374151]">
+          className="rounded-xl border border-[#E5E5E0] bg-white px-5 touch-target text-sm font-semibold text-[#374151]">
           Retry
         </button>
       </div>

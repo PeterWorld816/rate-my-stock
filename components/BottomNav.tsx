@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "@/lib/i18n";
@@ -34,7 +34,7 @@ export default function BottomNav() {
             >
               {isActive && (
                 <div className="absolute top-0 inset-x-0 flex justify-center">
-                  <div className="w-8 h-0.5 rounded-b-full" style={{ background: "#00D084" }} />
+                  <div className="w-8 h-0.5 rounded-b-full" style={{ background: "#00C805" }} />
                 </div>
               )}
               <span
@@ -45,7 +45,7 @@ export default function BottomNav() {
               </span>
               <span
                 className="text-[10px] font-semibold transition-colors"
-                style={{ color: isActive ? "#00D084" : "#9CA3AF" }}
+                style={{ color: isActive ? "#00C805" : "#9CA3AF" }}
               >
                 {tab.label}
               </span>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useRef } from "react";
 import { Result, Mode } from "@/app/page";
 import { useLanguage } from "@/lib/i18n";
@@ -68,14 +68,14 @@ function StoryCard({
               {modeLabel}
             </span>
           ) : <span />}
-          <span style={{ fontSize: "10px", fontWeight: 600, color: "#00D084" }}>ratemystock.app</span>
+          <span style={{ fontSize: "10px", fontWeight: 600, color: "#00C805" }}>ratemystock.app</span>
         </div>
 
         {/* Emoji */}
         <div style={{ fontSize: "50px", lineHeight: 1, marginBottom: "8px" }}>{result.emoji}</div>
 
         {/* Ticker */}
-        <p style={{ color: "#00D084", fontSize: "54px", fontWeight: 900, letterSpacing: "-0.03em", lineHeight: 1, marginBottom: "6px" }}>
+        <p style={{ color: "#00C805", fontSize: "54px", fontWeight: 900, letterSpacing: "-0.03em", lineHeight: 1, marginBottom: "6px" }}>
           ${result.ticker}
         </p>
 
@@ -87,7 +87,7 @@ function StoryCard({
           <div style={{ position: "relative", width: "80px", height: "80px" }}>
             <svg viewBox="0 0 100 100" width="80" height="80" style={{ transform: "rotate(-90deg)" }}>
               <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="7" />
-              <circle cx="50" cy="50" r="44" fill="none" stroke="#00D084" strokeWidth="7"
+              <circle cx="50" cy="50" r="44" fill="none" stroke="#00C805" strokeWidth="7"
                 strokeLinecap="round" strokeDasharray={`${strokeDash} ${circumference}`} />
             </svg>
             <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
@@ -222,7 +222,7 @@ export default function ResultCard({
             {/* Ticker */}
             <h2
               className="font-display leading-none mb-2 text-center"
-              style={{ fontWeight: 800, fontSize: "clamp(3rem,16vw,5rem)", color: "#00D084", letterSpacing: "-0.03em" }}
+              style={{ fontWeight: 800, fontSize: "clamp(3rem,16vw,5rem)", color: "#00C805", letterSpacing: "-0.03em" }}
             >
               ${result.ticker}
             </h2>
@@ -239,7 +239,7 @@ export default function ResultCard({
                   <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="7" />
                   <circle
                     cx="50" cy="50" r="44" fill="none"
-                    stroke="#00D084" strokeWidth="7" strokeLinecap="round"
+                    stroke="#00C805" strokeWidth="7" strokeLinecap="round"
                     strokeDasharray={`${strokeDash} ${circumference}`}
                   />
                 </svg>
@@ -280,7 +280,7 @@ export default function ResultCard({
                   <div
                     key={i}
                     className="w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold text-white"
-                    style={{ background: "rgba(0,208,132,0.16)" }}
+                    style={{ background: "rgba(0,200,5,0.16)" }}
                   >
                     {letter}
                   </div>
@@ -326,7 +326,7 @@ export default function ResultCard({
         <div className="grid grid-cols-3 gap-3">
           <button
             onClick={share}
-            className="card-hover rounded-2xl py-3.5 flex flex-col items-center justify-center gap-1 bg-[#0D0D0D] text-white"
+            className="card-hover rounded-xl py-3.5 flex flex-col items-center justify-center gap-1 bg-[#0D0D0D] text-white"
           >
             <span className="text-base">↗</span>
             <span className="text-xs font-semibold">{t.resultShareBtn}</span>
@@ -335,8 +335,8 @@ export default function ResultCard({
           <button
             onClick={saveAsImage}
             disabled={saving}
-            className="card-hover rounded-2xl py-3.5 flex flex-col items-center justify-center gap-1 text-white disabled:opacity-60"
-            style={{ background: "#00D084" }}
+            className="card-hover rounded-xl py-3.5 flex flex-col items-center justify-center gap-1 text-white disabled:opacity-60"
+            style={{ background: "#00C805" }}
           >
             {saving ? (
               <span className="w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
@@ -350,7 +350,7 @@ export default function ResultCard({
 
           <button
             onClick={onReset}
-            className="card-hover rounded-2xl py-3.5 flex flex-col items-center justify-center gap-1 bg-white shadow-md text-[#0D0D0D]"
+            className="card-hover rounded-xl py-3.5 flex flex-col items-center justify-center gap-1 bg-white shadow-sm border border-[#E5E5E0] text-[#0D0D0D]"
           >
             <span className="text-base">↩</span>
             <span className="text-xs font-semibold">{t.resultRetryBtn}</span>

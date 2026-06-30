@@ -1,54 +1,7 @@
 "use client";
 import { useState } from "react";
 import { CoupleResult } from "@/app/page";
-
-const questions = [
-  {
-    q: "You have $1,000 to invest right now. You:",
-    options: [
-      "All in on one high-conviction stock 🎯",
-      "Split between 3-5 different plays",
-      "ETF and done — keep it simple",
-      "Wait for the perfect dip 📉",
-    ],
-  },
-  {
-    q: "Your stock drops -30% overnight. You:",
-    options: [
-      "Buy more — it's on sale 🛒",
-      "Hold steady, no panic selling",
-      "Sell half, manage the risk",
-      "Exit completely. Cash is safe 🏃",
-    ],
-  },
-  {
-    q: "Your #1 investing goal is:",
-    options: [
-      "10x returns — get rich or trying 🚀",
-      "Beat the market consistently",
-      "Passive income via dividends 💸",
-      "Protect what I already have",
-    ],
-  },
-  {
-    q: "Your vibe is closest to:",
-    options: [
-      "Crypto Twitter at 2am 🌙",
-      "TechCrunch & earnings reports 💻",
-      "CNBC & dividend reinvestment 📺",
-      "Warren Buffett annual letters 📚",
-    ],
-  },
-  {
-    q: "Your investment horizon is:",
-    options: [
-      "Days to months ⚡",
-      "1-2 years, medium term",
-      "5-10 years, long game",
-      "Set it and never check again 🧘",
-    ],
-  },
-];
+import { useLanguage, coupleQuestions } from "@/lib/i18n";
 
 const OPTION_LETTERS = ["A", "B", "C", "D"];
 const ACCENT = "#06B6D4";
@@ -87,6 +40,10 @@ export default function CoupleMode({
   onBack: () => void;
   setLoading: (b: boolean) => void;
 }) {
+  const { t, lang } = useLanguage();
+  const bi = (lang === "ko" ? "ko" : "en") as "ko" | "en";
+  const questions = coupleQuestions;
+
   const [phase, setPhase] = useState<Phase>("p1");
   const [step, setStep] = useState(0);
   const [p1Answers, setP1Answers] = useState<string[]>([]);
@@ -142,25 +99,29 @@ export default function CoupleMode({
           <div className="text-6xl mb-4">🤝</div>
           <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-5"
             style={{ background: `${ACCENT}18`, color: ACCENT }}>
-            Player 1 Done ✓
+            {t.couplePlayer1Done}
           </div>
           <h2 className="font-display font-bold text-2xl mb-2 text-[#0D0D0D]">
-            Pass it to your friend!
+            {t.couplePassPhone}
           </h2>
           <p className="text-sm text-[#6B7280] mb-8 leading-relaxed">
-            Great job Player 1 🎉<br />
-            Hand the phone over — it&apos;s Player 2&apos;s turn.
+            {t.coupleHandoffMsg.split("\n").map((line, i) => (
+              <span key={i}>
+                {line}
+                {i < t.coupleHandoffMsg.split("\n").length - 1 && <br />}
+              </span>
+            ))}
           </p>
           <div className="flex flex-col gap-3">
             <button
               onClick={() => { setP2Answers([]); setPhase("p2"); setStep(0); }}
               className="w-full rounded-2xl touch-target text-sm font-bold text-white flex items-center justify-center"
               style={{ background: ACCENT }}>
-              I&apos;m ready — start my quiz 🚀
+              {t.coupleStartMyQuiz}
             </button>
             <button onClick={onBack}
               className="w-full rounded-2xl border border-[#E5E5E0] bg-white touch-target text-sm font-medium text-[#6B7280] flex items-center justify-center">
-              Cancel
+              {t.coupleCancel}
             </button>
           </div>
         </div>
@@ -175,12 +136,12 @@ export default function CoupleMode({
         <div className="rounded-3xl bg-white p-8 shadow-md text-center">
           <div className="text-5xl mb-4">🔬</div>
           <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: ACCENT }}>
-            Calculating Chemistry
+            {t.coupleCalculatingLabel}
           </p>
           <h2 className="font-display font-bold text-xl mb-2 text-[#0D0D0D]">
-            Analyzing your investment compatibility...
+            {t.coupleCalculatingTitle}
           </h2>
-          <p className="text-sm text-[#6B7280] mb-8">This might get spicy 🌶️</p>
+          <p className="text-sm text-[#6B7280] mb-8">{t.coupleCalculatingSub}</p>
           <div className="space-y-3">
             {[1, 0.75, 0.5, 0.3].map((op, i) => (
               <div key={i} className="h-3 rounded-full shimmer" style={{ opacity: op }} />
@@ -197,7 +158,7 @@ export default function CoupleMode({
     <section className="px-4 sm:px-6 pb-safe max-w-xl mx-auto fade-up">
       {isP1 ? (
         <button onClick={onBack} className="flex items-center gap-2 text-sm text-[#6B7280] mb-6 touch-target">
-          ← Back
+          ← {t.back}
         </button>
       ) : (
         <div className="mb-6 h-6" />
@@ -209,11 +170,11 @@ export default function CoupleMode({
           <div className="flex items-center gap-2">
             <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
               style={{ background: `${ACCENT}18`, color: ACCENT }}>
-              🤝 Friend Match
+              🤝 {t.modeCardCoupleTitle}
             </div>
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full text-white"
               style={{ background: isP1 ? "#9CA3AF" : ACCENT }}>
-              {isP1 ? "Player 1" : "Player 2"}
+              {t.playerFmt.replace("{n}", isP1 ? "1" : "2")}
             </span>
           </div>
           <span className="text-xs font-bold tabular-nums" style={{ color: ACCENT }}>
@@ -236,18 +197,18 @@ export default function CoupleMode({
         </div>
 
         <h2 className="font-display font-bold text-xl mb-6 leading-snug text-[#0D0D0D]">
-          {questions[step].q}
+          {questions[step].q[bi]}
         </h2>
 
         <div className="space-y-3">
           {questions[step].options.map((opt, i) => (
-            <button key={opt} onClick={() => pick(opt)}
+            <button key={opt.en} onClick={() => pick(opt[bi])}
               className="w-full text-left rounded-2xl border border-[#E5E5E0] bg-[#F5F5F0] px-4 touch-target text-sm font-medium text-[#374151] hover:border-[#06B6D4] hover:bg-[#ECFEFF] transition-all card-hover flex items-center gap-3">
               <span className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
                 style={{ background: `${ACCENT}18`, color: ACCENT }}>
                 {OPTION_LETTERS[i]}
               </span>
-              <span>{opt}</span>
+              <span>{opt[bi]}</span>
             </button>
           ))}
         </div>

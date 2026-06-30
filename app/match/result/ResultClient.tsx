@@ -14,22 +14,22 @@ const RISK_COLORS = {
   HIGH: { bg: "#FEE2E2", text: "#991B1B" },
 };
 
-const MODE_LABEL: Record<string, string> = {
-  face:      "Face Read",
-  mbti:      "Stock MBTI",
-  vibe:      "Today's Vibe",
-  salary:    "Personality Quiz",
-  celebrity: "Celebrity Match",
-  career:    "Career Match",
-};
-
-const MODE_TAGS: Record<string, string[]> = {
-  face:      ["#RateMyStock", "#FaceRead", "#AI주식"],
-  mbti:      ["#RateMyStock", "#StockMBTI", "#MBTI"],
+const MODE_TAGS_KO: Record<string, string[]> = {
+  face:      ["#RateMyStock", "#페이스리드", "#AI주식"],
+  mbti:      ["#RateMyStock", "#주식MBTI", "#MBTI"],
   vibe:      ["#RateMyStock", "#투자바이브", "#오늘의주식"],
   salary:    ["#RateMyStock", "#성격테스트", "#주식타입"],
   celebrity: ["#RateMyStock", "#셀럽매칭", "#투자스타일"],
   career:    ["#RateMyStock", "#직업테스트", "#주식추천"],
+};
+
+const MODE_TAGS_EN: Record<string, string[]> = {
+  face:      ["#RateMyStock", "#FaceRead", "#AIStocks"],
+  mbti:      ["#RateMyStock", "#StockMBTI", "#MBTI"],
+  vibe:      ["#RateMyStock", "#InvestVibe", "#TodaysStock"],
+  salary:    ["#RateMyStock", "#PersonalityTest", "#StockType"],
+  celebrity: ["#RateMyStock", "#CelebMatch", "#InvestStyle"],
+  career:    ["#RateMyStock", "#CareerTest", "#StockPick"],
 };
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -40,16 +40,17 @@ const MODE_TAGS: Record<string, string[]> = {
 
 function ShareCard({
   cardRef,
-  ticker, name, emoji, score, risk, mode, facePhoto,
+  ticker, name, emoji, score, risk, mode, facePhoto, isKo, modeLabel,
 }: {
   cardRef: React.RefObject<HTMLDivElement>;
   ticker: string; name: string; emoji: string;
   score: number; risk: "LOW" | "MID" | "HIGH"; mode: string;
   facePhoto?: string | null;
+  isKo: boolean;
+  modeLabel: string;
 }) {
   const rc   = RISK_COLORS[risk] ?? RISK_COLORS.MID;
-  const tags = MODE_TAGS[mode] ?? ["#RateMyStock", "#주식타입"];
-  const modeLabel = MODE_LABEL[mode] ?? "AI Match";
+  const tags = (isKo ? MODE_TAGS_KO : MODE_TAGS_EN)[mode] ?? (isKo ? ["#RateMyStock", "#주식타입"] : ["#RateMyStock", "#StockType"]);
 
   return (
     <div
@@ -145,7 +146,7 @@ function ShareCard({
           textAlign: "center", lineHeight: 1.55, marginBottom: "18px",
           padding: "0 24px",
         }}>
-          AI가 분석한 나의 주식 타입 🎯
+          {isKo ? "AI가 분석한 나의 주식 타입 🎯" : "My AI-matched stock type 🎯"}
         </div>
 
         {/* Hashtags */}
@@ -279,6 +280,16 @@ function ResultContent() {
   const fullResult = stored?.result;
   const rc         = RISK_COLORS[risk] ?? RISK_COLORS.MID;
 
+  const MODE_LABEL: Record<string, string> = {
+    face:      t.modeLabelFace,
+    mbti:      t.modeLabelMbti,
+    vibe:      t.modeLabelVibe,
+    salary:    t.modeLabelSalary,
+    celebrity: t.modeLabelCeleb,
+    career:    t.modeLabelCareer,
+  };
+  const modeLabel = MODE_LABEL[mode] ?? "AI Match";
+
   return (
     <main className="min-h-screen bg-[#F5F5F0] font-sans">
       {toast && <Toast message={toast} onDone={() => setToast(null)} />}
@@ -301,6 +312,8 @@ function ResultContent() {
                 ticker={ticker} name={name} emoji={emoji}
                 score={score} risk={risk} mode={mode}
                 facePhoto={facePhoto}
+                isKo={isKo}
+                modeLabel={modeLabel}
               />
             </div>
           </div>

@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/lib/i18n";
-import { QUIZ_POOL, DifficultyQ } from "@/lib/quizData";
+import { QUIZ_POOL, DifficultyQ, getText } from "@/lib/quizData";
 import { loadStats, applyXP } from "@/lib/gamification";
 
 const TOTAL = 5;
@@ -60,7 +60,7 @@ function pickQuestions(): PickResult {
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export default function QuizPage() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   const [questions, setQuestions] = useState<DifficultyQ[]>([]);
   const [allSolved, setAllSolved] = useState(false);
@@ -285,7 +285,7 @@ export default function QuizPage() {
   }
 
   // ── Quiz screen ──────────────────────────────────────────────────────────────
-  const tagEmoji = Array.from(q.tag)[0] ?? "📊";
+  const tagEmoji = [...getText(q.tag, lang)][0] ?? "📊";
 
   const getBtn = (val: boolean) => {
     const isChosen = selected === val;

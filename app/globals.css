@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --green: #00D084;
+  --green: #00C805;
   --dark: #0D0D0D;
   --bg: #F5F5F0;
   --text: #0D0D0D;
@@ -14,21 +14,32 @@
 
 * { box-sizing: border-box; }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  word-break: keep-all;
 }
 
 h1, h2, h3, .font-display { font-family: 'Syne', sans-serif; }
+
+.text-balance {
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
 
 .card-hover {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .card-hover:hover {
-  transform: scale(1.02);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.1);
+  transform: scale(1.015);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
 }
 
 .scrollbar-hide {

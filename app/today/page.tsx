@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useLanguage, type LangCode, LOCALE_MAP } from "@/lib/i18n";
@@ -698,11 +698,11 @@ export default function TodayPage() {
           <div className="flex items-start justify-between mb-4">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: "#00D08430", color: "#00D084" }}>
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: "#00C80530", color: "#00C805" }}>
                   📅 Day {(dayIndex % STOCKS.length) + 1} / {STOCKS.length}
                 </span>
               </div>
-              <p className="text-4xl font-display font-bold tracking-tight">${stock.ticker}</p>
+              <p className="font-display font-bold tracking-tight" style={{ fontSize: "clamp(24px, 7vw, 36px)" }}>${stock.ticker}</p>
               <p className="text-sm text-gray-400">{loading ? stock.name : (live?.longName ?? stock.name)}</p>
             </div>
             <div className="text-center">
@@ -743,7 +743,7 @@ export default function TodayPage() {
                 <div
                   className="h-full rounded-full"
                   style={{
-                    background: "#00D084",
+                    background: "#00C805",
                     width: `${Math.min(100, Math.max(0, ((live.price - live.low52) / (live.high52 - live.low52)) * 100))}%`,
                   }}
                 />
@@ -762,7 +762,7 @@ export default function TodayPage() {
           <div className="grid grid-cols-3 gap-3 mb-4">
             {[
               { label: t.currentPrice, value: fmt(live.price), color: "#0D0D0D" },
-              { label: t.high52w,      value: fmt(live.high52), color: "#00D084" },
+              { label: t.high52w,      value: fmt(live.high52), color: "#00C805" },
               { label: t.low52w,       value: fmt(live.low52), color: "#EF4444" },
             ].map((s) => (
               <div key={s.label} className="rounded-2xl bg-white p-3 text-center shadow-sm">
@@ -776,13 +776,13 @@ export default function TodayPage() {
         {/* ── Pros & Cons ── */}
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="rounded-2xl bg-white p-4 shadow-sm">
-            <p className="text-[10px] font-bold uppercase tracking-widest mb-3" style={{ color: "#00D084" }}>
+            <p className="text-[10px] font-bold uppercase tracking-widest mb-3" style={{ color: "#00C805" }}>
               👍 {t.buyReason}
             </p>
             <ul className="space-y-2">
               {(en?.pros ?? stock.pros).map((p) => (
-                <li key={p} className="text-xs text-[#374151] flex items-start gap-1.5">
-                  <span style={{ color: "#00D084" }} className="shrink-0 font-bold">✓</span>
+                <li key={p} className="text-xs text-[#374151] leading-relaxed flex items-start gap-1.5">
+                  <span style={{ color: "#00C805" }} className="shrink-0 font-bold">✓</span>
                   {p}
                 </li>
               ))}
@@ -794,7 +794,7 @@ export default function TodayPage() {
             </p>
             <ul className="space-y-2">
               {(en?.cons ?? stock.cons).map((c) => (
-                <li key={c} className="text-xs text-[#374151] flex items-start gap-1.5">
+                <li key={c} className="text-xs text-[#374151] leading-relaxed flex items-start gap-1.5">
                   <span className="text-red-400 shrink-0 font-bold">×</span>
                   {c}
                 </li>

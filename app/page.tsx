@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import Link from "next/link";
 import { useLanguage } from "@/lib/i18n";
 import { useGamification } from "@/lib/useGamification";
@@ -42,38 +42,39 @@ export default function Home() {
     <main className="min-h-screen bg-[#F5F5F0] font-sans">
 
       {/* ── Hero ── */}
-      <section className="px-5 pt-14 pb-6 text-center">
+      <section className="px-5 pt-14 pb-5 text-center">
         <div className="inline-flex items-center gap-2 rounded-full bg-[#0D0D0D] px-4 py-1.5 text-xs font-semibold text-white mb-5">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#00D084] animate-pulse" />
+          <span className="h-1.5 w-1.5 rounded-full bg-[#00C805] animate-pulse" />
           {t.freeBadge}
         </div>
 
         <h1
           className="font-display leading-tight mb-3"
-          style={{ fontWeight: 800, fontSize: "clamp(2rem, 7vw, 3.5rem)" }}
+          style={{ fontWeight: 800, fontSize: "clamp(28px, 8vw, 48px)" }}
         >
           {t.appTitle}<br />
-          <span style={{ color: "#00D084" }}>{t.appSubtitle} 📈</span>
+          <span style={{ color: "#00C805" }}>{t.appSubtitle} 📈</span>
         </h1>
 
-        <p className="text-sm text-[#6B7280] mb-6">{t.tagline}</p>
+        <p className="text-sm text-[#6B7280]">{t.tagline}</p>
+      </section>
 
-        {/* Gamification bar */}
-        <div className="inline-flex items-center gap-0 rounded-2xl bg-white shadow-sm overflow-hidden">
-          {[
-            { icon: "🔥", value: `${stats.streak}${t.day}`, label: t.streak },
-            { icon: "⚡", value: String(stats.xp), label: t.xp },
-            { icon: "🏆", value: `Lv.${stats.level}`, label: t.level },
-          ].map((stat, i) => (
-            <div key={i} className="flex items-center gap-2 px-4 py-3">
-              {i > 0 && <div className="w-px h-6 bg-[#E5E5E0] -ml-2 mr-2" />}
-              <span className="text-lg">{stat.icon}</span>
-              <div className="text-left">
-                <p className="text-xs font-bold text-[#0D0D0D] leading-none">{stat.value}</p>
-                <p className="text-[9px] text-[#9CA3AF] leading-none mt-0.5">{stat.label}</p>
+      {/* ── Gamification Card (강조) ── */}
+      <section className="px-4 pb-4 max-w-2xl mx-auto">
+        <div className="rounded-3xl bg-white shadow-sm border border-[#E5E5E0] overflow-hidden">
+          <div className="grid grid-cols-3 divide-x divide-[#E5E5E0]">
+            {[
+              { icon: "🔥", value: `${stats.streak}${t.day}`, label: t.streak },
+              { icon: "⚡", value: String(stats.xp), label: t.xp },
+              { icon: "🏆", value: `Lv.${stats.level}`, label: t.level },
+            ].map((stat, i) => (
+              <div key={i} className="flex flex-col items-center gap-2 py-6">
+                <span className="text-4xl">{stat.icon}</span>
+                <p className="text-lg font-bold text-[#0D0D0D] leading-none">{stat.value}</p>
+                <p className="text-xs text-[#9CA3AF] leading-none">{stat.label}</p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
@@ -82,16 +83,16 @@ export default function Home() {
 
         {/* 오늘의 주식 */}
         <Link href="/today" className="block">
-          <div className="rounded-3xl bg-white p-5 shadow-md card-hover">
+          <div className="rounded-3xl bg-white p-5 shadow-sm border border-[#E5E5E0] card-hover">
             <div className="flex items-start justify-between mb-4">
               <div>
-                <span className="inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full mb-2 bg-[#00D08418] text-[#00D084]">
+                <span className="inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full mb-2 bg-[#00C80518] text-[#00C805]">
                   📅 {t.dailyUpdate}
                 </span>
                 <h2 className="font-display font-bold text-xl text-[#0D0D0D]">{t.todayStock}</h2>
                 <p className="text-sm text-[#6B7280]">{t.todayDesc}</p>
               </div>
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl" style={{ background: "#00D08412" }}>
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl" style={{ background: "#00C80512" }}>
                 📈
               </div>
             </div>
@@ -99,9 +100,9 @@ export default function Home() {
             <div className="flex gap-2 mb-4">
               {[{ t: "NVDA", c: "+2.3%", up: true }, { t: "AAPL", c: "+1.1%", up: true }, { t: "TSLA", c: "-0.8%", up: false }].map((s) => (
                 <div key={s.t} className="flex-1 rounded-xl py-2 px-2.5 text-center"
-                  style={{ background: s.up ? "#00D08412" : "#FEE2E212" }}>
+                  style={{ background: s.up ? "#00C80512" : "#FEE2E212" }}>
                   <p className="text-xs font-bold text-[#0D0D0D]">{s.t}</p>
-                  <p className="text-[10px] font-semibold" style={{ color: s.up ? "#00D084" : "#991B1B" }}>{s.c}</p>
+                  <p className="text-[10px] font-semibold" style={{ color: s.up ? "#00C805" : "#991B1B" }}>{s.c}</p>
                 </div>
               ))}
             </div>
@@ -110,14 +111,14 @@ export default function Home() {
               <p className="text-xs text-[#9CA3AF]">
                 {t.todayPick} <span className="font-semibold text-[#0D0D0D]">NVIDIA</span>
               </p>
-              <span className="text-xs font-semibold" style={{ color: "#00D084" }}>{t.viewAnalysis}</span>
+              <span className="text-xs font-semibold" style={{ color: "#00C805" }}>{t.viewAnalysis}</span>
             </div>
           </div>
         </Link>
 
         {/* 주식 퀴즈 */}
         <Link href="/quiz" className="block">
-          <div className="rounded-3xl bg-white p-5 shadow-md card-hover">
+          <div className="rounded-3xl bg-white p-5 shadow-sm border border-[#E5E5E0] card-hover">
             <div className="flex items-start justify-between mb-4">
               <div>
                 <span className="inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full mb-2 bg-[#7C3AED18] text-[#7C3AED]">
@@ -150,7 +151,7 @@ export default function Home() {
 
         {/* 시뮬레이터 */}
         <Link href="/simulator" className="block">
-          <div className="rounded-3xl bg-white p-5 shadow-md card-hover">
+          <div className="rounded-3xl bg-white p-5 shadow-sm border border-[#E5E5E0] card-hover">
             <div className="flex items-start justify-between mb-4">
               <div>
                 <span className="inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full mb-2 bg-[#F59E0B18] text-[#F59E0B]">
@@ -178,33 +179,35 @@ export default function Home() {
           </div>
         </Link>
 
-        {/* 나는 무슨 주식? */}
+        {/* AI Match 카드 */}
         <Link href="/match" className="block">
-          <div className="rounded-3xl bg-[#0D0D0D] p-5 shadow-md card-hover text-white">
+          <div className="rounded-3xl bg-white p-5 shadow-sm border border-[#E5E5E0] card-hover">
             <div className="flex items-start justify-between mb-4">
               <div>
-                <span className="inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full mb-2 bg-[#00D08430] text-[#00D084]">
-                  ✨ AI 매칭
+                <span className="inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full mb-2 bg-[#00C80518] text-[#00C805]">
+                  ✨ {t.navMatch}
                 </span>
-                <h2 className="font-display font-bold text-xl text-white">{t.matchTitle}</h2>
-                <p className="text-sm text-gray-400">{t.matchSubtitle}</p>
+                <h2 className="font-display font-bold text-xl text-[#0D0D0D]">{t.matchTitle}</h2>
+                <p className="text-sm text-[#6B7280]">{t.matchSubtitle}</p>
               </div>
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl bg-white/10">
-                🔮
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl" style={{ background: "#00C80512" }}>
+                🤳
               </div>
             </div>
 
             <div className="flex flex-wrap gap-2 mb-4">
-              {[t.chipFace, t.chipMbti, t.chipCareer, t.chipCeleb].map((m) => (
-                <span key={m} className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-white/10 text-gray-300">
-                  {m}
+              {[t.chipFace, t.modeCardSalaryTitle, t.modeCardCoupleTitle].map((chip) => (
+                <span key={chip} className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-[#F3F4F6] text-[#6B7280]">
+                  {chip}
                 </span>
               ))}
             </div>
 
             <div className="flex items-center justify-between">
-              <p className="text-xs text-gray-400">{t.matchMethods}</p>
-              <span className="text-xs font-semibold" style={{ color: "#00D084" }}>{t.findNow}</span>
+              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#00C80518] text-[#00C805]">
+                {t.modeCardFaceTag}
+              </span>
+              <span className="text-xs font-semibold" style={{ color: "#00C805" }}>{t.findNow}</span>
             </div>
           </div>
         </Link>

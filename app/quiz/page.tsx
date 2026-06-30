@@ -1,9 +1,10 @@
-"use client";
-import { useState, useEffect, useCallback } from "react";
+﻿"use client";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/lib/i18n";
 import { QUIZ_POOL, DifficultyQ, getText } from "@/lib/quizData";
 import { loadStats, applyXP } from "@/lib/gamification";
+import { useGamification } from "@/lib/useGamification";
 
 const TOTAL = 5;
 const XP_PER_Q = 20;
@@ -28,7 +29,7 @@ function saveSolvedIds(ids: (string | number)[]) {
   } catch {}
 }
 
-// ── Level-based pool ────────────────────────────────────────────────────────
+// ── Level-based pool (used for remaining count on result screen) ──────────
 function getLevelPool(level: number): DifficultyQ[] {
   if (level >= 7) return QUIZ_POOL.filter((q) => q.difficulty === 2 || q.difficulty === 3);
   if (level >= 4) return QUIZ_POOL.filter((q) => q.difficulty === 1 || q.difficulty === 2);
@@ -48,19 +49,45 @@ type PickResult =
   | { allDone: true }
   | { allDone: false; questions: DifficultyQ[]; level: number };
 
-function pickQuestions(): PickResult {
-  const stats = loadStats();
-  const level = stats.level;
-  const pool = getLevelPool(level);
+// Lv 1-3: difficulty 1 only
+// Lv 4-6: difficulty 1 & 2, 2:1 ratio → 3 diff-1 + 2 diff-2
+// Lv 7+:  difficulty 2 & 3, 1:2 ratio → 2 diff-2 + 3 diff-3
+function pickQuestions(level: number): PickResult {
   const solved = getSolvedSet();
-  const unsolved = pool.filter((q) => !solved.has(q.id));
-  if (unsolved.length === 0) return { allDone: true };
-  return { allDone: false, questions: shuffle(unsolved).slice(0, TOTAL), level };
+  const byDiff = (d: number) =>
+    shuffle(QUIZ_POOL.filter((q) => q.difficulty === d && !solved.has(q.id)));
+
+  if (level >= 7) {
+    const d2 = byDiff(2);
+    const d3 = byDiff(3);
+    if (d2.length + d3.length === 0) return { allDone: true };
+    const picked = [...d2.slice(0, 2), ...d3.slice(0, 3)];
+    if (picked.length < TOTAL)
+      picked.push(...shuffle([...d2.slice(2), ...d3.slice(3)]).slice(0, TOTAL - picked.length));
+    return { allDone: false, questions: shuffle(picked).slice(0, TOTAL), level };
+  }
+
+  if (level >= 4) {
+    const d1 = byDiff(1);
+    const d2 = byDiff(2);
+    if (d1.length + d2.length === 0) return { allDone: true };
+    const picked = [...d1.slice(0, 3), ...d2.slice(0, 2)];
+    if (picked.length < TOTAL)
+      picked.push(...shuffle([...d1.slice(3), ...d2.slice(2)]).slice(0, TOTAL - picked.length));
+    return { allDone: false, questions: shuffle(picked).slice(0, TOTAL), level };
+  }
+
+  const d1 = byDiff(1);
+  if (d1.length === 0) return { allDone: true };
+  return { allDone: false, questions: d1.slice(0, TOTAL), level };
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export default function QuizPage() {
   const { t, lang } = useLanguage();
+  const { stats } = useGamification();
+  const statsRef = useRef(stats);
+  statsRef.current = stats;
 
   const [questions, setQuestions] = useState<DifficultyQ[]>([]);
   const [allSolved, setAllSolved] = useState(false);
@@ -77,7 +104,7 @@ export default function QuizPage() {
   const [xpEarned, setXpEarned] = useState(0);
 
   const loadQuiz = useCallback(() => {
-    const result = pickQuestions();
+    const result = pickQuestions(statsRef.current.level);
     if (result.allDone) {
       setAllSolved(true);
     } else {
@@ -113,7 +140,7 @@ export default function QuizPage() {
     return (
       <main className="min-h-screen bg-[#F5F5F0] font-sans flex items-center justify-center">
         <div className="px-4 w-full max-w-sm py-8">
-          <div className="rounded-3xl bg-white shadow-md p-8 text-center fade-up">
+          <div className="rounded-3xl bg-white shadow-sm border border-[#E5E5E0] p-8 text-center fade-up">
             <div className="text-7xl mb-4">🎓</div>
             <h2 className="font-display font-bold text-2xl mb-2 text-[#0D0D0D]">
               모두 완료!
@@ -123,7 +150,7 @@ export default function QuizPage() {
             </p>
             <Link
               href="/"
-              className="block w-full rounded-2xl border border-[#E5E5E0] bg-white touch-target flex items-center justify-center text-sm font-medium text-[#6B7280]"
+              className="block w-full rounded-xl border border-[#E5E5E0] bg-white touch-target flex items-center justify-center text-sm font-medium text-[#6B7280]"
             >
               {t.goHome}
             </Link>
@@ -139,9 +166,6 @@ export default function QuizPage() {
 
   const isCorrect = selected !== null ? selected === q.answer : null;
   const revealed = selected !== null;
-
-  const solvedCount = getSolvedSet().size;
-  const totalPool = QUIZ_POOL.length;
 
   const pick = (choice: boolean) => {
     if (revealed) return;
@@ -205,7 +229,7 @@ export default function QuizPage() {
     const pct = score / sessionTotal;
     const grade =
       pct >= 0.8
-        ? { emoji: "🏆", msg: t.gradePerfectMsg, sub: t.gradePerfectSub, color: "#00D084" }
+        ? { emoji: "🏆", msg: t.gradePerfectMsg, sub: t.gradePerfectSub, color: "#00C805" }
         : pct >= 0.6
         ? { emoji: "⭐", msg: t.gradeGoodMsg, sub: t.gradeGoodSub, color: "#F59E0B" }
         : { emoji: "📚", msg: t.gradeRetryMsg, sub: t.gradeRetrySub, color: "#7C3AED" };
@@ -217,7 +241,7 @@ export default function QuizPage() {
     return (
       <main className="min-h-screen bg-[#F5F5F0] font-sans flex items-center justify-center">
         <div className="px-4 w-full max-w-sm py-8">
-          <div className="rounded-3xl bg-white shadow-md p-8 text-center fade-up">
+          <div className="rounded-3xl bg-white shadow-sm border border-[#E5E5E0] p-8 text-center fade-up">
             <div className="text-7xl mb-4">{grade.emoji}</div>
             <h2 className="font-display font-bold text-2xl mb-1 text-[#0D0D0D]">{grade.msg}</h2>
             <p className="text-sm text-[#6B7280] mb-6">{grade.sub}</p>
@@ -236,7 +260,7 @@ export default function QuizPage() {
                 <div
                   key={i}
                   className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold"
-                  style={{ background: a ? "#00D08418" : "#FEE2E2", color: a ? "#00D084" : "#EF4444" }}
+                  style={{ background: a ? "#00C80518" : "#FEE2E2", color: a ? "#00C805" : "#EF4444" }}
                 >
                   {a ? "⭕" : "❌"}
                 </div>
@@ -253,28 +277,28 @@ export default function QuizPage() {
             )}
 
             {/* XP */}
-            <div className="rounded-2xl p-3 mb-4" style={{ background: "#00D08412" }}>
-              <p className="text-xs font-semibold mb-0.5" style={{ color: "#00D084" }}>{t.xpEarned}</p>
+            <div className="rounded-2xl p-3 mb-4" style={{ background: "#00C80512" }}>
+              <p className="text-xs font-semibold mb-0.5" style={{ color: "#00C805" }}>{t.xpEarned}</p>
               <p className="text-2xl font-display font-bold text-[#0D0D0D]">+{xpEarned} XP ⚡</p>
             </div>
 
             <button
               onClick={handleShare}
-              className="w-full rounded-2xl touch-target text-sm font-bold text-white mb-3 flex items-center justify-center gap-2"
+              className="w-full rounded-xl touch-target text-sm font-bold text-white mb-3 flex items-center justify-center gap-2"
               style={{ background: "#0D0D0D" }}
             >
               {copied ? "✅ 복사됐어요!" : "친구한테 자랑하기 📤"}
             </button>
             <button
               onClick={restart}
-              className="w-full rounded-2xl touch-target text-sm font-bold text-white mb-3"
+              className="w-full rounded-xl touch-target text-sm font-bold text-white mb-3"
               style={{ background: "#7C3AED" }}
             >
               {remaining > 0 ? `다음 ${Math.min(TOTAL, remaining)}문제 풀기` : t.retry}
             </button>
             <Link
               href="/"
-              className="block w-full rounded-2xl border border-[#E5E5E0] bg-white touch-target flex items-center justify-center text-sm font-medium text-[#6B7280]"
+              className="block w-full rounded-xl border border-[#E5E5E0] bg-white touch-target flex items-center justify-center text-sm font-medium text-[#6B7280]"
             >
               {t.goHome}
             </Link>
@@ -286,6 +310,9 @@ export default function QuizPage() {
 
   // ── Quiz screen ──────────────────────────────────────────────────────────────
   const tagEmoji = [...getText(q.tag, lang)][0] ?? "📊";
+  const qText = getText(q.q, lang);
+  const qLen = qText.length;
+  const qFontSize = qLen > 60 ? "13px" : qLen > 45 ? "15px" : qLen > 32 ? "18px" : "22px";
 
   const getBtn = (val: boolean) => {
     const isChosen = selected === val;
@@ -294,7 +321,7 @@ export default function QuizPage() {
       return { bg: val ? "#DCFCE7" : "#FEE2E2", text: val ? "#16A34A" : "#DC2626", border: "transparent", anim: "" };
     }
     if (isCorrectAnswer) {
-      return { bg: "#DCFCE7", text: "#16A34A", border: "#00D084", anim: isChosen ? "anim-pop" : "" };
+      return { bg: "#DCFCE7", text: "#16A34A", border: "#00C805", anim: isChosen ? "anim-pop" : "" };
     }
     if (isChosen) {
       return { bg: "#FEE2E2", text: "#DC2626", border: "#EF4444", anim: "anim-shake" };
@@ -326,32 +353,29 @@ export default function QuizPage() {
             <div className="flex-1 h-[6px] rounded-full bg-[#E5E5E0] overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-500 ease-out"
-                style={{ width: `${progress}%`, background: "#00D084" }}
+                style={{ width: `${progress}%`, background: "#00C805" }}
               />
             </div>
-            <span className="text-xs font-bold tabular-nums shrink-0" style={{ color: "#00D084" }}>
+            <span className="text-xs font-bold tabular-nums shrink-0" style={{ color: "#00C805" }}>
               {current + 1}/{sessionTotal}
             </span>
           </div>
 
-          <div className="flex justify-between mt-2">
+          <div className="mt-2">
             <span className="text-[10px] text-[#9CA3AF]">Lv.{currentLevel}</span>
-            <span className="text-[10px] text-[#9CA3AF] tabular-nums">
-              전체 {solvedCount}/{totalPool} 완료
-            </span>
           </div>
         </div>
 
         {/* ── Center content ── */}
         <div
-          className="flex-1 flex flex-col items-center justify-center w-full px-4 pb-6 gap-4"
+          className="flex-1 flex flex-col items-center justify-start pt-4 w-full px-4 pb-6 gap-4"
           key={current}
         >
           {/* Question card */}
           <div
             className="bg-white rounded-3xl shadow-md w-full max-w-[420px] p-6 transition-all duration-300"
             style={{
-              border: `2px solid ${revealed ? (isCorrect ? "#00D084" : "#EF4444") : "transparent"}`,
+              border: `2px solid ${revealed ? (isCorrect ? "#00C805" : "#EF4444") : "transparent"}`,
             }}
           >
             <div className="text-[64px] text-center leading-none mb-4">{tagEmoji}</div>
@@ -365,8 +389,11 @@ export default function QuizPage() {
               </span>
             </div>
 
-            <h2 className="text-[22px] font-bold text-center text-[#0D0D0D] leading-snug">
-              &ldquo;{getText(q.q, lang)}&rdquo;
+            <h2
+              className="text-balance font-bold text-center text-[#0D0D0D] leading-snug"
+              style={{ fontSize: qFontSize }}
+            >
+              &ldquo;{qText}&rdquo;
             </h2>
           </div>
 
@@ -382,12 +409,12 @@ export default function QuizPage() {
                   key={String(opt.val)}
                   onClick={() => pick(opt.val)}
                   disabled={revealed}
-                  className={`rounded-2xl flex items-center justify-center gap-2 font-bold transition-all active:scale-95 hover:brightness-95 ${s.anim}`}
+                  className={`rounded-xl flex items-center justify-center gap-2 font-bold transition-all active:scale-95 hover:brightness-95 ${s.anim}`}
                   style={{
                     background: s.bg,
                     color: s.text,
                     border: `2px solid ${s.border}`,
-                    height: "72px",
+                    minHeight: "72px",
                   }}
                 >
                   <span className="text-2xl">{opt.symbol}</span>
@@ -417,7 +444,7 @@ export default function QuizPage() {
               </div>
               <button
                 onClick={next}
-                className="w-full rounded-2xl py-4 text-sm font-bold text-white transition-transform active:scale-95"
+                className="w-full rounded-xl py-4 text-sm font-bold text-white transition-transform active:scale-95"
                 style={{ background: "#0D0D0D" }}
               >
                 {current < sessionTotal - 1 ? t.nextQuestion : t.viewResult}

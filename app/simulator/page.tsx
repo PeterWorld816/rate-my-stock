@@ -215,14 +215,14 @@ function SimulatorContent() {
       `}</style>
 
       <main className="min-h-screen bg-[#F5F5F0] font-sans">
-        <div className="max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto px-4 pt-12 pb-8">
+        <div className="max-w-sm sm:max-w-lg md:max-w-2xl mx-auto px-4 md:px-8 pt-12 pb-8">
 
           {/* ── Header ── */}
           <div className="mb-6">
             <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold mb-3" style={{ background: "#F59E0B18", color: "#F59E0B" }}>
               💸 {t.simulator}
             </div>
-            <h1 className="font-display font-bold text-2xl md:text-3xl lg:text-4xl text-[#0D0D0D] leading-tight mb-1">
+            <h1 className="font-display font-bold text-2xl md:text-4xl lg:text-5xl text-[#0D0D0D] leading-tight mb-1">
               {t.simulatorTitle.replace("{period}", periodLabel(period))}
             </h1>
             <p className="text-sm md:text-base text-[#6B7280]">

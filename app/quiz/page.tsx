@@ -346,7 +346,7 @@ export default function QuizPage() {
 
       <main className="min-h-screen bg-[#F5F5F0] font-sans flex flex-col items-center">
         {/* ── Top bar ── */}
-        <div className="w-full max-w-[420px] sm:max-w-lg md:max-w-2xl lg:max-w-3xl px-4 pt-8 pb-4">
+        <div className="w-full max-w-[420px] md:max-w-lg px-4 pt-8 pb-4">
           <div className="flex items-center gap-3">
             <Link
               href="/"
@@ -372,12 +372,12 @@ export default function QuizPage() {
 
         {/* ── Center content ── */}
         <div
-          className="flex-1 flex flex-col items-center justify-start pt-4 w-full px-4 pb-6 gap-4"
+          className="flex-1 flex flex-col items-center justify-start pt-4 w-full px-4 md:px-8 pb-6 gap-4"
           key={current}
         >
           {/* Question card */}
           <div
-            className="bg-white rounded-3xl shadow-md w-full max-w-[420px] sm:max-w-lg md:max-w-2xl lg:max-w-3xl p-6 transition-all duration-300"
+            className="bg-white rounded-3xl shadow-md w-full max-w-[420px] md:max-w-lg p-6 md:p-8 flex flex-col justify-center min-h-[300px] md:min-h-[360px] transition-all duration-300"
             style={{
               border: `2px solid ${revealed ? (isCorrect ? "#00C805" : "#EF4444") : "transparent"}`,
             }}
@@ -399,7 +399,7 @@ export default function QuizPage() {
           </div>
 
           {/* O/X buttons */}
-          <div className="grid grid-cols-2 gap-3 w-full max-w-[420px] sm:max-w-lg md:max-w-2xl lg:max-w-3xl">
+          <div className="grid grid-cols-2 gap-3 w-full max-w-[420px] md:max-w-lg">
             {([
               { val: true as boolean, symbol: "⭕", label: t.oLabel },
               { val: false as boolean, symbol: "❌", label: t.xLabel },
@@ -427,7 +427,7 @@ export default function QuizPage() {
 
           {/* Feedback + Next */}
           {revealed && (
-            <div className="w-full max-w-[420px] sm:max-w-lg md:max-w-2xl lg:max-w-3xl anim-feedback">
+            <div className="w-full max-w-[420px] md:max-w-lg anim-feedback">
               <div
                 className="rounded-2xl p-4 mb-3 flex items-start gap-3"
                 style={{ background: isCorrect ? "#DCFCE7" : "#FEE2E2" }}

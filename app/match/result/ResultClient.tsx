@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -55,7 +55,7 @@ function ShareCard({
     <div
       ref={cardRef}
       style={{
-        width: "360px", height: "640px",
+        width: "360px", height: "450px",
         background: "linear-gradient(160deg, #0D0D0D 0%, #131313 100%)",
         display: "flex", flexDirection: "column",
         alignItems: "center", justifyContent: "center",
@@ -67,8 +67,8 @@ function ShareCard({
       {/* Green glow */}
       <div style={{
         position: "absolute", width: "300px", height: "300px",
-        top: "170px", left: "30px",
-        background: "radial-gradient(circle, rgba(0,208,132,0.1) 0%, transparent 70%)",
+        top: "90px", left: "30px",
+        background: "radial-gradient(circle, rgba(0,200,5,0.1) 0%, transparent 70%)",
         borderRadius: "50%", pointerEvents: "none",
       }} />
 
@@ -79,8 +79,8 @@ function ShareCard({
         justifyContent: "space-between", alignItems: "center",
       }}>
         <span style={{
-          fontSize: "10px", fontWeight: 700, color: "#00D084",
-          background: "rgba(0,208,132,0.12)", padding: "4px 10px",
+          fontSize: "10px", fontWeight: 700, color: "#00C805",
+          background: "rgba(0,200,5,0.12)", padding: "4px 10px",
           borderRadius: "999px", letterSpacing: "0.12em", textTransform: "uppercase",
         }}>
           {modeLabel}
@@ -99,8 +99,8 @@ function ShareCard({
           <div style={{
             width: "88px", height: "88px", borderRadius: "50%",
             overflow: "hidden", marginBottom: "14px",
-            border: "3px solid #00D084",
-            boxShadow: "0 0 0 4px rgba(0,208,132,0.15)",
+            border: "3px solid #00C805",
+            boxShadow: "0 0 0 4px rgba(0,200,5,0.15)",
           }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={facePhoto} alt="profile" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -110,7 +110,7 @@ function ShareCard({
         )}
 
         <div style={{
-          color: "#00D084", fontSize: "56px", fontWeight: 900,
+          color: "#00C805", fontSize: "56px", fontWeight: 900,
           letterSpacing: "-0.03em", lineHeight: 1, marginBottom: "8px",
         }}>
           ${ticker}
@@ -125,11 +125,11 @@ function ShareCard({
         {/* Score + Risk */}
         <div style={{ display: "flex", gap: "10px", marginBottom: "26px" }}>
           <div style={{
-            background: "rgba(0,208,132,0.12)", borderRadius: "999px",
+            background: "rgba(0,200,5,0.12)", borderRadius: "999px",
             padding: "8px 20px", display: "flex", alignItems: "center", gap: "4px",
           }}>
-            <span style={{ color: "#00D084", fontSize: "22px", fontWeight: 800 }}>{score}</span>
-            <span style={{ color: "rgba(0,208,132,0.5)", fontSize: "14px", fontWeight: 700 }}>/100</span>
+            <span style={{ color: "#00C805", fontSize: "22px", fontWeight: 800 }}>{score}</span>
+            <span style={{ color: "rgba(0,200,5,0.5)", fontSize: "14px", fontWeight: 700 }}>/100</span>
           </div>
           <div style={{
             background: rc.bg, borderRadius: "999px",
@@ -259,7 +259,7 @@ function ResultContent() {
       const dataUrl = await toPng(cardRef.current, {
         pixelRatio: 3,
         width: 360,
-        height: 640,
+        height: 450,
         // Override borderRadius so the full 1080×1920 area is opaque
         style: { borderRadius: "0px" },
         backgroundColor: "#0D0D0D",
@@ -283,30 +283,110 @@ function ResultContent() {
     <main className="min-h-screen bg-[#F5F5F0] font-sans">
       {toast && <Toast message={toast} onDone={() => setToast(null)} />}
 
-      <div className="max-w-sm mx-auto px-4 pt-8 pb-safe">
+      <div className="max-w-sm md:max-w-3xl mx-auto px-4 pt-8 pb-safe">
 
         {/* Back nav */}
         <Link href="/match" className="inline-flex items-center gap-2 text-sm text-[#6B7280] mb-6 touch-target">
           ← {isKo ? "다시 매칭하기" : "Try Again"}
         </Link>
 
-        {/* ── Share Card ── */}
-        <div className="flex justify-center mb-5">
-          <div className="shadow-[0_12px_48px_rgba(0,0,0,0.35)] rounded-3xl overflow-hidden">
-            <ShareCard
-              cardRef={cardRef}
-              ticker={ticker} name={name} emoji={emoji}
-              score={score} risk={risk} mode={mode}
-              facePhoto={facePhoto}
-            />
+        {/* ── Desktop: side-by-side wrapper ── */}
+        <div className="flex flex-col md:flex-row md:items-start md:gap-6 mb-5">
+
+          {/* Left: Share Card */}
+          <div className="flex justify-center md:justify-start md:flex-shrink-0 mb-5 md:mb-0">
+            <div className="shadow-[0_12px_48px_rgba(0,0,0,0.35)] rounded-3xl overflow-hidden">
+              <ShareCard
+                cardRef={cardRef}
+                ticker={ticker} name={name} emoji={emoji}
+                score={score} risk={risk} mode={mode}
+                facePhoto={facePhoto}
+              />
+            </div>
           </div>
+
+          {/* Right: Full result (only when arriving from the match flow) */}
+          {fullResult && (
+            <div className="flex-1 rounded-3xl overflow-hidden shadow-sm border border-[#E5E5E0] fade-up self-stretch">
+              {/* Dark top */}
+              <div className="bg-[#0D0D0D] px-6 pt-6 pb-6">
+                {facePhoto && (
+                  <div className="flex justify-center mb-4">
+                    <div
+                      className="w-20 h-20 md:w-28 md:h-28 rounded-full overflow-hidden"
+                      style={{ border: "3px solid #00C805", boxShadow: "0 0 0 4px rgba(0,200,5,0.15)" }}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={facePhoto} alt="profile" className="w-full h-full object-cover" />
+                    </div>
+                  </div>
+                )}
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <p
+                      className="font-bold leading-none mb-1"
+                      style={{ color: "#00C805", fontSize: "clamp(2rem, 12vw, 3rem)", letterSpacing: "-0.03em" }}
+                    >
+                      ${ticker}
+                    </p>
+                    <p className="text-sm" style={{ color: "rgba(255,255,255,0.38)" }}>{name}</p>
+                  </div>
+                  <div className="flex flex-col items-end gap-2">
+                    <span
+                      className="text-xs font-bold px-3 py-1.5 rounded-full"
+                      style={{ background: rc.bg, color: rc.text }}
+                    >
+                      {risk} RISK
+                    </span>
+                    <span className="font-bold text-3xl text-[#00C805]">
+                      {score}<span className="text-base text-[#9CA3AF]">/100</span>
+                    </span>
+                  </div>
+                </div>
+                {(arch || fullResult.archetype) && (
+                  <p className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.4)" }}>
+                    {arch || fullResult.archetype}
+                  </p>
+                )}
+                {celeb && (
+                  <p className="text-xs font-medium mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>
+                    {celemoji} {celeb} {cmatch ? `${cmatch}%` : ""}
+                  </p>
+                )}
+              </div>
+
+              {/* White bottom */}
+              <div className="bg-white px-6 py-5">
+                <p className="text-sm md:text-base text-[#374151] leading-relaxed mb-4">{fullResult.reason}</p>
+
+                {fullResult.extras && fullResult.extras.filter(Boolean).length > 0 && (
+                  <div>
+                    <p className="text-[10px] font-semibold text-[#9CA3AF] uppercase tracking-[0.15em] mb-2">
+                      {t.alsoConsider}
+                    </p>
+                    <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-6 px-6 pb-1">
+                      {fullResult.extras.filter(Boolean).map((ex) => (
+                        <div
+                          key={ex.ticker}
+                          className="flex-shrink-0 flex items-center gap-1.5 bg-[#F5F5F0] rounded-full px-4 py-2"
+                        >
+                          <span className="text-base leading-none">{ex.emoji}</span>
+                          <span className="text-xs font-bold text-[#0D0D0D]">${ex.ticker}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* ── Action buttons ── */}
-        <div className="grid grid-cols-2 gap-3 mb-5">
+        {/* ── Action buttons (centered below both cards) ── */}
+        <div className="grid grid-cols-2 gap-3 mb-5 md:max-w-xs md:mx-auto">
           <button
             onClick={handleShare}
-            className="card-hover rounded-2xl py-4 flex flex-col items-center justify-center gap-1 bg-[#0D0D0D] text-white"
+            className="card-hover rounded-xl py-4 flex flex-col items-center justify-center gap-1 bg-[#0D0D0D] text-white"
           >
             <span className="text-xl">↗</span>
             <span className="text-xs font-semibold">{isKo ? "공유하기" : "Share"}</span>
@@ -314,8 +394,8 @@ function ResultContent() {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="card-hover rounded-2xl py-4 flex flex-col items-center justify-center gap-1 text-white disabled:opacity-60"
-            style={{ background: "#00D084" }}
+            className="card-hover rounded-xl py-4 flex flex-col items-center justify-center gap-1 text-white disabled:opacity-60"
+            style={{ background: "#00C805" }}
           >
             {saving ? (
               <span className="w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
@@ -328,96 +408,20 @@ function ResultContent() {
           </button>
         </div>
 
-        {/* ── Full result (only when arriving from the match flow) ── */}
-        {fullResult && (
-          <div className="rounded-3xl overflow-hidden shadow-md mb-4 fade-up">
-            {/* Dark top */}
-            <div className="bg-[#0D0D0D] px-6 pt-6 pb-6">
-              {facePhoto && (
-                <div className="flex justify-center mb-4">
-                  <div
-                    className="w-20 h-20 rounded-full overflow-hidden"
-                    style={{ border: "3px solid #00D084", boxShadow: "0 0 0 4px rgba(0,208,132,0.15)" }}
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={facePhoto} alt="profile" className="w-full h-full object-cover" />
-                  </div>
-                </div>
-              )}
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <p
-                    className="font-bold leading-none mb-1"
-                    style={{ color: "#00D084", fontSize: "clamp(2rem, 12vw, 3rem)", letterSpacing: "-0.03em" }}
-                  >
-                    ${ticker}
-                  </p>
-                  <p className="text-sm" style={{ color: "rgba(255,255,255,0.38)" }}>{name}</p>
-                </div>
-                <div className="flex flex-col items-end gap-2">
-                  <span
-                    className="text-xs font-bold px-3 py-1.5 rounded-full"
-                    style={{ background: rc.bg, color: rc.text }}
-                  >
-                    {risk} RISK
-                  </span>
-                  <span className="font-bold text-3xl text-[#00D084]">
-                    {score}<span className="text-base text-[#9CA3AF]">/100</span>
-                  </span>
-                </div>
-              </div>
-              {(arch || fullResult.archetype) && (
-                <p className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.4)" }}>
-                  {arch || fullResult.archetype}
-                </p>
-              )}
-              {celeb && (
-                <p className="text-xs font-medium mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>
-                  {celemoji} {celeb} {cmatch ? `${cmatch}%` : ""}
-                </p>
-              )}
-            </div>
-
-            {/* White bottom */}
-            <div className="bg-white px-6 py-5">
-              <p className="text-sm text-[#374151] leading-relaxed mb-4">{fullResult.reason}</p>
-
-              {fullResult.extras && fullResult.extras.filter(Boolean).length > 0 && (
-                <div>
-                  <p className="text-[10px] font-semibold text-[#9CA3AF] uppercase tracking-[0.15em] mb-2">
-                    {t.alsoConsider}
-                  </p>
-                  <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-6 px-6 pb-1">
-                    {fullResult.extras.filter(Boolean).map((ex) => (
-                      <div
-                        key={ex.ticker}
-                        className="flex-shrink-0 flex items-center gap-1.5 bg-[#F5F5F0] rounded-full px-4 py-2"
-                      >
-                        <span className="text-base leading-none">{ex.emoji}</span>
-                        <span className="text-xs font-bold text-[#0D0D0D]">${ex.ticker}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
         {/* Disclaimer */}
         <p className="text-[10px] text-[#9CA3AF] text-center mb-5">{t.resultDisclaimer}</p>
 
         {/* Navigation */}
-        <div className="grid grid-cols-2 gap-3 pb-4">
+        <div className="grid grid-cols-2 gap-3 pb-4 md:max-w-xs md:mx-auto">
           <Link
             href="/match"
-            className="card-hover rounded-2xl py-3.5 text-center text-xs font-semibold bg-white shadow-md text-[#0D0D0D]"
+            className="card-hover rounded-xl py-3.5 text-center text-xs font-semibold bg-white shadow-sm border border-[#E5E5E0] text-[#0D0D0D]"
           >
             ↩ {isKo ? "다시 매칭" : "Try Again"}
           </Link>
           <Link
             href="/"
-            className="card-hover rounded-2xl py-3.5 text-center text-xs font-semibold bg-white shadow-md text-[#0D0D0D]"
+            className="card-hover rounded-xl py-3.5 text-center text-xs font-semibold bg-white shadow-sm border border-[#E5E5E0] text-[#0D0D0D]"
           >
             🏠 {t.goHome}
           </Link>

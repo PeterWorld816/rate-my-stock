@@ -5,6 +5,7 @@ import { useLanguage } from "@/lib/i18n";
 import { QUIZ_POOL, DifficultyQ, getText } from "@/lib/quizData";
 import { loadStats, applyXP } from "@/lib/gamification";
 import { useGamification } from "@/lib/useGamification";
+import { triggerPerfectConfetti, triggerLevelUpConfetti } from "@/lib/confetti";
 
 const TOTAL = 5;
 const XP_PER_Q = 20;
@@ -102,6 +103,7 @@ export default function QuizPage() {
   const [copied, setCopied] = useState(false);
   const [leveledUp, setLeveledUp] = useState<number | null>(null);
   const [xpEarned, setXpEarned] = useState(0);
+  const [comboCount, setComboCount] = useState(0);
 
   const loadQuiz = useCallback(() => {
     const result = pickQuestions(statsRef.current.level);
@@ -125,6 +127,14 @@ export default function QuizPage() {
   useEffect(() => {
     loadQuiz();
   }, [loadQuiz]);
+
+  // Fire confetti the instant a perfect (5/5) result screen appears.
+  useEffect(() => {
+    if (phase === "result" && questions.length > 0 && score === questions.length) {
+      triggerPerfectConfetti();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase]);
 
   // ── Loading ──────────────────────────────────────────────────────────────────
   if (!ready) {
@@ -171,7 +181,12 @@ export default function QuizPage() {
     if (revealed) return;
     setSelected(choice);
     const correct = choice === q.answer;
-    if (correct) setScore((s) => s + 1);
+    if (correct) {
+      setScore((s) => s + 1);
+      setComboCount((c) => c + 1);
+    } else {
+      setComboCount(0);
+    }
     setAnswers((a) => [...a, correct]);
   };
 
@@ -181,11 +196,15 @@ export default function QuizPage() {
       setSelected(null);
     } else {
       saveSolvedIds(questions.map((qItem) => qItem.id));
-      const earned = score * XP_PER_Q;
+      const isPerfect = score === sessionTotal;
+      const earned = score * XP_PER_Q * (isPerfect ? 2 : 1);
       setXpEarned(earned);
       const prevLevel = loadStats().level;
       const updated = applyXP(earned);
-      if (updated.level > prevLevel) setLeveledUp(updated.level);
+      if (updated.level > prevLevel) {
+        setLeveledUp(updated.level);
+        triggerLevelUpConfetti();
+      }
       setPhase("result");
     }
   };
@@ -227,6 +246,7 @@ export default function QuizPage() {
   // ── Result screen ────────────────────────────────────────────────────────────
   if (phase === "result") {
     const pct = score / sessionTotal;
+    const isPerfect = score === sessionTotal;
     const grade =
       pct >= 0.8
         ? { emoji: "🏆", msg: t.gradePerfectMsg, sub: t.gradePerfectSub, color: "#00C805" }
@@ -239,72 +259,87 @@ export default function QuizPage() {
     const remaining = getLevelPool(newStats.level).filter((qItem) => !newSolved.has(qItem.id)).length;
 
     return (
-      <main className="min-h-screen bg-[#F5F5F0] font-sans flex items-center justify-center">
-        <div className="px-4 w-full max-w-sm sm:max-w-lg md:max-w-xl py-8">
-          <div className="rounded-3xl bg-white shadow-sm border border-[#E5E5E0] p-8 text-center fade-up">
-            <div className="text-7xl mb-4">{grade.emoji}</div>
-            <h2 className="font-display font-bold text-2xl md:text-3xl mb-1 text-[#0D0D0D]">{grade.msg}</h2>
-            <p className="text-sm md:text-base text-[#6B7280] mb-6">{grade.sub}</p>
+      <>
+        <style>{`
+          @keyframes comboPop { 0%{transform:scale(0.5);opacity:0} 60%{transform:scale(1.15);opacity:1} 100%{transform:scale(1);opacity:1} }
+          .anim-combo { animation: comboPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+        `}</style>
+        <main className="min-h-screen bg-[#F5F5F0] font-sans flex items-center justify-center">
+          <div className="px-4 w-full max-w-sm sm:max-w-lg md:max-w-xl py-8">
+            <div className="rounded-3xl bg-white shadow-sm border border-[#E5E5E0] p-8 text-center fade-up">
+              <div className="text-7xl mb-4">{grade.emoji}</div>
+              <h2 className="font-display font-bold text-2xl md:text-3xl mb-1 text-[#0D0D0D]">{grade.msg}</h2>
+              <p className="text-sm md:text-base text-[#6B7280] mb-6">{grade.sub}</p>
 
-            {/* Score */}
-            <div className="rounded-2xl p-5 mb-5" style={{ background: `${grade.color}12` }}>
-              <p className="text-4xl md:text-5xl font-display font-bold mb-1" style={{ color: grade.color }}>
-                {score} <span className="text-xl text-[#9CA3AF]">/ {sessionTotal}</span>
-              </p>
-              <p className="text-xs font-semibold" style={{ color: grade.color }}>{t.score}</p>
-            </div>
-
-            {/* Answer dots */}
-            <div className="flex justify-center gap-2 mb-5">
-              {answers.map((a, i) => (
+              {isPerfect && (
                 <div
-                  key={i}
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold"
-                  style={{ background: a ? "#00C80518" : "#FEE2E2", color: a ? "#00C805" : "#EF4444" }}
+                  className="anim-combo inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 mb-4 text-sm font-bold text-white"
+                  style={{ background: "#F59E0B" }}
                 >
-                  {a ? "⭕" : "❌"}
+                  🏆 PERFECT!
                 </div>
-              ))}
-            </div>
+              )}
 
-            {/* Level Up */}
-            {leveledUp && (
-              <div className="rounded-2xl p-3 mb-3 text-center" style={{ background: "#7C3AED18" }}>
-                <p className="text-lg font-display font-bold" style={{ color: "#7C3AED" }}>
-                  🎉 Level Up! Lv.{leveledUp}
+              {/* Score */}
+              <div className="rounded-2xl p-5 mb-5" style={{ background: `${grade.color}12` }}>
+                <p className="text-4xl md:text-5xl font-display font-bold mb-1" style={{ color: grade.color }}>
+                  {score} <span className="text-xl text-[#9CA3AF]">/ {sessionTotal}</span>
                 </p>
+                <p className="text-xs font-semibold" style={{ color: grade.color }}>{t.score}</p>
               </div>
-            )}
 
-            {/* XP */}
-            <div className="rounded-2xl p-3 mb-4" style={{ background: "#00C80512" }}>
-              <p className="text-xs font-semibold mb-0.5" style={{ color: "#00C805" }}>{t.xpEarned}</p>
-              <p className="text-2xl font-display font-bold text-[#0D0D0D]">+{xpEarned} XP ⚡</p>
+              {/* Answer dots */}
+              <div className="flex justify-center gap-2 mb-5">
+                {answers.map((a, i) => (
+                  <div
+                    key={i}
+                    className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold"
+                    style={{ background: a ? "#00C80518" : "#FEE2E2", color: a ? "#00C805" : "#EF4444" }}
+                  >
+                    {a ? "⭕" : "❌"}
+                  </div>
+                ))}
+              </div>
+
+              {/* Level Up */}
+              {leveledUp && (
+                <div className="rounded-2xl p-3 mb-3 text-center" style={{ background: "#7C3AED18" }}>
+                  <p className="text-lg font-display font-bold" style={{ color: "#7C3AED" }}>
+                    🎉 Level Up! Lv.{leveledUp}
+                  </p>
+                </div>
+              )}
+
+              {/* XP */}
+              <div className="rounded-2xl p-3 mb-4" style={{ background: "#00C80512" }}>
+                <p className="text-xs font-semibold mb-0.5" style={{ color: "#00C805" }}>{t.xpEarned}</p>
+                <p className="text-2xl font-display font-bold text-[#0D0D0D]">+{xpEarned} XP ⚡</p>
+              </div>
+
+              <button
+                onClick={handleShare}
+                className="w-full rounded-xl touch-target text-sm font-bold text-white mb-3 flex items-center justify-center gap-2"
+                style={{ background: "#0D0D0D" }}
+              >
+                {copied ? "✅ 복사됐어요!" : "친구한테 자랑하기 📤"}
+              </button>
+              <button
+                onClick={restart}
+                className="w-full rounded-xl touch-target text-sm font-bold text-white mb-3"
+                style={{ background: "#7C3AED" }}
+              >
+                {remaining > 0 ? `다음 ${Math.min(TOTAL, remaining)}문제 풀기` : t.retry}
+              </button>
+              <Link
+                href="/"
+                className="block w-full rounded-xl border border-[#E5E5E0] bg-white touch-target flex items-center justify-center text-sm font-medium text-[#6B7280]"
+              >
+                {t.goHome}
+              </Link>
             </div>
-
-            <button
-              onClick={handleShare}
-              className="w-full rounded-xl touch-target text-sm font-bold text-white mb-3 flex items-center justify-center gap-2"
-              style={{ background: "#0D0D0D" }}
-            >
-              {copied ? "✅ 복사됐어요!" : "친구한테 자랑하기 📤"}
-            </button>
-            <button
-              onClick={restart}
-              className="w-full rounded-xl touch-target text-sm font-bold text-white mb-3"
-              style={{ background: "#7C3AED" }}
-            >
-              {remaining > 0 ? `다음 ${Math.min(TOTAL, remaining)}문제 풀기` : t.retry}
-            </button>
-            <Link
-              href="/"
-              className="block w-full rounded-xl border border-[#E5E5E0] bg-white touch-target flex items-center justify-center text-sm font-medium text-[#6B7280]"
-            >
-              {t.goHome}
-            </Link>
           </div>
-        </div>
-      </main>
+        </main>
+      </>
     );
   }
 
@@ -339,9 +374,11 @@ export default function QuizPage() {
         @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} }
         @keyframes pop { 0%{transform:scale(1)} 40%{transform:scale(1.1)} 70%{transform:scale(0.95)} 100%{transform:scale(1)} }
         @keyframes fadeSlideUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes comboPop { 0%{transform:scale(0.5);opacity:0} 60%{transform:scale(1.15);opacity:1} 100%{transform:scale(1);opacity:1} }
         .anim-shake { animation: shake 0.4s ease; }
         .anim-pop { animation: pop 0.35s ease; }
         .anim-feedback { animation: fadeSlideUp 0.3s ease both; }
+        .anim-combo { animation: comboPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
       `}</style>
 
       <main className="min-h-screen bg-[#F5F5F0] font-sans flex flex-col items-center">
@@ -375,6 +412,17 @@ export default function QuizPage() {
           className="flex-1 flex flex-col items-center justify-start pt-4 w-full px-4 md:px-8 pb-6 gap-4"
           key={current}
         >
+          {/* Combo badge */}
+          {comboCount >= 2 && (
+            <div
+              key={comboCount}
+              className="anim-combo inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold text-white"
+              style={{ background: "#F59E0B" }}
+            >
+              🔥 {comboCount} COMBO
+            </div>
+          )}
+
           {/* Question card */}
           <div
             className="bg-white rounded-3xl shadow-md w-full max-w-[420px] md:max-w-lg p-6 md:p-8 flex flex-col justify-center min-h-[300px] md:min-h-[360px] transition-all duration-300"
